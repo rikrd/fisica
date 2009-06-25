@@ -4,24 +4,20 @@ import org.jbox2d.common.*;
 import org.jbox2d.collision.*;
 import org.jbox2d.dynamics.*;
 
+import processing.core.*;
+
 public class FWorld extends World {
   PApplet m_parent;  
   
   public FWorld(PApplet parent) {
-    m_parent = parent;
-    Vec2 gravity = new Vec2(0.0, -10.0);
-    float screenAABBWidth = m_parent.width * 2;
-    float screenAABBHeight = m_parent.height * 2;
-    float pixelsPerMeter = 10.0;
-    
-    Vec2 minWorldAABB = new Vec2(-screenAABBWidth*.5f/pixelsPerMeter, -screenAABBHeight*.5f/pixelsPerMeter);
-    Vec2 maxWorldAABB = minWorldAABB.mul(-1.0f);
-    boolean doSleep = true;
+    super(new AABB(new Vec2(-parent.width/10.0f,   // 10.0f pixels per meter
+                            -parent.height/10.0f),
+                   new Vec2(parent.width/10.0f, 
+                            parent.height/10.0f)),
+          new Vec2(0.0f, -10.0f),                  // gravity vertical downwards 10 m/s^2
+          true);                                   // allow sleeping bodies
 
-    super(new AABB(minWorldAABB,maxWorldAABB),gravity,doSleep);
-    
-    setDebugDraw(m_draw);
-    setDrawDebugData(false);
+    m_parent = parent;
   }
   
   public void draw( PApplet applet ) {
@@ -29,20 +25,22 @@ public class FWorld extends World {
   }
 
   public void add( FBody body ) {
+    // TODO: add an existing body to a world
+    /*
     assert(m_lock == false);
     if (m_lock == true) {
       return null;
     }
     
     // Add to world doubly linked list.
-    b.m_prev = null;
-    b.m_next = m_bodyList;
+    body.m_prev = null;
+    body.m_next = m_bodyList;
     if (m_bodyList != null) {
       m_bodyList.m_prev = body;
     }
     m_bodyList = body;
     ++m_bodyCount;
-    
+    */
     return;
   }
 
@@ -52,14 +50,14 @@ public class FWorld extends World {
   
   public void setDamping( float damping ) {}
   
-  public void setEdges(PApplet applet, color col) {}
+  public void setEdges(PApplet applet, int col) {}
 
   public void setEdgesFriction( float friction ) {}
   
   public void setEdgesRestitution( float restitution ) {}
   
   public void setGravity( float gx, float gy ) {
-    setGravity(new Vec2(gravX, gravY));
+    setGravity(new Vec2(gx, gy));
   }
 
   public void step( float dt ) {}

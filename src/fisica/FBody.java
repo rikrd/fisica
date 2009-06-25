@@ -2,6 +2,7 @@ package fisica;
 
 import org.jbox2d.common.*;
 import org.jbox2d.collision.*;
+import org.jbox2d.collision.shapes.*;
 import org.jbox2d.dynamics.*;
 
 import processing.core.*;
@@ -14,9 +15,14 @@ public class FBody extends Body {
   public boolean m_stroke;
   public int m_strokeColor;
   public float m_strokeWeight;
+
+  public PImage m_image;
+  public PImage m_mask;
   
-  public Body() {
-    super(new BodyDef());
+  public PApplet m_parent;
+
+  public FBody() {
+    super();
   }
 
   /*
@@ -42,40 +48,49 @@ public class FBody extends Body {
   */
   
   public void draw(PApplet applet) {
-    
+    // Don't draw anything, each subclass will draw itself
   }
   
   public void addForce( float fx, float fy, float px, float py ){
     // TODO: check if this is what it's supposed to do
     // TODO: w2s (world 2 screen)
-    applyForce(new Vec2(fx, fy), new Vec2(px, py));
+    super.applyForce(new Vec2(fx, fy), new Vec2(px, py));
   }
   
   public void resetForces(){
     m_force.setZero();
-    m_torque = 0.0;
+    m_torque = 0f;
   }
 
-  public void applyMatrix(){
-    translate(getX(), getY());
-    rotate(getRotation());
+  public void applyMatrix(PApplet applet){
+    applet.translate(getX(), getY());
+    applet.rotate(getRotation());
   }
-
-  /*
-  public void attachImage( PImage img ){}
-  public void dettachImage(){}
-  public PImage getImageAlpha(){}
-  public void setImageAlpha(PImage mask){}
-  */
+  
+  public void attachImage( PImage img ) {
+    m_image = img;
+  }
+  
+  public void dettachImage() {
+    m_image = null;
+  }
+  
+  public PImage getImageAlpha() {
+    return m_mask;
+  }
+  
+  public void setImageAlpha(PImage mask) {
+    m_mask = mask;
+  }
 
   public float getVelocityX(){
     // TODO: w2s (world 2 screen)
-    return getLinearVelocity().x;
+    return super.getLinearVelocity().x;
   }
 
   public float getVelocityY(){
     // TODO: w2s (world 2 screen)
-    return getLinearVelocity().y;
+    return super.getLinearVelocity().y;
   }
 
   public void setVelocity( float vx, float vy){
@@ -84,7 +99,7 @@ public class FBody extends Body {
   }
   public void adjustVelocity( float dvx, float dvy ){
     // TODO: w2s (world 2 screen)
-    setLinearVelocity( new Vec2(vx + dvx, vy + dvy) );  
+    setLinearVelocity( new Vec2(super.getLinearVelocity().x + dvx, super.getLinearVelocity().y + dvy) );  
   }
 
   public float getX(){
@@ -120,7 +135,7 @@ public class FBody extends Body {
   }
 
   public boolean isStatic(){
-    isStatic();
+    return isStatic();
   }
   
   public void setStatic( boolean isStatic ){
@@ -134,14 +149,14 @@ public class FBody extends Body {
   //public boolean isTouchingBody( FBody other ){}
 
   public float getAngularVelocity(){
-    getAngularVelocity();
+    return super.getAngularVelocity();
   }
   
   public void setAngularVelocity( float w ){
-    setAngularVelocity( w );
+    super.setAngularVelocity( w );
   }
   public void adjustAngularVelocity( float w ){
-    setAngluarVelocity( getAngularVelocity() );
+    super.setAngularVelocity( super.getAngularVelocity() + w );
   }
 
   public void setAngularDamping( float damping ){
@@ -181,7 +196,7 @@ public class FBody extends Body {
   public void setRotatable( boolean rotatable ){
     // TODO: check this
     if (rotatable) {
-      m_flags &= !e_fixedRotationFlag;
+      m_flags &= ~e_fixedRotationFlag;
     }else{
       m_flags |= e_fixedRotationFlag;
     }
@@ -197,19 +212,19 @@ public class FBody extends Body {
   }
 
   public void fill(float g){
-    fill(color(g));
+    fill(m_parent.color(g));
   }
 
   public void fill(float g, float a){
-    fill(color(g, a));
+    fill(m_parent.color(g, a));
   }
 
   public void fill(float r, float g, float b){
-    fill(color(r, g, b));
+    fill(m_parent.color(r, g, b));
   }
 
   public void fill(float r, float g, float b, float a){
-    fill(color(r, g, b, a));
+    fill(m_parent.color(r, g, b, a));
   }
 
   public void noStroke() {
@@ -222,19 +237,19 @@ public class FBody extends Body {
   }
 
   public void stroke(float g){
-    stroke(color(g));
+    stroke(m_parent.color(g));
   }
 
   public void stroke(float g, float a){
-    stroke(color(g, a));
+    stroke(m_parent.color(g, a));
   }
 
   public void stroke(float r, float g, float b){
-    stroke(color(r, g, b));
+    stroke(m_parent.color(r, g, b));
   }
 
   public void stroke(float r, float g, float b, float a){
-    stroke(color(r, g, b, a));
+    stroke(m_parent.color(r, g, b, a));
   }
   
   public void strokeWeight(float weight) {

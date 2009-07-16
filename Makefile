@@ -16,7 +16,7 @@ library/fisica.jar: src/fisica/*.java
 	cp 3rdparty/*.jar library
 	jar cvf library/fisica.jar -C build fisica
 
-dist: library/fisica.jar doc
+dist: library/fisica.jar #doc
 	mkdir -p $(DIST_DIR)/library
 
         ##  Copy libs
@@ -24,13 +24,13 @@ dist: library/fisica.jar doc
 	cp 3rdparty/*.jar $(DIST_DIR)/library
 
         ##  Copy docs
-	cp README $(DIST_DIR)
-	cp COPYING $(DIST_DIR)
-	cp HANDBOOK $(DIST_DIR)
+	#cp README $(DIST_DIR)
+	#cp COPYING $(DIST_DIR)
+	#cp HANDBOOK $(DIST_DIR)
 
         ##  Copy files
-	cp -r examples $(DIST_DIR)
-	cp -r tutorial $(DIST_DIR)
+	#cp -r examples $(DIST_DIR)
+	#cp -r tutorial $(DIST_DIR)
 	cp -r src $(DIST_DIR)
 
         ##  Zip up

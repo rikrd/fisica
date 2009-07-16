@@ -21,27 +21,9 @@ public class FWorld extends World {
   }
   
   public void draw( PApplet applet ) {
-    
-  }
-
-  public void add( FBody body ) {
-    // TODO: add an existing body to a world
-    /*
-    assert(m_lock == false);
-    if (m_lock == true) {
-      return null;
+    for (FBody b = m_body.getShapeList(); s != null; s = s.m_next) {
+      s.m_density = density;
     }
-    
-    // Add to world doubly linked list.
-    body.m_prev = null;
-    body.m_next = m_bodyList;
-    if (m_bodyList != null) {
-      m_bodyList.m_prev = body;
-    }
-    m_bodyList = body;
-    ++m_bodyCount;
-    */
-    return;
   }
 
   public void clear() {}

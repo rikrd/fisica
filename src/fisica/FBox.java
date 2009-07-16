@@ -14,15 +14,15 @@ public class FBox extends FBody {
   public FBox(FWorld world, float width, float height){
     PolygonDef pd = new PolygonDef();
     pd.setAsBox(width/2.0f, height/2.0f);
+    pd.density = 1.0f;
     /*
-    pd.density = m_body.m_density;
     pd.friction = m_body.m_friction;
     pd.restitution = m_body.m_restitution;
     */
     pd.isSensor = false;
  
     BodyDef bd = new BodyDef();
-    bd.isBullet = false;
+    bd.isBullet = true;
     
     m_body = world.createBody(bd);
     m_body.createShape(pd);

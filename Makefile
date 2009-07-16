@@ -2,7 +2,7 @@
 FISICA_VERSION=1
 
 #JAVAC_ARGS=-source 1.3 -target 1.1
-CLASSPATH=3rdparty/JBox2D-2.1.173-Library.jar:"$(PROCESSING_PATH)/lib/core.jar":"$(PROCESSING_PATH)/libraries/xml/library/xml.jar"
+CLASSPATH=3rdparty/JBox2D-2.1.180-Library.jar:"$(PROCESSING_PATH)/lib/core.jar":"$(PROCESSING_PATH)/libraries/xml/library/xml.jar"
 DIST_DIR=distribution/fisica
 
 #

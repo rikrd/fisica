@@ -16,14 +16,34 @@ public class FWorld extends World {
                             parent.height/10.0f)),
           new Vec2(0.0f, -10.0f),                  // gravity vertical downwards 10 m/s^2
           true);                                   // allow sleeping bodies
-
+    
     m_parent = parent;
   }
   
+
   public void draw( PApplet applet ) {
-    for (FBody b = m_body.getShapeList(); s != null; s = s.m_next) {
-      s.m_density = density;
+    
+    for (Body b = getBodyList(); b != null; b = b.m_next) {
+      FBody fb = (FBody)(b.m_userData);
+      if (fb != null) fb.draw(applet);
     }
+  }
+
+  public void add( FBody body ) {
+    // TODO: add an existing body to a world
+    /*
+    assert(m_lock == false);
+    if (m_lock == true) {
+      return null;
+    }
+    
+    // Add to world doubly linked list.
+    body.m_prev = null;
+    body.m_next = m_bodyList;
+    if (m_bodyList != null) {
+      m_bodyList.m_prev = body;
+    }
+    */
   }
 
   public void clear() {}
@@ -42,6 +62,20 @@ public class FWorld extends World {
     setGravity(new Vec2(gx, gy));
   }
 
-  public void step( float dt ) {}
+  public void step() {
+    step(1.0f/60);
+  }
+  
+  public void step( float dt ) {
+    step(dt, 10);
+  }
+
+  public void step( float dt, int iterationCount) {
+    super.setWarmStarting(true);
+    super.setPositionCorrection(true);
+    super.setContinuousPhysics(true);
+
+    super.step(dt, iterationCount);
+  }
 
 }

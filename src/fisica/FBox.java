@@ -32,6 +32,8 @@ public class FBox extends FBody {
 
     m_height = height;
     m_width = width;
+
+    setParent(world.m_parent);
   }
   
   public float getHeight(){ 

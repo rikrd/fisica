@@ -46,6 +46,10 @@ public class FBody {
     m_body = null;
   }
 
+  protected void setParent(PApplet parent){
+    m_parent = parent;
+  }
+
   protected void appletStroke( PApplet applet, int argb ){
     final int a = (argb >> 24) & 0xFF;
     final int r = (argb >> 16) & 0xFF;  // Faster way of getting red(argb)
@@ -136,12 +140,12 @@ public class FBody {
     m_image = null;
   }
   
-  public PImage getImageAlpha() {
-    return m_mask;
+  public float getImageAlpha() {
+    return m_imageAlpha;
   }
   
-  public void setImageAlpha(PImage mask) {
-    m_mask = mask;
+  public void setImageAlpha(float alpha) {
+    m_imageAlpha = alpha;
   }
 
   public float getVelocityX(){
@@ -318,6 +322,10 @@ public class FBody {
     m_body.setMassFromShapes();
   }
 
+  public void setStaticBody( boolean value ) {
+    setDensity(0.0f);
+  }
+
   public void setRestitution( float restitution ){
     if ( m_body == null ) {
       m_restitution = restitution;
@@ -354,57 +362,57 @@ public class FBody {
     }
   }
   
-  public void noFill() {
+  public void setNoFill() {
     m_fill = false;
   }
 
-  public void fill(int col) {
+  public void setFillColorInt(int col) {
     m_fill = true;
     m_fillColor = col;
   }
 
-  public void fill(float g){
-    fill(m_parent.color(g));
+  public void setFillColor(float g){
+    setFillColorInt(m_parent.color(g));
   }
 
-  public void fill(float g, float a){
-    fill(m_parent.color(g, a));
+  public void setFillColor(float g, float a){
+    setFillColorInt(m_parent.color(g, a));
   }
 
-  public void fill(float r, float g, float b){
-    fill(m_parent.color(r, g, b));
+  public void setFillColor(float r, float g, float b){
+    setFillColorInt(m_parent.color(r, g, b));
   }
 
-  public void fill(float r, float g, float b, float a){
-    fill(m_parent.color(r, g, b, a));
+  public void setFillColor(float r, float g, float b, float a){
+    setFillColorInt(m_parent.color(r, g, b, a));
   }
 
-  public void noStroke() {
+  public void setNoStroke() {
     m_stroke = false;
   }
 
-  public void stroke(int col) {
+  public void setStrokeColorInt(int col) {
     m_stroke = true;
     m_strokeColor = col;
   }
 
-  public void stroke(float g){
-    stroke(m_parent.color(g));
+  public void setStrokeColor(float g){
+    setStrokeColorInt(m_parent.color(g));
   }
 
-  public void stroke(float g, float a){
-    stroke(m_parent.color(g, a));
+  public void setStrokeColor(float g, float a){
+    setStrokeColorInt(m_parent.color(g, a));
   }
 
-  public void stroke(float r, float g, float b){
-    stroke(m_parent.color(r, g, b));
+  public void setStrokeColor(float r, float g, float b){
+    setStrokeColorInt(m_parent.color(r, g, b));
   }
 
-  public void stroke(float r, float g, float b, float a){
-    stroke(m_parent.color(r, g, b, a));
+  public void setStrokeColor(float r, float g, float b, float a){
+    setStrokeColorInt(m_parent.color(r, g, b, a));
   }
   
-  public void strokeWeight(float weight) {
+  public void setStrokeWeight(float weight) {
     m_strokeWeight = weight;
   }
 }

@@ -30,6 +30,8 @@ public class FCircle extends FBody {
     m_body.setXForm(m_position, m_angle);
 
     m_size = size;
+    
+    setParent(world.m_parent);
   }
   
   public float getSize(){ 
@@ -41,17 +43,25 @@ public class FCircle extends FBody {
     if (!isDrawable()) {
       return;
     }
-    
+
     applet.pushStyle();
     applet.pushMatrix();
+
+    applyMatrix(applet);
     applet.ellipseMode(PConstants.CENTER);
     appletFillStroke(applet);
     
-    applyMatrix(applet);
-    applet.ellipse(0, 0, getSize(), getSize());
+    if (m_image != null ) {
+      applet.tint(255, 255, 255, m_imageAlpha);
+      applet.image(m_image, 0-m_image.width/2, 0-m_image.height/2);
+      applet.tint(255, 255, 255, 255);
+    } else {
+      applet.ellipse(0, 0, getSize(), getSize());
+    }
     
     applet.popMatrix();
     applet.popStyle();
+
   }
   
 }

@@ -41,11 +41,17 @@ public class FCircle extends FBody {
     if (!isDrawable()) {
       return;
     }
-
+    
+    applet.pushStyle();
     applet.pushMatrix();
+    applet.ellipseMode(PConstants.CENTER);
+    appletFillStroke(applet);
+    
     applyMatrix(applet);
     applet.ellipse(0, 0, getSize(), getSize());
+    
     applet.popMatrix();
+    applet.popStyle();
   }
   
 }

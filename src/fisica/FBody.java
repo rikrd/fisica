@@ -29,14 +29,15 @@ public class FBody {
   
   public boolean m_rotatable = true;
   
-  public boolean m_fill;
-  public int m_fillColor;
-  public boolean m_stroke;
-  public int m_strokeColor;
-  public float m_strokeWeight;
+  public boolean m_fill = true;
+  public int m_fillColor = 0xFFFFFFFF;
+  public boolean m_stroke = true;
+  public int m_strokeColor = 0xFFFFFFFF;
+  public float m_strokeWeight = 1.0f;
 
-  public PImage m_image;
-  public PImage m_mask;
+  public PImage m_image = null;
+  public float m_imageAlpha = 255.0f;
+  public PImage m_mask = null;
   
   public PApplet m_parent;
   public Body m_body;
@@ -45,6 +46,39 @@ public class FBody {
     m_body = null;
   }
 
+  protected void appletStroke( PApplet applet, int argb ){
+    final int a = (argb >> 24) & 0xFF;
+    final int r = (argb >> 16) & 0xFF;  // Faster way of getting red(argb)
+    final int g = (argb >> 8) & 0xFF;   // Faster way of getting green(argb)
+    final int b = argb & 0xFF;          // Faster way of getting blue(argb)
+    
+    applet.stroke(r, g, b, a);
+  }
+
+  protected void appletFill( PApplet applet, int argb ){
+    final int a = (argb >> 24) & 0xFF;
+    final int r = (argb >> 16) & 0xFF;  // Faster way of getting red(argb)
+    final int g = (argb >> 8) & 0xFF;   // Faster way of getting green(argb)
+    final int b = argb & 0xFF;          // Faster way of getting blue(argb)
+    
+    applet.fill(r, g, b, a);
+  }
+
+  protected void appletFillStroke( PApplet applet ) {
+    if (m_fill) {
+      appletFill(applet, m_fillColor);
+    } else {
+      applet.noFill();
+    }
+
+    if (m_stroke) {
+      appletStroke(applet, m_strokeColor);
+    } else {
+      applet.noStroke();
+    }
+    applet.strokeWeight(m_strokeWeight);
+  }
+  
   /*
   public float getHeight(){ 
     // only for FBox

@@ -49,11 +49,24 @@ public class FBox extends FBody {
       return;
     }
     
+    applet.pushStyle();
     applet.pushMatrix();
-    applet.rectMode(PConstants.CENTER);
+
     applyMatrix(applet);
-    applet.rect(0, 0, getHeight(), getWidth());
+    applet.rectMode(PConstants.CENTER);
+    appletFillStroke(applet);
+    
+    if (m_image != null ) {
+      applet.tint(255, 255, 255, m_imageAlpha);
+      applet.image(m_image, 0-m_image.width/2, 0-m_image.height/2);
+      applet.tint(255, 255, 255, 255);
+    } else {
+      applet.rect(0, 0, getHeight(), getWidth());
+    }
+    
     applet.popMatrix();
+    applet.popStyle();
+
   }
   
 }

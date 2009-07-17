@@ -7,8 +7,27 @@ import org.jbox2d.dynamics.*;
 
 import processing.core.*;
 
-public class FBody extends Body {
+public class FBody {
   public boolean m_drawable = true;
+  
+  // Body creation settings
+  public float m_density = 1.0f;
+  public float m_restitution = 0.5f;
+  public float m_friction = 0.5f;
+  public boolean m_bullet = false;
+  public boolean m_sensor = false;
+  public Vec2 m_linearVelocity = new Vec2(0.0f, 0.0f);
+  public float m_angularVelocity = 0.0f;
+  public Vec2 m_force = new Vec2(0.0f, 0.0f);
+  public float m_torque = 0.0f;
+  public float m_linearDamping = 0.0f;
+  public float m_angularDamping = 0.0f;
+
+  public Vec2 m_position = new Vec2(0.0f, 0.0f);
+  public float m_angle = 0.0f;
+  public boolean m_isSleeping = false;
+  
+  public boolean m_rotatable = true;
   
   public boolean m_fill;
   public int m_fillColor;
@@ -21,11 +40,9 @@ public class FBody extends Body {
   
   public PApplet m_parent;
   public Body m_body;
-  public BodyDef m_bodydef;
   
   public FBody() {
     m_body = null;
-    m_bodydef = new BodyDef();
   }
 
   /*
@@ -63,8 +80,13 @@ public class FBody extends Body {
   }
   
   public void resetForces(){
-    m_force.setZero();
-    m_torque = 0f;
+    if (m_body == null) {
+      m_force.setZero();
+      m_torque = 0f;
+    }
+
+    m_body.m_force.setZero();
+    m_body.m_torque = 0f;
   }
 
   public void applyMatrix(PApplet applet){
@@ -117,16 +139,20 @@ public class FBody extends Body {
 
   public float getX(){
     // TODO: w2s (world 2 screen)
-    if (m_body == null) return m_bodydef.position.x;
+    if (m_body == null) {
+      return m_position.x;
+    }
     
-    return m_body.getXForm().position.x;
+    return m_body.getMemberXForm().position.x;
   }
   
   public float getY(){
     // TODO: w2s (world 2 screen)
-    if (m_body == null) return m_bodydef.position.x;
+    if (m_body == null) {
+      return m_position.y;
+    }
     
-    return m_body.getXForm().position.y;
+    return m_body.getMemberXForm().position.y;
   }
 
   public void setPosition( float x, float y ){
@@ -142,12 +168,12 @@ public class FBody extends Body {
       return;
     }
     
-    m_body.setXForm(new Vec2(m_body.getXForm().position.x + dx, m_body.getXForm().position.y + dy), m_body.getAngle());
+    m_body.setXForm(new Vec2(m_body.getMemberXForm().position.x + dx, m_body.getMemberXForm().position.y + dy), m_body.getAngle());
   }
 
   public float getRotation(){
     if (m_body == null) {
-      return m_bodydef.angle;
+      return m_angle;
     }
     
     return m_body.getAngle();
@@ -155,20 +181,20 @@ public class FBody extends Body {
   
   public void setRotation( float w ){
     if (m_body == null) {
-      m_bodydef.angle = w;
+      m_angle = w;
       return;
     }
 
-    m_body.setXForm(getXForm().position, w);
+    m_body.setXForm(m_body.getMemberXForm().position, w);
   }
   
   public void adjustRotation( float dw ){
     if (m_body == null) {
-      m_bodydef.angle += dw;
+      m_angle += dw;
       return;
     }
     
-    m_body.setXForm(m_body.getXForm().position, m_body.getAngle() + dw);
+    m_body.setXForm(m_body.getMemberXForm().position, m_body.getAngle() + dw);
   }
 
   public boolean isStatic(){
@@ -182,12 +208,12 @@ public class FBody extends Body {
       return;
     }
 
-    m_body.m_type = e_staticType;
+    m_body.m_type = m_body.e_staticType;
   }
 
   public boolean isResting(){
     if (m_body == null) {
-      return m_bodydef.isSleeping;
+      return m_isSleeping;
     }
     
     return m_body.isSleeping();
@@ -220,7 +246,7 @@ public class FBody extends Body {
 
   public void setAngularDamping( float damping ){
     if (m_body == null) {
-      m_bodydef.angularDamping = damping;
+      m_angularDamping = damping;
       return;
     }
 
@@ -229,7 +255,7 @@ public class FBody extends Body {
 
   public void setDamping( float damping ){
     if (m_body == null) {
-      m_bodydef.linearDamping = damping;
+      m_linearDamping = damping;
       return;
     }
 
@@ -238,6 +264,10 @@ public class FBody extends Body {
   
   public void setDrawable( boolean drawable ){
     m_drawable = drawable;
+  }
+  
+  public boolean isDrawable(){
+    return m_drawable;
   }
 
   public void setDensity( float density ){
@@ -251,11 +281,12 @@ public class FBody extends Body {
     }
     
     // Recalculate the body's mass
-    setMassFromShapes();
+    m_body.setMassFromShapes();
   }
 
   public void setRestitution( float restitution ){
     if ( m_body == null ) {
+      m_restitution = restitution;
       return;
     }
     
@@ -266,6 +297,7 @@ public class FBody extends Body {
 
   public void setFriction( float friction ){
     if ( m_body == null ) {
+      m_friction = friction;
       return;
     }
     
@@ -276,14 +308,15 @@ public class FBody extends Body {
   
   public void setRotatable( boolean rotatable ){
     if ( m_body == null ) {
+      m_rotatable = rotatable;
       return;
     }
     
     // TODO: check this
     if (rotatable) {
-      m_body.m_flags &= ~e_fixedRotationFlag;
+      m_body.m_flags &= ~m_body.e_fixedRotationFlag;
     }else{
-      m_body.m_flags |= e_fixedRotationFlag;
+      m_body.m_flags |= m_body.e_fixedRotationFlag;
     }
   }
   

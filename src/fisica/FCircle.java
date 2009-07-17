@@ -7,15 +7,14 @@ import org.jbox2d.dynamics.*;
 
 import processing.core.*;
 
-public class FBox extends FBody {
-  float m_height;
-  float m_width;
+public class FCircle extends FBody {
+  float m_size;
 
-  public FBox(FWorld world, float width, float height){
+  public FCircle(FWorld world, float size){
     super();
     
-    PolygonDef pd = new PolygonDef();
-    pd.setAsBox(width/2.0f, height/2.0f);
+    CircleDef pd = new CircleDef();
+    pd.radius = size/2.0f;
     pd.density = m_density;
     pd.friction = m_friction;
     pd.restitution = m_restitution;
@@ -30,29 +29,22 @@ public class FBox extends FBody {
     
     m_body.setXForm(m_position, m_angle);
 
-    m_height = height;
-    m_width = width;
+    m_size = size;
   }
   
-  public float getHeight(){ 
+  public float getSize(){ 
     // only for FBox
-    return m_height;
+    return m_size;
   }
-  
-  public float getWidth(){
-    // only for FBox
-    return m_width;
-  }  
-  
+
   public void draw(PApplet applet) {
     if (!isDrawable()) {
       return;
     }
-    
+
     applet.pushMatrix();
-    applet.rectMode(PConstants.CENTER);
     applyMatrix(applet);
-    applet.rect(0, 0, getHeight(), getWidth());
+    applet.ellipse(0, 0, getSize(), getSize());
     applet.popMatrix();
   }
   

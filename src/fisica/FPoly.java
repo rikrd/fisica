@@ -19,12 +19,17 @@ public class FPoly extends FBody {
   }
 
   public void vertex(float x, float y){
+    if (m_vertices.size() >= Settings.maxPolygonVertices ) {
+      throw new IllegalArgumentException("The maximum number of vertices allowed for polygon bodies is: " + Settings.maxPolygonVertices);
+    }
+    
     m_vertices.add(new Vec2(x, y));
   }
 
   public ShapeDef getShapeDef() {
     PolygonDef pd = new PolygonDef();
-
+    
+    // TODO: force counter-clockwiseness
     for(int i = 0; i<m_vertices.size(); i++){
       pd.addVertex((Vec2)m_vertices.get(i));
     }

@@ -11,14 +11,14 @@ public class FBody {
   public boolean m_drawable = true;
   
   // Body creation settings
-  public float m_density = 100.0f;
+  public float m_density = 1.0f;
   public float m_restitution = 0.01f;
   public float m_friction = 0.5f;
   public boolean m_bullet = false;
   public boolean m_sensor = false;
   public boolean m_static = false;
-  public float m_linearDamping = 0.0f;
-  public float m_angularDamping = 0.0f;
+  public float m_linearDamping = 0.5f;
+  public float m_angularDamping = 0.5f;
   public boolean m_rotatable = true;
 
   public boolean m_isSleeping = false;
@@ -56,7 +56,10 @@ public class FBody {
     m_body.setXForm(m_position, m_angle);
     m_body.setLinearVelocity(m_linearVelocity);
     m_body.setAngularVelocity(m_angularVelocity);
-
+    
+    m_body.m_linearDamping = m_linearDamping;
+    m_body.m_angularDamping = m_angularDamping;
+    
     if (m_rotatable) {
       m_body.m_flags &= ~m_body.e_fixedRotationFlag;
     }else{
@@ -65,7 +68,7 @@ public class FBody {
 
     m_body.setBullet(m_bullet);
     m_body.applyForce(m_force, m_body.getWorldCenter());
-    //m_body.applyTorque(m_torque, m_body.getWorldCenter());
+    m_body.applyTorque(m_torque);
 
     m_body.m_type = m_static ? m_body.e_staticType : m_body.e_dynamicType;   
     updateMass();

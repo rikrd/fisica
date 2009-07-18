@@ -11,8 +11,8 @@ public class FBody {
   public boolean m_drawable = true;
   
   // Body creation settings
-  public float m_density = 1.0f;
-  public float m_restitution = 0.1f;
+  public float m_density = 100.0f;
+  public float m_restitution = 0.01f;
   public float m_friction = 0.5f;
   public boolean m_bullet = false;
   public boolean m_sensor = false;
@@ -66,9 +66,9 @@ public class FBody {
     m_body.setBullet(m_bullet);
     m_body.applyForce(m_force, m_body.getWorldCenter());
     //m_body.applyTorque(m_torque, m_body.getWorldCenter());
-   
+
+    m_body.m_type = m_static ? m_body.e_staticType : m_body.e_dynamicType;   
     updateMass();
-    m_body.m_type = m_static ? m_body.e_staticType : m_body.e_dynamicType;
 
   }
 
@@ -366,6 +366,10 @@ public class FBody {
   }
 
   public void setStaticBody( boolean value ) {
+    if( m_body != null ) {
+      m_body.m_type = value ? m_body.e_staticType : m_body.e_dynamicType;
+    }
+
     m_static = value;
 
     updateMass();

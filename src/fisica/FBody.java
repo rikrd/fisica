@@ -59,10 +59,13 @@ public class FBody {
     m_body = world.createBody(bd);
     m_body.createShape(getShapeDef());
     m_body.m_userData = this;
-    m_body.setMassFromShapes();
     m_body.setXForm(m_position, m_angle);
     m_body.setLinearVelocity(m_linearVelocity);
     m_body.setAngularVelocity(m_angularVelocity);
+
+    updateMass();
+    m_body.m_type = m_static ? m_body.e_staticType : m_body.e_dynamicType;
+
   }
 
   protected ShapeDef getShapeDef() {
@@ -153,6 +156,14 @@ public class FBody {
     // Don't draw anything, each subclass will draw itself
   }
   
+  public void addForce( float fx, float fy ){
+    // TODO: check if this is what it's supposed to do
+    // TODO: w2s (world 2 screen)
+    if (m_body == null) return;
+    
+    m_body.applyForce(new Vec2(fx, fy), m_body.getWorldCenter());
+  }
+
   public void addForce( float fx, float fy, float px, float py ){
     // TODO: check if this is what it's supposed to do
     // TODO: w2s (world 2 screen)
@@ -314,7 +325,7 @@ public class FBody {
   }
 
   public void adjustAngularVelocity( float dw ){
-    if (m_body == null) {
+    if (m_body != null) {
       m_body.setAngularVelocity( m_body.getAngularVelocity() + dw );
     }
 
@@ -371,6 +382,10 @@ public class FBody {
   }
 
   public void setStatic( boolean value ){
+    if( m_body != null ) {
+      m_body.m_type = value ? m_body.e_staticType : m_body.e_dynamicType;
+    }
+
     m_static = value;
     
     updateMass();

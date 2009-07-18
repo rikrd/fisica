@@ -127,6 +127,11 @@ public class FBody {
   public void draw(PApplet applet) {
     // Don't draw anything, each subclass will draw itself
   }
+
+  public void setForce( float fx, float fy ){
+    resetForces();
+    addForce(fx, fy);
+  }
   
   public void addForce( float fx, float fy ){
     // TODO: check if this is what it's supposed to do
@@ -471,5 +476,10 @@ public class FBody {
   
   public void setStrokeWeight(float weight) {
     m_strokeWeight = weight;
+  }
+
+  public boolean isTouchingBody(FBody b){
+    // TODO: implement this
+    return false;
   }
 }

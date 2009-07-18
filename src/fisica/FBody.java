@@ -40,16 +40,10 @@ public class FBody {
   public float m_imageAlpha = 255.0f;
   public PImage m_mask = null;
   
-  public PApplet m_parent;
   public Body m_body;
   
   public FBody() {
     m_body = null;
-  }
-
-  public FBody(PApplet applet) {
-    m_body = null;
-    setParent(applet);
   }
 
   public void addToWorld(FWorld world) {
@@ -63,6 +57,10 @@ public class FBody {
     m_body.setLinearVelocity(m_linearVelocity);
     m_body.setAngularVelocity(m_angularVelocity);
 
+    m_body.setBullet(m_bullet);
+    m_body.applyForce(m_force, m_body.getWorldCenter());
+    //m_body.applyTorque(m_torque, m_body.getWorldCenter());
+   
     updateMass();
     m_body.m_type = m_static ? m_body.e_staticType : m_body.e_dynamicType;
 
@@ -70,10 +68,6 @@ public class FBody {
 
   protected ShapeDef getShapeDef() {
     return new ShapeDef();
-  }
-
-  protected void setParent(PApplet parent){
-    m_parent = parent;
   }
 
   protected void appletStroke( PApplet applet, int argb ){
@@ -130,28 +124,6 @@ public class FBody {
     applet.tint(255, 255, 255, 255);
   }
   
-  /*
-  public float getHeight(){ 
-    // only for FBox
-  }
-  
-  public float getWidth(){
-    // only for FBox
-  }
-  
-  public float setSize(){
-    // only for FBox
-  }
-  
-  public float getSize(){
-    // only for FCircle
-  }
-  
-  public float setSize(){
-    // only for FCircle 
-  }
-  */
-  
   public void draw(PApplet applet) {
     // Don't draw anything, each subclass will draw itself
   }
@@ -159,9 +131,12 @@ public class FBody {
   public void addForce( float fx, float fy ){
     // TODO: check if this is what it's supposed to do
     // TODO: w2s (world 2 screen)
-    if (m_body == null) return;
-    
-    m_body.applyForce(new Vec2(fx, fy), m_body.getWorldCenter());
+    if (m_body != null) {
+      m_body.applyForce(new Vec2(fx, fy), m_body.getWorldCenter());
+    }
+
+    m_force.x += fx;
+    m_force.y += fy;
   }
 
   public void addForce( float fx, float fy, float px, float py ){
@@ -225,6 +200,7 @@ public class FBody {
     // TODO: w2s (world 2 screen)
     if (m_body != null) {
       m_body.setLinearVelocity( new Vec2(vx, vy) );
+      m_body.wakeUp();
     }    
 
     m_linearVelocity = new Vec2(vx, vy);
@@ -233,6 +209,7 @@ public class FBody {
     // TODO: w2s (world 2 screen)
     if (m_body != null) {
       m_body.setLinearVelocity( new Vec2(m_body.getLinearVelocity().x + dvx, m_body.getLinearVelocity().y + dvy) );  
+      m_body.wakeUp();
     }
 
     m_linearVelocity = new Vec2(m_linearVelocity.x + dvx, m_linearVelocity.y + dvy);
@@ -319,6 +296,7 @@ public class FBody {
   public void setAngularVelocity( float w ){
     if (m_body != null) {
       m_body.setAngularVelocity( w );
+      m_body.wakeUp();
     }
     
     m_angularVelocity = w;
@@ -327,6 +305,7 @@ public class FBody {
   public void adjustAngularVelocity( float dw ){
     if (m_body != null) {
       m_body.setAngularVelocity( m_body.getAngularVelocity() + dw );
+      m_body.wakeUp();
     }
 
     m_angularVelocity += dw;
@@ -399,6 +378,14 @@ public class FBody {
     return m_static;
   }  
 
+  public void setBullet( boolean value ){
+    if( m_body != null ) {
+      m_body.setBullet(value);
+    }
+
+    m_bullet = value;
+  }
+
   public void setRestitution( float restitution ){
     if ( m_body != null ) {
       for (Shape s = m_body.getShapeList(); s != null; s = s.m_next) {
@@ -410,7 +397,7 @@ public class FBody {
   }
 
   public void setFriction( float friction ){
-    if ( m_body == null ) {
+    if ( m_body != null ) {
       for (Shape s = m_body.getShapeList(); s != null; s = s.m_next) {
         s.setFriction( friction );
       }
@@ -442,19 +429,19 @@ public class FBody {
   }
 
   public void setFillColor(float g){
-    setFillColorInt(m_parent.color(g));
+    setFillColorInt(Fisica.parent().color(g));
   }
 
   public void setFillColor(float g, float a){
-    setFillColorInt(m_parent.color(g, a));
+    setFillColorInt(Fisica.parent().color(g, a));
   }
 
   public void setFillColor(float r, float g, float b){
-    setFillColorInt(m_parent.color(r, g, b));
+    setFillColorInt(Fisica.parent().color(r, g, b));
   }
 
   public void setFillColor(float r, float g, float b, float a){
-    setFillColorInt(m_parent.color(r, g, b, a));
+    setFillColorInt(Fisica.parent().color(r, g, b, a));
   }
 
   public void setNoStroke() {
@@ -467,19 +454,19 @@ public class FBody {
   }
 
   public void setStrokeColor(float g){
-    setStrokeColorInt(m_parent.color(g));
+    setStrokeColorInt(Fisica.parent().color(g));
   }
 
   public void setStrokeColor(float g, float a){
-    setStrokeColorInt(m_parent.color(g, a));
+    setStrokeColorInt(Fisica.parent().color(g, a));
   }
 
   public void setStrokeColor(float r, float g, float b){
-    setStrokeColorInt(m_parent.color(r, g, b));
+    setStrokeColorInt(Fisica.parent().color(r, g, b));
   }
 
   public void setStrokeColor(float r, float g, float b, float a){
-    setStrokeColorInt(m_parent.color(r, g, b, a));
+    setStrokeColorInt(Fisica.parent().color(r, g, b, a));
   }
   
   public void setStrokeWeight(float weight) {

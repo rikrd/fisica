@@ -12,15 +12,13 @@ public class FWorld extends World {
   float m_edgesFriction = 0.5f;
   float m_edgesRestitution = 0.5f;
   
-  public FWorld(PApplet parent) {
-    super(new AABB(new Vec2(-parent.width,   // 10.0f pixels per meter
-                            -parent.height),
-                   new Vec2(parent.width, 
-                            parent.height)),
+  public FWorld() {
+    super(new AABB(new Vec2(-Fisica.parent().width,   // 10.0f pixels per meter
+                            -Fisica.parent().height),
+                   new Vec2(Fisica.parent().width, 
+                            Fisica.parent().height)),
           new Vec2(0.0f, -10.0f),                  // gravity vertical downwards 10 m/s^2
           true);                                   // allow sleeping bodies
-    
-    m_parent = parent;
   }
   
 
@@ -42,7 +40,7 @@ public class FWorld extends World {
   public void setDamping( float damping ) { }
   
   public void setEdges(PApplet applet, int color) {
-    left = new FBox(applet, 20, applet.height);
+    left = new FBox(20, applet.height);
     left.setStaticBody(true);
     left.setRestitution(0.5f);
     left.setFillColorInt(color);
@@ -50,7 +48,7 @@ public class FWorld extends World {
     left.setPosition(-5, applet.height/2);
     add(left);
     
-    right = new FBox(applet, 20, applet.height);
+    right = new FBox(20, applet.height);
     right.setStaticBody(true);
     right.setRestitution(0.5f);
     right.setPosition(applet.width+5, applet.height/2);
@@ -58,7 +56,7 @@ public class FWorld extends World {
     right.setStrokeColorInt(color);	
     add(right);
     
-    top = new FBox(applet, applet.width, 20);
+    top = new FBox(applet.width, 20);
     top.setStaticBody(true);
     top.setRestitution(0.5f);
     top.setPosition(applet.width/2, -5);
@@ -66,7 +64,7 @@ public class FWorld extends World {
     top.setStrokeColorInt(color);	
     add(top);
 		
-    bottom = new FBox(applet, applet.width, 20);
+    bottom = new FBox(applet.width, 20);
     bottom.setStaticBody(true);
     bottom.setRestitution(0.5f);
     bottom.setPosition(applet.width/2, applet.height+5);

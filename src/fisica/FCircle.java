@@ -10,8 +10,8 @@ import processing.core.*;
 public class FCircle extends FBody {
   float m_size;
 
-  public FCircle(PApplet applet, float size){
-    super(applet);
+  public FCircle(float size){
+    super();
      
     m_size = size;
   }

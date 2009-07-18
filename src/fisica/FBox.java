@@ -11,8 +11,8 @@ public class FBox extends FBody {
   float m_height;
   float m_width;
 
-  public FBox(PApplet applet, float width, float height){
-    super(applet);
+  public FBox(float width, float height){
+    super();
     
     m_height = height;
     m_width = width;

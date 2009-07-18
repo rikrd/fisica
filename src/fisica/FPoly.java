@@ -12,8 +12,8 @@ import java.util.ArrayList;
 public class FPoly extends FBody {
   ArrayList m_vertices;
   
-  public FPoly(PApplet applet){
-    super(applet);
+  public FPoly(){
+    super();
     
     m_vertices = new ArrayList<Vec2>();
   }

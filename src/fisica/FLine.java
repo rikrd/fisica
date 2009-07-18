@@ -13,8 +13,8 @@ public class FLine extends FBody {
   Vec2 m_start;
   Vec2 m_end;
 
-  public FLine(PApplet applet, float x1, float y1, float x2, float y2){
-    super(applet);
+  public FLine(float x1, float y1, float x2, float y2){
+    super();
     
     m_start = new Vec2(x1, y1);
     m_end = new Vec2(x2, y2);

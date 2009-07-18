@@ -11,29 +11,21 @@ public class FBox extends FBody {
   float m_height;
   float m_width;
 
-  public FBox(FWorld world, float width, float height){
-    super();
+  public FBox(PApplet applet, float width, float height){
+    super(applet);
     
+    m_height = height;
+    m_width = width;
+  }
+
+  public ShapeDef getShapeDef() {
     PolygonDef pd = new PolygonDef();
-    pd.setAsBox(width/2.0f, height/2.0f);
+    pd.setAsBox(m_width/2.0f, m_height/2.0f);
     pd.density = m_density;
     pd.friction = m_friction;
     pd.restitution = m_restitution;
     pd.isSensor = m_sensor;
- 
-    BodyDef bd = new BodyDef();
-    bd.isBullet = m_bullet;
-    
-    m_body = world.createBody(bd);
-    m_body.createShape(pd);
-    m_body.m_userData = this;
-    
-    m_body.setXForm(m_position, m_angle);
-
-    m_height = height;
-    m_width = width;
-
-    setParent(world.m_parent);
+    return pd;
   }
   
   public float getHeight(){ 
@@ -47,28 +39,15 @@ public class FBox extends FBody {
   }  
   
   public void draw(PApplet applet) {
-    if (!isDrawable()) {
-      return;
-    }
-    
-    applet.pushStyle();
-    applet.pushMatrix();
+    preDraw(applet);
 
-    applyMatrix(applet);
-    applet.rectMode(PConstants.CENTER);
-    appletFillStroke(applet);
-    
     if (m_image != null ) {
-      applet.tint(255, 255, 255, m_imageAlpha);
-      applet.image(m_image, 0-m_image.width/2, 0-m_image.height/2);
-      applet.tint(255, 255, 255, 255);
+      drawImage(applet);
     } else {
       applet.rect(0, 0, getHeight(), getWidth());
     }
     
-    applet.popMatrix();
-    applet.popStyle();
-
+    postDraw(applet);
   }
   
 }

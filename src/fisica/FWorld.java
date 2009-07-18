@@ -24,11 +24,13 @@ public class FWorld extends World {
   public void draw( PApplet applet ) {
     for (Body b = getBodyList(); b != null; b = b.m_next) {
       FBody fb = (FBody)(b.m_userData);
-      if (fb != null) fb.draw(applet);
+      if (fb != null && fb.isDrawable()) fb.draw(applet);
     }
   }
 
-  public void add( FBody body ) { }
+  public void add( FBody body ) {
+    body.addToWorld(this);
+  }
 
   public void clear() { }
 

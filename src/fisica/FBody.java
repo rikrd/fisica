@@ -16,19 +16,20 @@ public class FBody {
   public float m_friction = 0.5f;
   public boolean m_bullet = false;
   public boolean m_sensor = false;
+  public boolean m_static = false;
+  public float m_linearDamping = 0.0f;
+  public float m_angularDamping = 0.0f;
+  public boolean m_rotatable = true;
+
+  public boolean m_isSleeping = false;
+
   public Vec2 m_linearVelocity = new Vec2(0.0f, 0.0f);
   public float m_angularVelocity = 0.0f;
   public Vec2 m_force = new Vec2(0.0f, 0.0f);
   public float m_torque = 0.0f;
-  public float m_linearDamping = 0.0f;
-  public float m_angularDamping = 0.0f;
-
   public Vec2 m_position = new Vec2(0.0f, 0.0f);
   public float m_angle = 0.0f;
-  public boolean m_isSleeping = false;
-  
-  public boolean m_rotatable = true;
-  
+    
   public boolean m_fill = true;
   public int m_fillColor = 0xFFFFFFFF;
   public boolean m_stroke = true;
@@ -44,6 +45,28 @@ public class FBody {
   
   public FBody() {
     m_body = null;
+  }
+
+  public FBody(PApplet applet) {
+    m_body = null;
+    setParent(applet);
+  }
+
+  public void addToWorld(FWorld world) {
+    BodyDef bd = new BodyDef();
+    bd.isBullet = m_bullet;
+    
+    m_body = world.createBody(bd);
+    m_body.createShape(getShapeDef());
+    m_body.m_userData = this;
+    m_body.setMassFromShapes();
+    m_body.setXForm(m_position, m_angle);
+    m_body.setLinearVelocity(m_linearVelocity);
+    m_body.setAngularVelocity(m_angularVelocity);
+  }
+
+  protected ShapeDef getShapeDef() {
+    return new ShapeDef();
   }
 
   protected void setParent(PApplet parent){
@@ -82,6 +105,27 @@ public class FBody {
     }
     applet.strokeWeight(m_strokeWeight);
   }
+
+  protected void preDraw(PApplet applet) {
+    applet.pushStyle();
+    applet.pushMatrix();
+    
+    applyMatrix(applet);
+    applet.ellipseMode(PConstants.CENTER);
+    applet.rectMode(PConstants.CENTER);
+    appletFillStroke(applet);
+  }
+
+  protected void postDraw(PApplet applet) {
+    applet.popMatrix();
+    applet.popStyle();
+  }
+
+  protected void drawImage(PApplet applet) {
+    applet.tint(255, 255, 255, m_imageAlpha);
+    applet.image(m_image, 0-m_image.width/2, 0-m_image.height/2);
+    applet.tint(255, 255, 255, 255);
+  }
   
   /*
   public float getHeight(){ 
@@ -118,13 +162,13 @@ public class FBody {
   }
   
   public void resetForces(){
-    if (m_body == null) {
-      m_force.setZero();
-      m_torque = 0f;
-    }
+    m_force.setZero();
+    m_torque = 0f;
 
-    m_body.m_force.setZero();
-    m_body.m_torque = 0f;
+    if (m_body != null) {
+      m_body.m_force.setZero();
+      m_body.m_torque = 0f;
+    }
   }
 
   public void applyMatrix(PApplet applet){
@@ -150,151 +194,144 @@ public class FBody {
 
   public float getVelocityX(){
     // TODO: w2s (world 2 screen)
-    if (m_body == null) return 0.0f;
+    if (m_body != null) {
+      return m_body.getLinearVelocity().x;
+    }
 
-    return m_body.getLinearVelocity().x;
+    return m_linearVelocity.x;
   }
 
   public float getVelocityY(){
     // TODO: w2s (world 2 screen)
-    if (m_body == null) return 0.0f;
+    if (m_body != null) {
+      return m_body.getLinearVelocity().y;
+    }
 
-    return m_body.getLinearVelocity().y;
+    return m_linearVelocity.y;
   }
 
   public void setVelocity( float vx, float vy){
     // TODO: w2s (world 2 screen)
-    if (m_body == null) return;
-    
-    m_body.setLinearVelocity( new Vec2(vx, vy) );
+    if (m_body != null) {
+      m_body.setLinearVelocity( new Vec2(vx, vy) );
+    }    
+
+    m_linearVelocity = new Vec2(vx, vy);
   }
   public void adjustVelocity( float dvx, float dvy ){
     // TODO: w2s (world 2 screen)
-    if (m_body == null) return;
+    if (m_body != null) {
+      m_body.setLinearVelocity( new Vec2(m_body.getLinearVelocity().x + dvx, m_body.getLinearVelocity().y + dvy) );  
+    }
 
-    m_body.setLinearVelocity( new Vec2(m_body.getLinearVelocity().x + dvx, m_body.getLinearVelocity().y + dvy) );  
+    m_linearVelocity = new Vec2(m_linearVelocity.x + dvx, m_linearVelocity.y + dvy);
   }
 
   public float getX(){
     // TODO: w2s (world 2 screen)
-    if (m_body == null) {
-      return m_position.x;
+    if (m_body != null) {
+      return m_body.getMemberXForm().position.x;
     }
     
-    return m_body.getMemberXForm().position.x;
+    return m_position.x;
   }
   
   public float getY(){
     // TODO: w2s (world 2 screen)
-    if (m_body == null) {
-      return m_position.y;
+    if (m_body != null) {
+      return m_body.getMemberXForm().position.y;
     }
     
-    return m_body.getMemberXForm().position.y;
+    return m_position.y;
   }
 
   public void setPosition( float x, float y ){
     // TODO: w2s (world 2 screen)
-    if (m_body == null) return;
-    
-    m_body.setXForm(new Vec2(x, y), m_body.getAngle());
+    if (m_body != null) {
+      m_body.setXForm(new Vec2(x, y), m_body.getAngle());
+    }
+
+    m_position = new Vec2(x, y);
   }
 
   public void adjustPosition( float dx, float dy ){
     // TODO: w2s (world 2 screen)
-    if (m_body == null) {
-      return;
+    if (m_body != null) {
+      m_body.setXForm(new Vec2(m_body.getMemberXForm().position.x + dx, m_body.getMemberXForm().position.y + dy), m_body.getAngle());
     }
     
-    m_body.setXForm(new Vec2(m_body.getMemberXForm().position.x + dx, m_body.getMemberXForm().position.y + dy), m_body.getAngle());
+    m_position = new Vec2(m_position.x + dx, m_position.y + dy);
   }
 
   public float getRotation(){
-    if (m_body == null) {
-      return m_angle;
+    if (m_body != null) {
+      return m_body.getAngle();
     }
     
-    return m_body.getAngle();
+    return m_angle;    
   }
   
   public void setRotation( float w ){
-    if (m_body == null) {
-      m_angle = w;
-      return;
+    if (m_body != null) {
+      m_body.setXForm(m_body.getMemberXForm().position, w);
     }
-
-    m_body.setXForm(m_body.getMemberXForm().position, w);
+    
+    m_angle = w;
   }
   
   public void adjustRotation( float dw ){
-    if (m_body == null) {
-      m_angle += dw;
-      return;
+    if (m_body != null) {
+      m_body.setXForm(m_body.getMemberXForm().position, m_body.getAngle() + dw);
     }
     
-    m_body.setXForm(m_body.getMemberXForm().position, m_body.getAngle() + dw);
-  }
-
-  public boolean isStatic(){
-    if (m_body == null) return false;
-    
-    return m_body.isStatic();
-  }
-  
-  public void setStatic( boolean isStatic ){
-    if (m_body == null) {
-      return;
-    }
-
-    m_body.m_type = m_body.e_staticType;
+    m_angle += dw;
   }
 
   public boolean isResting(){
-    if (m_body == null) {
-      return m_isSleeping;
+    if (m_body != null) {
+      return m_body.isSleeping();
     }
-    
-    return m_body.isSleeping();
+
+    return m_isSleeping;
   }
   
   //public boolean isTouchingBody( FBody other ){}
 
   public float getAngularVelocity(){
-    if (m_body == null) {
-      return 0.0f;
+    if (m_body != null) {
+      return m_body.getAngularVelocity();
     }
 
-    return m_body.getAngularVelocity();
+    return m_angularVelocity;
   }
   
   public void setAngularVelocity( float w ){
-    if (m_body == null) {
-      return;
+    if (m_body != null) {
+      m_body.setAngularVelocity( w );
     }
     
-    m_body.setAngularVelocity( w );
+    m_angularVelocity = w;
   }
-  public void adjustAngularVelocity( float w ){
+
+  public void adjustAngularVelocity( float dw ){
     if (m_body == null) {
-      return;
+      m_body.setAngularVelocity( m_body.getAngularVelocity() + dw );
     }
 
-    m_body.setAngularVelocity( m_body.getAngularVelocity() + w );
+    m_angularVelocity += dw;
   }
 
   public void setAngularDamping( float damping ){
-    if (m_body == null) {
-      m_angularDamping = damping;
-      return;
+    if (m_body != null) {
+      m_body.m_angularDamping = damping;
     }
 
     m_angularDamping = damping;
   }
 
   public void setDamping( float damping ){
-    if (m_body == null) {
-      m_linearDamping = damping;
-      return;
+    if (m_body != null) {
+      m_body.m_linearDamping = damping;
     }
 
     m_linearDamping = damping;
@@ -309,13 +346,18 @@ public class FBody {
   }
 
   public void setDensity( float density ){
-    if ( m_body == null ) {
+    m_density = density;
+    updateMass();
+  }
+
+  protected void updateMass() {
+    if (m_body == null) {
       return;
     }
-    
+
     // Set the density of shapes
     for (Shape s = m_body.getShapeList(); s != null; s = s.m_next) {
-      s.m_density = density;
+      s.m_density = m_static ? 0.0f : m_density;
     }
     
     // Recalculate the body's mass
@@ -323,43 +365,56 @@ public class FBody {
   }
 
   public void setStaticBody( boolean value ) {
-    setDensity(0.0f);
+    m_static = value;
+
+    updateMass();
   }
 
-  public void setRestitution( float restitution ){
-    if ( m_body == null ) {
-      m_restitution = restitution;
-      return;
+  public void setStatic( boolean value ){
+    m_static = value;
+    
+    updateMass();
+  }
+
+  public boolean isStatic(){
+    if (m_body != null) {
+      return m_body.isStatic();
     }
     
-    for (Shape s = m_body.getShapeList(); s != null; s = s.m_next) {
-      s.setRestitution( restitution );
+    return m_static;
+  }  
+
+  public void setRestitution( float restitution ){
+    if ( m_body != null ) {
+      for (Shape s = m_body.getShapeList(); s != null; s = s.m_next) {
+        s.setRestitution( restitution );
+      }
     }
+
+    m_restitution = restitution;
   }
 
   public void setFriction( float friction ){
     if ( m_body == null ) {
-      m_friction = friction;
-      return;
+      for (Shape s = m_body.getShapeList(); s != null; s = s.m_next) {
+        s.setFriction( friction );
+      }
     }
-    
-    for (Shape s = m_body.getShapeList(); s != null; s = s.m_next) {
-      s.setFriction( friction );
-    }
+
+    m_friction = friction;
   }
   
   public void setRotatable( boolean rotatable ){
-    if ( m_body == null ) {
-      m_rotatable = rotatable;
-      return;
+    if ( m_body != null ) {
+      // TODO: check this
+      if (rotatable) {
+        m_body.m_flags &= ~m_body.e_fixedRotationFlag;
+      }else{
+        m_body.m_flags |= m_body.e_fixedRotationFlag;
+      }
     }
     
-    // TODO: check this
-    if (rotatable) {
-      m_body.m_flags &= ~m_body.e_fixedRotationFlag;
-    }else{
-      m_body.m_flags |= m_body.e_fixedRotationFlag;
-    }
+    m_rotatable = rotatable;
   }
   
   public void setNoFill() {

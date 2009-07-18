@@ -12,7 +12,7 @@ public class FBody {
   
   // Body creation settings
   public float m_density = 1.0f;
-  public float m_restitution = 0.5f;
+  public float m_restitution = 0.1f;
   public float m_friction = 0.5f;
   public boolean m_bullet = false;
   public boolean m_sensor = false;
@@ -56,6 +56,12 @@ public class FBody {
     m_body.setXForm(m_position, m_angle);
     m_body.setLinearVelocity(m_linearVelocity);
     m_body.setAngularVelocity(m_angularVelocity);
+
+    if (m_rotatable) {
+      m_body.m_flags &= ~m_body.e_fixedRotationFlag;
+    }else{
+      m_body.m_flags |= m_body.e_fixedRotationFlag;
+    }
 
     m_body.setBullet(m_bullet);
     m_body.applyForce(m_force, m_body.getWorldCenter());

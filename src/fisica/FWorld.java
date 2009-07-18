@@ -1,16 +1,83 @@
 package fisica;
 
+import java.lang.reflect.Method;
+
 import org.jbox2d.common.*;
 import org.jbox2d.collision.*;
 import org.jbox2d.dynamics.*;
+import org.jbox2d.dynamics.contacts.*;
 
 import processing.core.*;
 
 public class FWorld extends World {
-  PApplet m_parent;
   FBox left, right, top, bottom;
   float m_edgesFriction = 0.5f;
   float m_edgesRestitution = 0.5f;
+
+
+  /**
+   * Forward the contact events to the contactStarted(ContactPoint point),
+   * contactPersisted(ContactPoint point) and contactStopped(ContactPoint point)
+   * which may be implemented in the sketch.
+   *
+   */
+  class ConcreteContactListener implements ContactListener {
+    public void add(ContactPoint point) {
+      if (m_world.m_contactStartedMethod == null) {
+        return;
+      }
+      
+      try {
+        m_world.m_contactStartedMethod.invoke(Fisica.parent(),
+                                              new Object[] { new FContact(point) });
+      } catch (Exception e) {
+        System.err.println("Disabling contactStarted(ContactPoint point) because of an error.");
+        e.printStackTrace();
+        m_world.m_contactStartedMethod = null;
+      }
+    }
+    
+    public void persist(ContactPoint point) {
+      if (m_world.m_contactPersistedMethod == null) {
+        return;
+      }
+      
+      try {
+        m_world.m_contactPersistedMethod.invoke(Fisica.parent(),
+                                                new Object[] { new FContact(point) });
+      } catch (Exception e) {
+        System.err.println("Disabling contactPersisted(ContactPoint point) because of an error.");
+        e.printStackTrace();
+        m_world.m_contactPersistedMethod = null;
+      }
+    }
+    
+    public void remove(ContactPoint point) {
+      if (m_world.m_contactEndedMethod == null) {
+        return;
+      }
+      
+      try {
+        m_world.m_contactEndedMethod.invoke(Fisica.parent(),
+                                            new Object[] { new FContact(point) });
+      } catch (Exception e) {
+        System.err.println("Disabling contactEnded(ContactPoint point) because of an error.");
+        e.printStackTrace();
+        m_world.m_contactEndedMethod = null;
+      }
+    }
+    
+    public FWorld m_world;
+    
+    public void result(ContactResult point) {
+      //TODO
+    }
+  }
+
+  private ConcreteContactListener m_contactListener;
+  private Method m_contactStartedMethod;
+  private Method m_contactPersistedMethod;
+  private Method m_contactEndedMethod;
   
   public FWorld() {
     super(new AABB(new Vec2(-Fisica.parent().width,   // 10.0f pixels per meter
@@ -19,6 +86,36 @@ public class FWorld extends World {
                             Fisica.parent().height)),
           new Vec2(0.0f, -10.0f),                  // gravity vertical downwards 10 m/s^2
           true);                                   // allow sleeping bodies
+
+    // Get the contactStarted(), contactPersisted() and contactEnded()
+    // methods from the sketch
+    try {
+      m_contactStartedMethod =
+        Fisica.parent().getClass().getMethod("contactStarted",
+                                             new Class[] { FContact.class });
+    } catch (Exception e) {
+      // no such method, or an error.. which is fine, just ignore
+    }
+    
+    try {
+      m_contactPersistedMethod =
+        Fisica.parent().getClass().getMethod("contactPersisted",
+                                             new Class[] { FContact.class });
+    } catch (Exception e) {
+      // no such method, or an error.. which is fine, just ignore
+    }
+    
+    try {
+      m_contactEndedMethod =
+        Fisica.parent().getClass().getMethod("contactEnded",
+                                             new Class[] { FContact.class });
+    } catch (Exception e) {
+      // no such method, or an error.. which is fine, just ignore
+    }
+    
+    m_contactListener = new ConcreteContactListener();
+    m_contactListener.m_world = this;
+    setContactListener(m_contactListener);
   }
   
 

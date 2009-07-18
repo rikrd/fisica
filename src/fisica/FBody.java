@@ -65,11 +65,12 @@ public class FBody {
     }else{
       m_body.m_flags |= m_body.e_fixedRotationFlag;
     }
-
+    
     m_body.setBullet(m_bullet);
+    
     m_body.applyForce(m_force, m_body.getWorldCenter());
     m_body.applyTorque(m_torque);
-
+    
     m_body.m_type = m_static ? m_body.e_staticType : m_body.e_dynamicType;   
     updateMass();
 
@@ -154,21 +155,24 @@ public class FBody {
   }
 
   public void addForce( float fx, float fy, float px, float py ){
-    // TODO: check if this is what it's supposed to do
     // TODO: w2s (world 2 screen)
-    if (m_body == null) return;
-    
-    m_body.applyForce(new Vec2(fx, fy), new Vec2(px, py));
+    if (m_body != null) {
+      m_body.applyForce(new Vec2(fx, fy), m_body.getWorldCenter());
+    }
+
+    // FIXME: we must calculate the force and torque this force produces    
+    //m_force.x += fx;
+    //m_force.y += fy;
   }
   
   public void resetForces(){
-    m_force.setZero();
-    m_torque = 0f;
-
     if (m_body != null) {
       m_body.m_force.setZero();
       m_body.m_torque = 0f;
     }
+
+    m_force.setZero();
+    m_torque = 0f;
   }
 
   public void applyMatrix(PApplet applet){

@@ -8,6 +8,9 @@ import processing.core.*;
 
 public class FWorld extends World {
   PApplet m_parent;
+  FBox left, right, top, bottom;
+  float m_edgesFriction = 0.5f;
+  float m_edgesRestitution = 0.5f;
   
   public FWorld(PApplet parent) {
     super(new AABB(new Vec2(-parent.width,   // 10.0f pixels per meter
@@ -38,11 +41,82 @@ public class FWorld extends World {
   
   public void setDamping( float damping ) { }
   
-  public void setEdges(PApplet applet, int col) { }
+  public void setEdges(PApplet applet, int color) {
+    left = new FBox(applet, 20, applet.height);
+    left.setStaticBody(true);
+    left.setRestitution(0.5f);
+    left.setFillColorInt(color);
+    left.setStrokeColorInt(color);	
+    left.setPosition(-5, applet.height/2);
+    add(left);
+    
+    right = new FBox(applet, 20, applet.height);
+    right.setStaticBody(true);
+    right.setRestitution(0.5f);
+    right.setPosition(applet.width+5, applet.height/2);
+    right.setFillColorInt(color);
+    right.setStrokeColorInt(color);	
+    add(right);
+    
+    top = new FBox(applet, applet.width, 20);
+    top.setStaticBody(true);
+    top.setRestitution(0.5f);
+    top.setPosition(applet.width/2, -5);
+    top.setFillColorInt(color);
+    top.setStrokeColorInt(color);	
+    add(top);
+		
+    bottom = new FBox(applet, applet.width, 20);
+    bottom.setStaticBody(true);
+    bottom.setRestitution(0.5f);
+    bottom.setPosition(applet.width/2, applet.height+5);
+    bottom.setFillColorInt(color);
+    bottom.setStrokeColorInt(color);	
+    add(bottom);
 
-  public void setEdgesFriction( float friction ) { }
+    setEdgesFriction(m_edgesFriction);
+    setEdgesRestitution(m_edgesRestitution);
+  }
+
+  public void setEdgesFriction( float friction ) {
+    if (left != null) {
+      left.setFriction(friction);
+    }
+    
+    if (right != null) {    
+      right.setFriction(friction);
+    }
+    
+    if (top != null) {  
+      top.setFriction(friction);
+    }
+    
+    if (bottom != null) {  
+      bottom.setFriction(friction);
+    }
+
+    m_edgesFriction = friction;
+  }
   
-  public void setEdgesRestitution( float restitution ) { }
+  public void setEdgesRestitution( float restitution ) {
+    if (left != null) {
+      left.setRestitution(restitution);
+    }
+    
+    if (right != null) {    
+      right.setRestitution(restitution);
+    }
+    
+    if (top != null) {  
+      top.setRestitution(restitution);
+    }
+    
+    if (bottom != null) {  
+      bottom.setRestitution(restitution);
+    }
+
+    m_edgesRestitution = restitution;
+  }
   
   public void setGravity( float gx, float gy ) {
     setGravity(new Vec2(gx, gy));

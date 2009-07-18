@@ -44,7 +44,7 @@ public class FBox extends FBody {
     if (m_image != null ) {
       drawImage(applet);
     } else {
-      applet.rect(0, 0, getHeight(), getWidth());
+      applet.rect(0, 0, getWidth(), getHeight());
     }
     
     postDraw(applet);

@@ -1,0 +1,56 @@
+<project name="Fisica" default="dist" basedir=".">
+	<description>Here so we can build the distributions</description>
+	<property file="building.properties"/>
+	
+        <target name="compile">
+
+          <mkdir dir="${build}"/>
+
+          <javac srcdir="src" classpath="${3rdparty}/core.jar:${3rdparty}/JBox2D-2.1.180-Library.jar" destdir="${build}"/>
+          
+        </target>
+
+	<target name="dist-library" depends="compile">
+		<description>creates the library jar</description>
+		
+		<mkdir dir="${dist}"/>
+
+		<mkdir dir="temp"/>
+		
+		<echo>Copying appropriate class files</echo>
+		<copy todir="temp">
+			<fileset dir="${build}">
+				<include name="**/*.class"/>
+			</fileset>
+		</copy>
+		
+		<echo>Constructing jar</echo>
+		<jar basedir="temp" destfile="${dist}/${libraryJarName}"/>
+		
+		<echo>Cleaning up</echo>
+		<delete dir="temp"/>
+	</target>
+		
+	<target name="dist-full" depends="compile">
+		<description>creates the full jar (includes the processing core.jar classes, and the testbed+examples)</description>
+
+		<mkdir dir="${dist}"/>
+		
+		<echo>unpacking dependency jar classes</echo>
+		<unjar dest="temp">
+			<fileset dir="${3rdparty}">
+				<include name="*.jar"/>
+			</fileset>
+		</unjar>
+		
+		<echo>Constructing jar</echo>
+		<jar basedir="temp" destfile="${dist}/${fullJarName}"/>
+		
+		<echo>Cleaning up</echo>
+		<delete dir="temp"/>
+	</target>
+	
+	<target name="dist" depends="dist-library,dist-full">
+		<description>creates both jars</description>
+	</target>
+</project>

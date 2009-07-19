@@ -4,12 +4,14 @@ import org.jbox2d.common.*;
 import org.jbox2d.collision.*;
 import org.jbox2d.collision.shapes.*;
 import org.jbox2d.dynamics.*;
+import org.jbox2d.util.nonconvex.*;
 
 import processing.core.*;
 
 import java.util.ArrayList;
 
 public class FPoly extends FBody {
+  Polygon m_polygon;
   ArrayList m_vertices;
   
   public FPoly(){
@@ -26,14 +28,17 @@ public class FPoly extends FBody {
     m_vertices.add(new Vec2(x, y));
   }
 
+  public void processBody(Body bd, ShapeDef sd){
+    Polygon.decomposeConvexAndAddTo(m_polygon, bd, (PolygonDef)sd);
+  }
+
   public ShapeDef getShapeDef() {
     PolygonDef pd = new PolygonDef();
     
-    // TODO: force counter-clockwiseness
-    for(int i = 0; i<m_vertices.size(); i++){
-      pd.addVertex((Vec2)m_vertices.get(i));
-    }
-
+    Vec2[] vertices = new Vec2[m_vertices.size()];
+    m_vertices.toArray(vertices);
+    m_polygon = new Polygon(vertices);
+    
     pd.density = m_density;
     pd.friction = m_friction;
     pd.restitution = m_restitution;

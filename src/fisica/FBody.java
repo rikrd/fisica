@@ -46,12 +46,19 @@ public class FBody {
     m_body = null;
   }
 
+  public void processBody(Body bd, ShapeDef sd){
+    bd.createShape(sd);
+  }
+
   public void addToWorld(FWorld world) {
     BodyDef bd = new BodyDef();
     bd.isBullet = m_bullet;
     
     m_body = world.createBody(bd);
-    m_body.createShape(getShapeDef());
+
+    ShapeDef sd = getShapeDef();
+    processBody(m_body, sd);
+
     m_body.m_userData = this;
     m_body.setXForm(m_position, m_angle);
     m_body.setLinearVelocity(m_linearVelocity);

@@ -1,6 +1,7 @@
 package fisica;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
 
 import org.jbox2d.common.*;
 import org.jbox2d.collision.*;
@@ -13,7 +14,7 @@ public class FWorld extends World {
   FBox left, right, top, bottom;
   float m_edgesFriction = 0.5f;
   float m_edgesRestitution = 0.5f;
-
+  HashMap m_contacts;
 
   /**
    * Forward the contact events to the contactStarted(ContactPoint point),
@@ -23,13 +24,16 @@ public class FWorld extends World {
    */
   class ConcreteContactListener implements ContactListener {
     public void add(ContactPoint point) {
+      FContact contact = new FContact(point);
+      m_world.m_contacts.put(contact.getId(), contact);
+
       if (m_world.m_contactStartedMethod == null) {
         return;
       }
       
       try {
         m_world.m_contactStartedMethod.invoke(Fisica.parent(),
-                                              new Object[] { new FContact(point) });
+                                              new Object[] { contact });
       } catch (Exception e) {
         System.err.println("Disabling contactStarted(ContactPoint point) because of an error.");
         e.printStackTrace();
@@ -38,13 +42,15 @@ public class FWorld extends World {
     }
     
     public void persist(ContactPoint point) {
+      FContact contact = new FContact(point);
+      
       if (m_world.m_contactPersistedMethod == null) {
         return;
       }
       
       try {
         m_world.m_contactPersistedMethod.invoke(Fisica.parent(),
-                                                new Object[] { new FContact(point) });
+                                                new Object[] { contact });
       } catch (Exception e) {
         System.err.println("Disabling contactPersisted(ContactPoint point) because of an error.");
         e.printStackTrace();
@@ -53,13 +59,16 @@ public class FWorld extends World {
     }
     
     public void remove(ContactPoint point) {
+      FContact contact = new FContact(point);
+      m_world.m_contacts.remove(contact.getId());
+      
       if (m_world.m_contactEndedMethod == null) {
         return;
       }
       
       try {
         m_world.m_contactEndedMethod.invoke(Fisica.parent(),
-                                            new Object[] { new FContact(point) });
+                                            new Object[] { contact });
       } catch (Exception e) {
         System.err.println("Disabling contactEnded(ContactPoint point) because of an error.");
         e.printStackTrace();
@@ -116,6 +125,8 @@ public class FWorld extends World {
     m_contactListener = new ConcreteContactListener();
     m_contactListener.m_world = this;
     setContactListener(m_contactListener);
+
+    m_contacts = new HashMap();
   }
   
 

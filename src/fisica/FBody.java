@@ -1,5 +1,8 @@
 package fisica;
 
+import java.util.Iterator;
+import java.util.Collection;
+
 import org.jbox2d.common.*;
 import org.jbox2d.collision.*;
 import org.jbox2d.collision.shapes.*;
@@ -41,7 +44,8 @@ public class FBody {
   public PImage m_mask = null;
   
   public Body m_body;
-  
+  public FWorld m_world;
+
   public FBody() {
     m_body = null;
   }
@@ -53,7 +57,8 @@ public class FBody {
   public void addToWorld(FWorld world) {
     BodyDef bd = new BodyDef();
     bd.isBullet = m_bullet;
-    
+
+    m_world = world;
     m_body = world.createBody(bd);
 
     ShapeDef sd = getShapeDef();
@@ -504,6 +509,15 @@ public class FBody {
 
   public boolean isTouchingBody(FBody b){
     // TODO: implement this
+    Collection contacts = m_world.m_contacts.values();
+    
+    Iterator iter = contacts.iterator();
+    while (iter.hasNext()) {
+      FContact contact = (FContact)iter.next();
+      return ((this == contact.getBodyA()) && (b == contact.getBodyB())) || 
+        ((this == contact.getBodyB()) && (b == contact.getBodyA()));
+    }
+    
     return false;
   }
 }

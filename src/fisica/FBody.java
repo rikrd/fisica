@@ -2,6 +2,7 @@ package fisica;
 
 import java.util.Iterator;
 import java.util.Collection;
+import java.util.ArrayList;
 
 import org.jbox2d.common.*;
 import org.jbox2d.collision.*;
@@ -507,10 +508,30 @@ public class FBody {
     m_strokeWeight = weight;
   }
 
-  public boolean isTouchingBody(FBody b){
-    // TODO: implement this
-    Collection contacts = m_world.m_contacts.values();
+  public ArrayList getTouching() {
+    ArrayList result = new ArrayList();
     
+    Collection contacts = m_world.m_contacts.values();
+    Iterator iter = contacts.iterator();
+    while (iter.hasNext()) {
+      FContact contact = (FContact)iter.next();
+      if (this == contact.getBodyA()) {
+        result.add(contact.getBodyB());
+      } else if (this == contact.getBodyB()) {
+        result.add(contact.getBodyA());
+      }
+    }
+    
+    return result;
+  }
+
+  public boolean isTouchingBody(FBody b){
+    return getTouching().contains(b);
+    
+    /*
+    // Iterate over all the contact points 
+    // to find if this body is touching the other 
+    Collection contacts = m_world.m_contacts.values();
     Iterator iter = contacts.iterator();
     while (iter.hasNext()) {
       FContact contact = (FContact)iter.next();
@@ -519,5 +540,6 @@ public class FBody {
     }
     
     return false;
+    */
   }
 }

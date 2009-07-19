@@ -43,6 +43,7 @@ public class FWorld extends World {
     
     public void persist(ContactPoint point) {
       FContact contact = new FContact(point);
+      m_world.m_contacts.put(contact.getId(), contact);
       
       if (m_world.m_contactPersistedMethod == null) {
         return;
@@ -237,10 +238,12 @@ public class FWorld extends World {
   }
 
   public void step( float dt, int iterationCount) {
+    m_contacts.clear();
+    
     super.setWarmStarting( true );
     super.setPositionCorrection( true );
     super.setContinuousPhysics( true );
-
+    
     super.step( dt, iterationCount );
   }
 

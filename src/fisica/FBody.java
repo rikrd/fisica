@@ -15,14 +15,14 @@ public class FBody {
   public boolean m_drawable = true;
   
   // Body creation settings
-  public float m_density = 1.0f;
-  public float m_restitution = 0.01f;
-  public float m_friction = 0.5f;
+  public float m_density = 5.0f;
+  public float m_restitution = 0.0f;
+  public float m_friction = 0.1f;
   public boolean m_bullet = false;
   public boolean m_sensor = false;
   public boolean m_static = false;
-  public float m_linearDamping = 0.5f;
-  public float m_angularDamping = 0.5f;
+  public float m_linearDamping = 1.0f;
+  public float m_angularDamping = 1.0f;
   public boolean m_rotatable = true;
 
   public boolean m_isSleeping = false;
@@ -153,29 +153,29 @@ public class FBody {
 
   public void setForce( float fx, float fy ){
     resetForces();
-    addForce(fx, fy);
+    addForce(Fisica.screenToWorld(fx), Fisica.screenToWorld(fy));
   }
   
   public void addForce( float fx, float fy ){
     // TODO: check if this is what it's supposed to do
     // TODO: w2s (world 2 screen)
     if (m_body != null) {
-      m_body.applyForce(new Vec2(fx, fy), m_body.getWorldCenter());
+      m_body.applyForce(Fisica.screenToWorld(fx, fy), m_body.getWorldCenter());
     }
 
-    m_force.x += fx;
-    m_force.y += fy;
+    m_force.x += Fisica.screenToWorld(fx);
+    m_force.y += Fisica.screenToWorld(fy);
   }
 
   public void addForce( float fx, float fy, float px, float py ){
     // TODO: w2s (world 2 screen)
     if (m_body != null) {
-      m_body.applyForce(new Vec2(fx, fy), m_body.getWorldCenter());
+      m_body.applyForce(Fisica.screenToWorld(fx, fy), m_body.getWorldCenter());
     }
 
     // FIXME: we must calculate the force and torque this force produces    
-    //m_force.x += fx;
-    //m_force.y += fy;
+    //m_force.x += Fisica.screenToWorld(fx);
+    //m_force.y += Fisica.screenToWorld(fy);
   }
   
   public void resetForces(){
@@ -212,7 +212,7 @@ public class FBody {
   public float getVelocityX(){
     // TODO: w2s (world 2 screen)
     if (m_body != null) {
-      return m_body.getLinearVelocity().x;
+      return Fisica.worldToScreen(m_body.getLinearVelocity()).x;
     }
 
     return m_linearVelocity.x;
@@ -221,7 +221,7 @@ public class FBody {
   public float getVelocityY(){
     // TODO: w2s (world 2 screen)
     if (m_body != null) {
-      return m_body.getLinearVelocity().y;
+      return Fisica.worldToScreen(m_body.getLinearVelocity()).y;
     }
 
     return m_linearVelocity.y;
@@ -230,20 +230,20 @@ public class FBody {
   public void setVelocity( float vx, float vy){
     // TODO: w2s (world 2 screen)
     if (m_body != null) {
-      m_body.setLinearVelocity( new Vec2(vx, vy) );
+      m_body.setLinearVelocity( Fisica.screenToWorld(vx, vy) );
       m_body.wakeUp();
     }    
 
-    m_linearVelocity = new Vec2(vx, vy);
+    m_linearVelocity = Fisica.screenToWorld(vx, vy);
   }
   public void adjustVelocity( float dvx, float dvy ){
     // TODO: w2s (world 2 screen)
     if (m_body != null) {
-      m_body.setLinearVelocity( new Vec2(m_body.getLinearVelocity().x + dvx, m_body.getLinearVelocity().y + dvy) );  
+      m_body.setLinearVelocity( Fisica.screenToWorld(getVelocityX() + dvx, getVelocityY() + dvy) );  
       m_body.wakeUp();
     }
 
-    m_linearVelocity = new Vec2(m_linearVelocity.x + dvx, m_linearVelocity.y + dvy);
+    m_linearVelocity = Fisica.screenToWorld(getVelocityX() + dvx, getVelocityY() + dvy);
   }
 
   public float getX(){
@@ -252,7 +252,7 @@ public class FBody {
       return Fisica.worldToScreen(m_body.getMemberXForm().position).x;
     }
     
-    return m_position.x;
+    return Fisica.worldToScreen(m_position).x;
   }
   
   public float getY(){
@@ -261,7 +261,7 @@ public class FBody {
       return Fisica.worldToScreen(m_body.getMemberXForm().position).y;
     }
     
-    return m_position.y;
+    return Fisica.worldToScreen(m_position).y;
   }
 
   public void setPosition( float x, float y ){
@@ -279,16 +279,16 @@ public class FBody {
       m_body.setXForm(position, m_body.getAngle());
     }
 
-    m_position = position;
+    m_position = Fisica.screenToWorld(position);
   }
 
   public void adjustPosition( float dx, float dy ){
     // TODO: w2s (world 2 screen)
     if (m_body != null) {
-      m_body.setXForm(new Vec2(m_body.getMemberXForm().position.x + dx, m_body.getMemberXForm().position.y + dy), m_body.getAngle());
+      m_body.setXForm(Fisica.screenToWorld(getX() + dx, getY() + dy), m_body.getAngle());
     }
     
-    m_position = new Vec2(m_position.x + dx, m_position.y + dy);
+    m_position = Fisica.screenToWorld(getX() + dx, getY() + dy);
   }
 
   public float getRotation(){

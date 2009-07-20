@@ -13,7 +13,7 @@ public class FCircle extends FBody {
   public FCircle(float size){
     super();
      
-    m_size = size;
+    m_size = Fisica.screenToWorld(size);
   }
   
   protected ShapeDef getShapeDef() {
@@ -28,7 +28,7 @@ public class FCircle extends FBody {
 
   public float getSize(){ 
     // only for FBox
-    return m_size;
+    return Fisica.worldToScreen(m_size);
   }
 
   public void draw(PApplet applet) {

@@ -94,8 +94,8 @@ public class FWorld extends World {
                                                  -Fisica.parent().height)),
                    Fisica.screenToWorld(new Vec2(Fisica.parent().width, 
                                                  Fisica.parent().height))),
-                   new Vec2(0.0f, -10.0f),                  // gravity vertical downwards 10 m/s^2
-                   true);                                   // allow sleeping bodies
+          Fisica.screenToWorld(new Vec2(0.0f, 10.0f)),                  // gravity vertical downwards 10 m/s^2
+          true);                                   // allow sleeping bodies
     
     // Get the contactStarted(), contactPersisted() and contactEnded()
     // methods from the sketch
@@ -142,7 +142,9 @@ public class FWorld extends World {
     body.addToWorld(this);
   }
 
-  public void clear() { }
+  public void clear() {
+    m_world.reset();
+  }
 
   public void remove( FBody body ) { }
   
@@ -226,7 +228,7 @@ public class FWorld extends World {
   }
   
   public void setGravity( float gx, float gy ) {
-    setGravity(new Vec2(gx, gy));
+    setGravity(Fisica.screenToWorld(new Vec2(gx, gy)));
   }
 
   public void step() {

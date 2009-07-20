@@ -90,13 +90,13 @@ public class FWorld extends World {
   private Method m_contactEndedMethod;
   
   public FWorld() {
-    super(new AABB(new Vec2(-Fisica.parent().width,   // 10.0f pixels per meter
-                            -Fisica.parent().height),
-                   new Vec2(Fisica.parent().width, 
-                            Fisica.parent().height)),
-          new Vec2(0.0f, -10.0f),                  // gravity vertical downwards 10 m/s^2
-          true);                                   // allow sleeping bodies
-
+    super(new AABB(Fisica.screenToWorld(new Vec2(-Fisica.parent().width,
+                                                 -Fisica.parent().height)),
+                   Fisica.screenToWorld(new Vec2(Fisica.parent().width, 
+                                                 Fisica.parent().height))),
+                   new Vec2(0.0f, -10.0f),                  // gravity vertical downwards 10 m/s^2
+                   true);                                   // allow sleeping bodies
+    
     // Get the contactStarted(), contactPersisted() and contactEnded()
     // methods from the sketch
     try {

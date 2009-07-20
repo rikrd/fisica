@@ -1,6 +1,8 @@
 package fisica;
 import processing.core.*;
 
+import org.jbox2d.common.*;
+
 public class Fisica implements PConstants{
   /**
    * @invisible
@@ -11,6 +13,33 @@ public class Fisica implements PConstants{
    * @invisible
    */  
   private static PApplet m_parent;
+  private static ViewportTransform m_viewport;
+
+  protected static Vec2 m_temp = new Vec2();
+
+  protected static Vec2 screenToWorld( Vec2 m_in ) {
+    return m_viewport.getScreenToWorld(m_in);
+  }
+
+  protected static Vec2 screenToWorld( float x, float y ) {
+    return m_viewport.getScreenToWorld(new Vec2(x, y));
+  }
+
+  protected static Vec2 worldToScreen( Vec2 m_in ) {
+    return m_viewport.getWorldToScreen(m_in);
+  }
+
+  protected static Vec2 worldToScreen( float x, float y ) {
+    return m_viewport.getWorldToScreen(new Vec2(x, y));
+  }
+
+  protected static void screenToWorldToOut( Vec2 m_in, Vec2 m_out ) {
+    m_viewport.getScreenToWorldToOut(m_in, m_out);
+  }
+
+  protected static void worldToScreenToOut( Vec2 m_in, Vec2 m_out ) {
+    m_viewport.getWorldToScreenToOut(m_in, m_out);
+  }
 
   public static class LibraryNotInitializedException extends NullPointerException{
     private static final long serialVersionUID = -3710605630786298674L;
@@ -26,6 +55,13 @@ public class Fisica implements PConstants{
   public static void init(PApplet applet){
     m_parent = applet;
     m_initialized = true;
+
+    m_viewport = new ViewportTransform();
+    m_viewport.setTransform( Mat22.createScaleTransform( 20));
+    m_viewport.setCenter( 0, 0 );
+    m_viewport.setExtents( m_parent.width/2, m_parent.height/2 );
+    m_viewport.yFlip = true;
+
   }
   
   /**

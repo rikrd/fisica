@@ -249,7 +249,7 @@ public class FBody {
   public float getX(){
     // TODO: w2s (world 2 screen)
     if (m_body != null) {
-      return m_body.getMemberXForm().position.x;
+      return Fisica.worldToScreen(m_body.getMemberXForm().position).x;
     }
     
     return m_position.x;
@@ -258,7 +258,7 @@ public class FBody {
   public float getY(){
     // TODO: w2s (world 2 screen)
     if (m_body != null) {
-      return m_body.getMemberXForm().position.y;
+      return Fisica.worldToScreen(m_body.getMemberXForm().position).y;
     }
     
     return m_position.y;
@@ -267,10 +267,19 @@ public class FBody {
   public void setPosition( float x, float y ){
     // TODO: w2s (world 2 screen)
     if (m_body != null) {
-      m_body.setXForm(new Vec2(x, y), m_body.getAngle());
+      m_body.setXForm(Fisica.screenToWorld(x, y), m_body.getAngle());
     }
 
-    m_position = new Vec2(x, y);
+    m_position = Fisica.screenToWorld(x, y);
+  }
+
+  public void setPosition( Vec2 position ){
+    // TODO: w2s (world 2 screen)
+    if (m_body != null) {
+      m_body.setXForm(position, m_body.getAngle());
+    }
+
+    m_position = position;
   }
 
   public void adjustPosition( float dx, float dy ){

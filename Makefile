@@ -29,9 +29,9 @@ dist: library/fisica.jar #doc
 	#cp HANDBOOK $(DIST_DIR)
 
         ##  Copy files
-	#cp -r examples $(DIST_DIR)
+	cp -r examples $(DIST_DIR)
 	#cp -r tutorial $(DIST_DIR)
-	cp -r src $(DIST_DIR)
+	#cp -r src $(DIST_DIR)
 
         ##  Zip up
 	rm -f distribution/fisica-*.zip

@@ -1,0 +1,7 @@
+build
+bin
+dist
+distribution
+library
+examples/*
+.gitignore

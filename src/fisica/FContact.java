@@ -21,31 +21,31 @@ public class FContact {
   }
 
   public float getX() {
-    return m_contactPoint.position.x;
+    return Fisica.worldToScreen(m_contactPoint.position).x;
   }
 
   public float getY() {
-    return m_contactPoint.position.y;
+    return Fisica.worldToScreen(m_contactPoint.position).y;
   }
 
   public float getVelocityX() {
-    return m_contactPoint.velocity.x;
+    return Fisica.worldToScreen(m_contactPoint.velocity).x;
   }
 
   public float getVelocityY() {
-    return m_contactPoint.velocity.y;
+    return Fisica.worldToScreen(m_contactPoint.velocity).y;
   }
 
   public float getNormalX() {
-    return m_contactPoint.normal.x;
+    return Fisica.worldToScreen(m_contactPoint.normal).x;
   }
 
   public float getNormalY() {
-    return m_contactPoint.normal.y;
+    return Fisica.worldToScreen(m_contactPoint.normal).y;
   }
 
   public float getSeparation() {
-    return m_contactPoint.separation;
+    return Fisica.worldToScreen(m_contactPoint.separation);
   }
   
   public float getFriction() {

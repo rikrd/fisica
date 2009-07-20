@@ -1,7 +1,47 @@
 package fisica;
 import processing.core.*;
 
+import org.jbox2d.common.*;
+
+
 public class Fisica implements PConstants{
+  public static class FViewport {
+    float m_scale;
+    
+    public FViewport(){
+      m_scale = 1.0f;
+    }
+    
+    public void setScaleTransform(float a) {
+      m_scale = a;
+    }
+    
+    public float getScreenToWorld(float a) {
+      return a/m_scale;
+    }
+    
+    public Vec2 getScreenToWorld(float x, float y) {
+      return new Vec2(x/m_scale, y/m_scale);
+    }
+    
+    public Vec2 getScreenToWorld(Vec2 p) {
+      return new Vec2(p.x/m_scale, p.y/m_scale);
+    }
+    
+    public float getWorldToScreen(float a) {
+      return a*m_scale;
+    }
+    
+    public Vec2 getWorldToScreen(float x, float y) {
+      return new Vec2(x*m_scale, y*m_scale);
+    }
+    
+    public Vec2 getWorldToScreen(Vec2 p) {
+      return new Vec2(p.x*m_scale, p.y*m_scale);
+    }
+  }
+  
+
   /**
    * @invisible
    */
@@ -11,7 +51,42 @@ public class Fisica implements PConstants{
    * @invisible
    */  
   private static PApplet m_parent;
+  private static FViewport m_viewport;
 
+  protected static Vec2 m_temp = new Vec2();
+
+  protected static Vec2 screenToWorld( Vec2 m_in ) {
+    return m_viewport.getScreenToWorld(m_in);
+  }
+
+  protected static Vec2 screenToWorld( float x, float y ) {
+    return m_viewport.getScreenToWorld(x, y);
+  }
+
+  protected static float screenToWorld( float a ) {
+    return m_viewport.getScreenToWorld(a);
+  }
+
+  protected static Vec2 worldToScreen( Vec2 m_in ) {
+    return m_viewport.getWorldToScreen(m_in);
+  }
+
+  protected static Vec2 worldToScreen( float x, float y ) {
+    return m_viewport.getWorldToScreen(x, y);
+  }
+  
+  protected static float worldToScreen( float a ) {
+    return m_viewport.getWorldToScreen(a);
+  }
+  /*
+  protected static void screenToWorldToOut( Vec2 m_in, Vec2 m_out ) {
+    m_viewport.getScreenToWorldToOut(m_in, m_out);
+  }
+
+  protected static void worldToScreenToOut( Vec2 m_in, Vec2 m_out ) {
+    m_viewport.getWorldToScreenToOut(m_in, m_out);
+  }
+  */
   public static class LibraryNotInitializedException extends NullPointerException{
     private static final long serialVersionUID = -3710605630786298674L;
 
@@ -26,6 +101,17 @@ public class Fisica implements PConstants{
   public static void init(PApplet applet){
     m_parent = applet;
     m_initialized = true;
+
+    /*
+    m_viewport = new ViewportTransform();
+    m_viewport.setTransform( Mat22.createScaleTransform( 20 ) );
+    m_viewport.setCenter( m_parent.width/2, m_parent.height/2 );
+    m_viewport.setExtents( m_parent.width/2, m_parent.height/2 );
+    m_viewport.yFlip = true;
+    */
+    
+    m_viewport = new FViewport();
+    m_viewport.setScaleTransform(20);
   }
   
   /**

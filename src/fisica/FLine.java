@@ -16,8 +16,8 @@ public class FLine extends FBody {
   public FLine(float x1, float y1, float x2, float y2){
     super();
     
-    m_start = new Vec2(x1, y1);
-    m_end = new Vec2(x2, y2);
+    m_start = Fisica.screenToWorld(x1, y1);
+    m_end = Fisica.screenToWorld(x2, y2);
   }
 
   public ShapeDef getShapeDef() {
@@ -41,7 +41,9 @@ public class FLine extends FBody {
     if (m_image != null ) {
       drawImage(applet);
     } else {
-      applet.line(m_start.x, m_start.y, m_end.x, m_end.y);
+      Vec2 tempStart = Fisica.worldToScreen(m_start);
+      Vec2 tempEnd = Fisica.worldToScreen(m_end);
+      applet.line(tempStart.x, tempStart.y, tempEnd.x, tempEnd.y);
     }
     
     postDraw(applet);

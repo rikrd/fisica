@@ -14,8 +14,8 @@ public class FBox extends FBody {
   public FBox(float width, float height){
     super();
     
-    m_height = height;
-    m_width = width;
+    m_height = Fisica.screenToWorld(height);
+    m_width = Fisica.screenToWorld(width);
   }
 
   public ShapeDef getShapeDef() {
@@ -30,12 +30,12 @@ public class FBox extends FBody {
   
   public float getHeight(){ 
     // only for FBox
-    return m_height;
+    return Fisica.worldToScreen(m_height);
   }
   
   public float getWidth(){
     // only for FBox
-    return m_width;
+    return Fisica.worldToScreen(m_width);
   }  
   
   public void draw(PApplet applet) {

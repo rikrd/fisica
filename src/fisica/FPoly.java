@@ -21,11 +21,12 @@ public class FPoly extends FBody {
   }
 
   public void vertex(float x, float y){
+    /*
     if (m_vertices.size() >= Settings.maxPolygonVertices ) {
       throw new IllegalArgumentException("The maximum number of vertices allowed for polygon bodies is: " + Settings.maxPolygonVertices);
     }
-    
-    m_vertices.add(new Vec2(x, y));
+    */
+    m_vertices.add(Fisica.screenToWorld(x, y));
   }
 
   public void processBody(Body bd, ShapeDef sd){
@@ -54,7 +55,7 @@ public class FPoly extends FBody {
     } else {
       applet.beginShape();
       for(int i = 0; i<m_vertices.size(); i++){
-        Vec2 v = (Vec2)m_vertices.get(i);
+        Vec2 v = Fisica.worldToScreen((Vec2)m_vertices.get(i));
         applet.vertex(v.x, v.y);
       }
       applet.endShape(PConstants.CLOSE);

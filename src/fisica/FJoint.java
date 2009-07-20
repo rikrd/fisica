@@ -14,9 +14,6 @@ import processing.core.*;
 
 public class FJoint extends FDrawable {  
   // Joint creation settings
-  public Body m_bodyA;
-  public Body m_bodyB;
-
   public Joint m_joint;
   public FWorld m_world;
 
@@ -30,6 +27,12 @@ public class FJoint extends FDrawable {
     JointDef jd = getJointDef();
     processJoint(m_world, jd);
     
+  }
+
+  public void removeFromWorld(FWorld world) {
+    if (m_joint == null) return;
+
+    world.destroyJoint(this.m_joint);
   }
 
   protected JointDef getJointDef() {
@@ -51,7 +54,7 @@ public class FJoint extends FDrawable {
   }  
 
   /** Get the first body attached to this joint. */
-  public FBody getBodyA() {
+  public FBody getBody1() {
     if (m_joint != null) {
       return (FBody)m_joint.m_body1.getUserData();
     }
@@ -60,7 +63,7 @@ public class FJoint extends FDrawable {
   }
   
   /** Get the second body attached to this joint. */
-  public FBody getBodyB() {
+  public FBody getBody2() {
     if (m_joint != null) {
       return (FBody)m_joint.m_body2.getUserData();
     }
@@ -71,7 +74,7 @@ public class FJoint extends FDrawable {
   /** Get the anchor point on body1 in world coordinates. */
   public float getAnchor1X() {
     if (m_joint != null) {
-      return m_joint.getAnchor1().x;
+      return Fisica.worldToScreen(m_joint.getAnchor1()).x;
     }
 
     return 0.0f;
@@ -80,7 +83,7 @@ public class FJoint extends FDrawable {
   /** Get the anchor point on body1 in world coordinates. */
   public float getAnchor1Y() {
     if (m_joint != null) {
-      return m_joint.getAnchor1().y;
+      return Fisica.worldToScreen(m_joint.getAnchor1()).y;
     }
 
     return 0.0f;
@@ -89,7 +92,7 @@ public class FJoint extends FDrawable {
   /** Get the anchor point on body1 in world coordinates. */
   public float getAnchor2X() {
     if (m_joint != null) {
-      return m_joint.getAnchor2().x;
+      return Fisica.worldToScreen(m_joint.getAnchor2()).x;
     }
 
     return 0.0f;
@@ -98,7 +101,7 @@ public class FJoint extends FDrawable {
   /** Get the anchor point on body1 in world coordinates. */
   public float getAnchor2Y() {
     if (m_joint != null) {
-      return m_joint.getAnchor2().y;
+      return Fisica.worldToScreen(m_joint.getAnchor2()).y;
     }
 
     return 0.0f;
@@ -107,7 +110,7 @@ public class FJoint extends FDrawable {
   /** Get the reaction force on body2 at the joint anchor. */
   public float getReactionForceX() {
     if (m_joint != null) {
-      return m_joint.getReactionForce().x;
+      return Fisica.worldToScreen(m_joint.getReactionForce()).x;
     }
 
     return 0.0f;
@@ -116,7 +119,7 @@ public class FJoint extends FDrawable {
   /** Get the reaction force on body2 at the joint anchor. */
   public float getReactionForceY() {
     if (m_joint != null) {
-      return m_joint.getReactionForce().y;
+      return Fisica.worldToScreen(m_joint.getReactionForce()).y;
     }
     
     return 0.0f;

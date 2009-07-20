@@ -2,11 +2,14 @@ package fisica;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 import org.jbox2d.common.*;
 import org.jbox2d.collision.*;
+import org.jbox2d.collision.shapes.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.*;
+import org.jbox2d.dynamics.joints.*;
 
 import processing.core.*;
 
@@ -16,6 +19,9 @@ public class FWorld extends World {
   float m_edgesRestitution = 0.5f;
   HashMap m_contacts;
 
+  private Vec2 m_small = new Vec2(0.001f, 0.001f);
+  private AABB m_aabb = new AABB();
+    
   /**
    * Forward the contact events to the contactStarted(ContactPoint point),
    * contactPersisted(ContactPoint point) and contactStopped(ContactPoint point)
@@ -136,18 +142,31 @@ public class FWorld extends World {
       FBody fb = (FBody)(b.m_userData);
       if (fb != null && fb.isDrawable()) fb.draw(applet);
     }
+
+    for (Joint j = getJointList(); j != null; j = j.m_next) {
+      FJoint fj = (FJoint)(j.m_userData);
+      if (fj != null && fj.isDrawable()) fj.draw(applet);
+    }
+
   }
 
   public void add( FBody body ) {
     body.addToWorld(this);
   }
 
-  public void clear() {
-    m_world.reset();
+  public void remove( FBody body ) {
+    body.removeFromWorld(this);
   }
 
-  public void remove( FBody body ) { }
-  
+  public void add( FJoint joint ) {
+    joint.addToWorld(this);
+  }
+
+  public void remove( FJoint joint ) {
+    joint.removeFromWorld(this);
+  }
+  public void clear() { }
+ 
   public void setDamping( float damping ) { }
   
   public void setEdges(PApplet applet, int color) {
@@ -247,6 +266,54 @@ public class FWorld extends World {
     super.setContinuousPhysics( true );
     
     super.step( dt, iterationCount );
+  }
+
+  public FBody grabBody( float x, float y ) {
+    return this.grabBody(x, y, true);
+  }
+
+  public FBody grabBody( float x, float y, boolean grabStatic ) {
+    ArrayList bodies = this.grabBodies(x, y, grabStatic);
+    if (bodies.size() == 0) return null;
+
+    return (FBody)bodies.get(0);
+  }
+
+  public ArrayList grabBodies( float x, float y ) {
+    return this.grabBodies(x, y, true);
+  }
+
+  public ArrayList grabBodies( float x, float y, boolean grabStatic ) {
+    return this.grabBodies(x, y, grabStatic, 10);
+  }
+
+  public ArrayList grabBodies( float x, float y, boolean grabStatic, int count ) {
+    // Make a small box.
+    Vec2 p = Fisica.screenToWorld(x, y);
+
+    m_aabb.lowerBound.set(p);
+    m_aabb.lowerBound.subLocal(m_small);
+    m_aabb.upperBound.set(p);
+    m_aabb.upperBound.addLocal(m_small);
+    
+    // Query the world for overlapping shapes.
+    Shape shapes[] = this.query(m_aabb, count);
+    
+    ArrayList result = new ArrayList();
+    
+    if (shapes == null) return result;
+    
+    for (int j = 0; j < shapes.length; j++) {
+      Body shapeBody = shapes[j].getBody();
+      if (shapeBody.isStatic() == false || grabStatic) {
+        boolean inside = shapes[j].testPoint(shapeBody.getMemberXForm(), p);
+        if (inside) {
+          result.add((FBody)(shapeBody.getUserData()));
+        }
+      }
+    }
+
+    return result;
   }
 
 }

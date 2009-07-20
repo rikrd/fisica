@@ -12,11 +12,11 @@ public class FContact {
     m_contactPoint = contactPoint;
   }
 
-  public FBody getBodyA() {
+  public FBody getBody1() {
     return (FBody)m_contactPoint.shape1.getBody().getUserData();
   }
 
-  public FBody getBodyB() {
+  public FBody getBody2() {
     return (FBody)m_contactPoint.shape2.getBody().getUserData();
   }
 

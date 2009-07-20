@@ -77,6 +77,12 @@ public class FBody extends FDrawable {
 
   }
 
+  public void removeFromWorld(FWorld world) {
+    if (m_body == null) return;
+
+    world.destroyBody(this.m_body);
+  }
+
   protected ShapeDef getShapeDef() {
     return new ShapeDef();
   }
@@ -391,10 +397,10 @@ public class FBody extends FDrawable {
     Iterator iter = contacts.iterator();
     while (iter.hasNext()) {
       FContact contact = (FContact)iter.next();
-      if (this == contact.getBodyA()) {
-        result.add(contact.getBodyB());
-      } else if (this == contact.getBodyB()) {
-        result.add(contact.getBodyA());
+      if (this == contact.getBody1()) {
+        result.add(contact.getBody2());
+      } else if (this == contact.getBody2()) {
+        result.add(contact.getBody1());
       }
     }
     

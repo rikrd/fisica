@@ -13,7 +13,7 @@ public class FDrawable {
   public boolean m_fill = true;
   public int m_fillColor = 0xFFFFFFFF;
   public boolean m_stroke = true;
-  public int m_strokeColor = 0xFFFFFFFF;
+  public int m_strokeColor = 0x000000;
   public float m_strokeWeight = 1.0f;
 
   public PImage m_image = null;

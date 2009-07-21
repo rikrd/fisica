@@ -29,10 +29,11 @@ public class FJoint extends FDrawable {
     
   }
 
-  public void removeFromWorld(FWorld world) {
+  public void removeFromWorld() {
     if (m_joint == null) return;
-
-    world.destroyJoint(this.m_joint);
+    
+    m_world.destroyJoint(this.m_joint);
+    m_joint = null;
   }
 
   protected JointDef getJointDef() {

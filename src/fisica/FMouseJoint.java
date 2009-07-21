@@ -16,9 +16,10 @@ public class FMouseJoint extends FJoint {
   float m_damping = 0.9f;
   float m_frequency = 20.0f;
 
-  public FMouseJoint(FBody body) {
+  public FMouseJoint(FBody body, float x, float y) {
     super();
     m_fbody = body;
+    m_target = Fisica.screenToWorld(x, y);
   }
 
   protected JointDef getJointDef() {
@@ -70,12 +71,24 @@ public class FMouseJoint extends FJoint {
     return Fisica.worldToScreen(m_target).y;
   }
 
-  public void setGrabbedBody(FBody body) {
+  public void setGrabbedBodyAndTarget(FBody body, float x, float y) {
     if (m_joint != null) {
       m_joint.m_body2 = body.m_body;
+      ((MouseJoint)m_joint).m_target.set(Fisica.screenToWorld(x, y));
     }
     
     m_fbody = body;
+    m_target = Fisica.screenToWorld(x, y);
+  }
+
+  public void releaseGrabbedBody() {
+    if (m_joint != null) {
+      m_joint.m_body2 = null;
+      ((MouseJoint)m_joint).m_target.set(0.0f, 0.0f);
+    }
+
+    m_fbody = null;
+    m_target = null;    
   }
 
   public FBody getGrabbedBody() {

@@ -3,6 +3,7 @@ package fisica;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.awt.event.MouseEvent;
 
 import org.jbox2d.common.*;
 import org.jbox2d.collision.*;
@@ -17,7 +18,11 @@ public class FWorld extends World {
   FBox left, right, top, bottom;
   float m_edgesFriction = 0.5f;
   float m_edgesRestitution = 0.5f;
+  boolean m_grabbable = true;
+  int m_mouseButton = MouseEvent.BUTTON1;
   HashMap m_contacts;
+
+  FMouseJoint m_mouseJoint = new FMouseJoint((FBody)null, 0.0f, 0.0f);
 
   private Vec2 m_small = new Vec2(0.001f, 0.001f);
   private AABB m_aabb = new AABB();
@@ -102,6 +107,8 @@ public class FWorld extends World {
                                                  Fisica.parent().height))),
           Fisica.screenToWorld(new Vec2(0.0f, 10.0f)),                  // gravity vertical downwards 10 m/s^2
           true);                                   // allow sleeping bodies
+
+    Fisica.parent().registerMouseEvent(this);
     
     // Get the contactStarted(), contactPersisted() and contactEnded()
     // methods from the sketch
@@ -135,7 +142,52 @@ public class FWorld extends World {
 
     m_contacts = new HashMap();
   }
+
+  public void setGrabbable(boolean value) {
+    if (m_grabbable == value) return;
+    
+    m_grabbable = value;
+    if (m_grabbable) {
+      Fisica.parent().registerMouseEvent(this);
+    } else {
+      Fisica.parent().unregisterMouseEvent(this);
+    }
+  }
   
+  public void mouseEvent(MouseEvent event){
+
+    // mousePressed
+    if (event.getID() == event.MOUSE_PRESSED
+        && event.getButton() == m_mouseButton 
+        && (m_mouseJoint.getGrabbedBody() == null)) {
+
+      FBody body = this.grabBody(event.getX(), event.getY(), false);
+      if ( body == null ) return;
+
+      m_mouseJoint.setGrabbedBodyAndTarget(body, event.getX(), event.getY());
+      m_mouseJoint.setFrequency(3.0f);
+      m_mouseJoint.setDamping(0.1f);
+      this.add(m_mouseJoint);
+      // TODO: send a bodyGrabbed(FBody body) event
+    }
+    
+    // mouseReleased
+    if (event.getID() == event.MOUSE_RELEASED
+        && event.getButton() == m_mouseButton 
+        && (m_mouseJoint.getGrabbedBody() != null)) {
+      this.remove(m_mouseJoint);
+      m_mouseJoint.releaseGrabbedBody();
+      // TODO: send a bodyReleased(FBody body) event
+    }
+    
+    // mouseDragged
+    if (event.getID() == event.MOUSE_DRAGGED 
+        && (m_mouseJoint.getGrabbedBody() != null)) {
+      m_mouseJoint.setTarget(event.getX(), event.getY());
+
+      // TODO: send a bodyDragged(FBody body) event
+    }
+  }
 
   public void draw( PApplet applet ) {
     for (Body b = getBodyList(); b != null; b = b.m_next) {
@@ -155,7 +207,7 @@ public class FWorld extends World {
   }
 
   public void remove( FBody body ) {
-    body.removeFromWorld(this);
+    body.removeFromWorld();
   }
 
   public void add( FJoint joint ) {
@@ -163,7 +215,7 @@ public class FWorld extends World {
   }
 
   public void remove( FJoint joint ) {
-    joint.removeFromWorld(this);
+    joint.removeFromWorld();
   }
   public void clear() { }
  

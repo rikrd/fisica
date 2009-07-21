@@ -77,10 +77,10 @@ public class FBody extends FDrawable {
 
   }
 
-  public void removeFromWorld(FWorld world) {
+  public void removeFromWorld() {
     if (m_body == null) return;
 
-    world.destroyBody(this.m_body);
+    m_world.destroyBody(this.m_body);
   }
 
   protected ShapeDef getShapeDef() {

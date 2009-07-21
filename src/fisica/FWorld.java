@@ -143,6 +143,10 @@ public class FWorld extends World {
     m_contacts = new HashMap();
   }
 
+  public FMouseJoint getMouseJoint() {
+    return m_mouseJoint;
+  }
+
   public void setGrabbable(boolean value) {
     if (m_grabbable == value) return;
     

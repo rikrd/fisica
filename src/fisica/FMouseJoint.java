@@ -31,7 +31,7 @@ public class FMouseJoint extends FJoint {
     md.target.set(m_target);
     md.maxForce = 10000.0f * body.m_mass;
     md.frequencyHz = m_frequency;
-    md.dampingRatio = 0.9f;
+    md.dampingRatio = m_damping;
     body.wakeUp();
 
     return md;
@@ -102,8 +102,7 @@ public class FMouseJoint extends FJoint {
   public void draw(PApplet applet){
     preDraw(applet);
     
-    applet.println("Getting drawn");
-    applet.line(getAnchor1X(), getAnchor1Y(), getTargetX(), getTargetY());
+    applet.line(getAnchor2X(), getAnchor2Y(), getTargetX(), getTargetY());
     
     postDraw(applet);
   }

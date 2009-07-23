@@ -139,8 +139,10 @@ public class FWorld extends World {
     m_contactListener = new ConcreteContactListener();
     m_contactListener.m_world = this;
     setContactListener(m_contactListener);
-
+    
     m_contacts = new HashMap();
+
+    m_mouseJoint.setDrawable(false);
   }
 
   public FMouseJoint getMouseJoint() {

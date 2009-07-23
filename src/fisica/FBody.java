@@ -407,6 +407,22 @@ public class FBody extends FDrawable {
     return result;
   }
 
+  public ArrayList getContacts() {
+    ArrayList result = new ArrayList();
+    
+    Collection contacts = m_world.m_contacts.values();
+    Iterator iter = contacts.iterator();
+    while (iter.hasNext()) {
+      FContact contact = (FContact)iter.next();
+      if (this == contact.getBody1() ||
+          this == contact.getBody2()) {
+        result.add(contact);
+      }
+    }
+    
+    return result;
+  }
+
   public boolean isTouchingBody(FBody b){
     return getTouching().contains(b);
   }

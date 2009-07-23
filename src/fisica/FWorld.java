@@ -165,7 +165,7 @@ public class FWorld extends World {
         && event.getButton() == m_mouseButton 
         && (m_mouseJoint.getGrabbedBody() == null)) {
 
-      FBody body = this.grabBody(event.getX(), event.getY(), false);
+      FBody body = this.getBody(event.getX(), event.getY(), false);
       if ( body == null ) return;
 
       m_mouseJoint.setGrabbedBodyAndTarget(body, event.getX(), event.getY());
@@ -324,26 +324,26 @@ public class FWorld extends World {
     super.step( dt, iterationCount );
   }
 
-  public FBody grabBody( float x, float y ) {
-    return this.grabBody(x, y, true);
+  public FBody getBody( float x, float y ) {
+    return this.getBody(x, y, true);
   }
 
-  public FBody grabBody( float x, float y, boolean grabStatic ) {
-    ArrayList bodies = this.grabBodies(x, y, grabStatic);
+  public FBody getBody( float x, float y, boolean getStatic ) {
+    ArrayList bodies = this.getBodies(x, y, getStatic);
     if (bodies.size() == 0) return null;
 
     return (FBody)bodies.get(0);
   }
 
-  public ArrayList grabBodies( float x, float y ) {
-    return this.grabBodies(x, y, true);
+  public ArrayList getBodies( float x, float y ) {
+    return this.getBodies(x, y, true);
   }
 
-  public ArrayList grabBodies( float x, float y, boolean grabStatic ) {
-    return this.grabBodies(x, y, grabStatic, 10);
+  public ArrayList getBodies( float x, float y, boolean getStatic ) {
+    return this.getBodies(x, y, getStatic, 10);
   }
 
-  public ArrayList grabBodies( float x, float y, boolean grabStatic, int count ) {
+  public ArrayList getBodies( float x, float y, boolean getStatic, int count ) {
     // Make a small box.
     Vec2 p = Fisica.screenToWorld(x, y);
 
@@ -361,7 +361,7 @@ public class FWorld extends World {
     
     for (int j = 0; j < shapes.length; j++) {
       Body shapeBody = shapes[j].getBody();
-      if (shapeBody.isStatic() == false || grabStatic) {
+      if (shapeBody.isStatic() == false || getStatic) {
         boolean inside = shapes[j].testPoint(shapeBody.getMemberXForm(), p);
         if (inside) {
           result.add((FBody)(shapeBody.getUserData()));

@@ -22,7 +22,7 @@ public class FMouseJoint extends FJoint {
     m_target = Fisica.screenToWorld(x, y);
   }
 
-  protected JointDef getJointDef() {
+  protected JointDef getJointDef(FWorld world) {
     Body body = m_fbody.m_body;
     
     MouseJointDef md = new MouseJointDef();

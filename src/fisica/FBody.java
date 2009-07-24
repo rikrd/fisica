@@ -24,6 +24,7 @@ public class FBody extends FDrawable {
   public boolean m_rotatable = true;
 
   public boolean m_isSleeping = false;
+  public int m_groupIndex = 0;
 
   public Vec2 m_linearVelocity = new Vec2(0.0f, 0.0f);
   public float m_angularVelocity = 0.0f;
@@ -40,6 +41,7 @@ public class FBody extends FDrawable {
   }
 
   public void processBody(Body bd, ShapeDef sd){
+    sd.filter.groupIndex = m_groupIndex;
     bd.createShape(sd);
   }
 
@@ -81,6 +83,10 @@ public class FBody extends FDrawable {
     if (m_body == null) return;
 
     m_world.destroyBody(this.m_body);
+  }
+
+  public void setGroupIndex(int index) {
+    m_groupIndex = index;
   }
 
   protected ShapeDef getShapeDef() {

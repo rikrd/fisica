@@ -27,7 +27,7 @@ public class FJoint extends FDrawable {
   public void addToWorld(FWorld world) {
     m_world = world;
 
-    JointDef jd = getJointDef();
+    JointDef jd = getJointDef(world);
     processJoint(m_world, jd);
     m_joint.m_userData = this;
     
@@ -40,7 +40,7 @@ public class FJoint extends FDrawable {
     m_joint = null;
   }
 
-  protected JointDef getJointDef() {
+  protected JointDef getJointDef(FWorld world) {
     return null;
   }
 

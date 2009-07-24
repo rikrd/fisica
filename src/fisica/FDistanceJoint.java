@@ -29,7 +29,7 @@ public class FDistanceJoint extends FJoint {
     m_length = m_body1.m_body.getPosition().sub(m_body2.m_body.getPosition()).length();
   }
 
-  protected JointDef getJointDef() {
+  protected JointDef getJointDef(FWorld world) {
     
     DistanceJointDef md = new DistanceJointDef();
     md.body1 = m_body1.m_body;

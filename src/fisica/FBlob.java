@@ -11,9 +11,9 @@ import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.joints.*;
 
 public class FBlob extends FJoint {  
-  ArrayList m_bodies;
-  ArrayList m_vertices;  // in world coords
-  ArrayList m_vertexBodies;  // in world coords
+  public ArrayList m_bodies;
+  public ArrayList m_vertices;  // in world coords
+  public ArrayList m_vertexBodies;  // in world coords
   float m_damping = 0.0f;
   float m_frequency = 0.0f;
   float m_vertexSize = 0.4f;  // in world coords
@@ -66,6 +66,10 @@ public class FBlob extends FJoint {
     return Fisica.worldToScreen(m_vertexSize);
   }
 
+  public void setVertexSize(float size){
+    m_vertexSize = Fisica.screenToWorld(size);
+  }
+
   public void setDamping(float damping) {
     if ( m_joint != null ) {
       ((DistanceJoint)m_joint).m_dampingRatio = damping;
@@ -85,11 +89,21 @@ public class FBlob extends FJoint {
   public void draw(PApplet applet){
     preDraw(applet);
 
-    applet.beginShape();
-    for (int i=0; i<m_vertexBodies.size(); i++) {
-      applet.vertex(((FBody)m_vertexBodies.get(i)).getX(), ((FBody)m_vertexBodies.get(i)).getY());
+    if (m_bodies.size()>0) {
+      applet.beginShape();
+      for (int i=0; i<m_bodies.size(); i++) {
+        applet.vertex(((FBody)m_bodies.get(i)).getX(), ((FBody)m_bodies.get(i)).getY());
+      }
+      applet.endShape(applet.CLOSE);
     }
-    applet.endShape(applet.CLOSE);
+
+    if (m_vertexBodies.size()>0) {
+      applet.beginShape();
+      for (int i=0; i<m_vertexBodies.size(); i++) {
+        applet.vertex(((FBody)m_vertexBodies.get(i)).getX(), ((FBody)m_vertexBodies.get(i)).getY());
+      }
+      applet.endShape(applet.CLOSE);
+    }
     
     postDraw(applet);
   }

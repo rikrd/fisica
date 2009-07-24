@@ -9,7 +9,11 @@ public class FContact {
   public ContactPoint m_contactPoint;
   
   public FContact(ContactPoint contactPoint) {
-    m_contactPoint = contactPoint;
+    m_contactPoint = new ContactPoint();
+    m_contactPoint.position.set(contactPoint.position);
+    m_contactPoint.velocity.set(contactPoint.velocity);
+    m_contactPoint.normal.set(contactPoint.normal);
+    m_contactPoint.id = new ContactID(contactPoint.id);
   }
 
   public FBody getBody1() {

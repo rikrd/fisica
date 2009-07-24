@@ -112,6 +112,16 @@ public class FBody extends FDrawable {
     resetForces();
     addForce(Fisica.screenToWorld(fx), Fisica.screenToWorld(fy));
   }
+
+  public void addTorque( float torque ){
+    // TODO: check if this is what it's supposed to do
+    // TODO: w2s (world 2 screen)
+    if (m_body != null) {
+      m_body.applyTorque(torque);
+    }
+
+    m_torque += torque;
+  }
   
   public void addForce( float fx, float fy ){
     // TODO: check if this is what it's supposed to do

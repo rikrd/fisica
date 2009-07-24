@@ -131,4 +131,12 @@ public class Fisica implements PConstants{
     
     return m_parent;
   }
+
+  /**
+   * @invisible
+   */
+  public static void setScale(float scale){
+    m_viewport.m_scale = scale;
+  }
+  
 }

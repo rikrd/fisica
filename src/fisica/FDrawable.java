@@ -20,6 +20,20 @@ public class FDrawable {
   public float m_imageAlpha = 255.0f;
   public PImage m_mask = null;  
 
+  public void updateStyle( FDrawable other ){
+    m_drawable = other.m_drawable;
+    
+    m_fill = other.m_fill;
+    m_fillColor = other.m_fillColor;
+    m_stroke = other.m_stroke;
+    m_strokeColor = other.m_strokeColor;
+    m_strokeWeight = other.m_strokeWeight;
+
+    m_image = other.m_image;
+    m_imageAlpha = other.m_imageAlpha;
+    m_mask = other.m_mask;
+  }
+  
   protected void appletStroke( PApplet applet, int argb ){
     final int a = (argb >> 24) & 0xFF;
     final int r = (argb >> 16) & 0xFF;  // Faster way of getting red(argb)

@@ -10,8 +10,7 @@ import org.jbox2d.collision.shapes.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.joints.*;
 
-public class FBlob extends FJoint {  
-  public ArrayList m_bodies;
+public class FBlob extends FBody {  
   public ArrayList m_vertices;  // in world coords
   public ArrayList m_vertexBodies;  // in world coords
   float m_damping = 0.0f;
@@ -24,27 +23,25 @@ public class FBlob extends FJoint {
   float m_restitution = 0.5f;
   float m_friction = 0.5f;
   boolean m_bullet = false;
+
+  public FConstantVolumeJoint m_joint;
   
   public FBlob() {
     super();
     
-    m_bodies = new ArrayList();
     m_vertices = new ArrayList();
     m_vertexBodies = new ArrayList();
   }
 
-  protected JointDef getJointDef(FWorld world) {
-    ConstantVolumeJointDef md = new ConstantVolumeJointDef();
-    md.frequencyHz = m_frequency;
-    md.dampingRatio = m_damping;
-
-    for (int i=0; i<m_bodies.size(); i++) {
-      Body b = ((FBody)m_bodies.get(i)).m_body;
-      if (b != null) {
-        md.addBody(b);
-      }
-    }
-
+  public void addToWorld(FWorld world) {
+    // Create the constant volume joint
+    FConstantVolumeJoint m_joint = new FConstantVolumeJoint();
+    m_joint.setFrequency(m_frequency);
+    m_joint.setDamping(m_damping);
+    m_joint.updateStyle(this);
+    
+    // Create bodies from the vertices and add them to the
+    // constant volume joint that we just created
     m_vertexBodies = new ArrayList();
     for (int i=0; i<m_vertices.size(); i++) {
       Vec2 p = Fisica.worldToScreen((Vec2)m_vertices.get(i));
@@ -59,15 +56,24 @@ public class FBlob extends FJoint {
       
       m_vertexBodies.add(fb);
       
-      if (fb.m_body != null) {
-        Vec2 f = Fisica.worldToScreen(m_force);
-        fb.addForce(f.x, f.y);
-        fb.addTorque(m_torque);
-        md.addBody(fb.m_body);
-      }
+      Vec2 f = Fisica.worldToScreen(m_force);
+      fb.addForce(f.x, f.y);
+      fb.addTorque(m_torque);
+
+      m_joint.addBody(fb);
     }
+
+    world.add(m_joint);
+  }
+
+  public void removeFromWorld(FWorld world) {
+    // Remove the constant volume joint
+    m_joint.removeFromWorld();
     
-    return md;
+    // Remove the vertex bodies
+    for (int i=0; i<m_vertexBodies.size(); i++) {
+      ((FBody)m_vertexBodies.get(i)).removeFromWorld();
+    }
   }
 
   public void vertex(float x, float y){
@@ -84,7 +90,7 @@ public class FBlob extends FJoint {
 
   public void setDamping(float damping) {
     if ( m_joint != null ) {
-      ((DistanceJoint)m_joint).m_dampingRatio = damping;
+      m_joint.setDamping(damping);
     }
 
     m_damping = damping;
@@ -92,115 +98,105 @@ public class FBlob extends FJoint {
 
   public void setFrequency(float frequency) {
     if ( m_joint != null ) {
-      ((DistanceJoint)m_joint).m_frequencyHz = frequency;
+      m_joint.setFrequency(frequency);
     }
     
     m_frequency = frequency;
   }
 
   public void addForce(float fx, float fy) {
-    if ( m_joint != null ) {
-      for (int i=0; i<m_bodies.size(); i++) {
-        ((FBody)m_bodies.get(i)).addForce(fx, fy);
-      }
-
-      for (int i=0; i<m_vertexBodies.size(); i++) {
-        ((FBody)m_vertexBodies.get(i)).addForce(fx, fy);
-      }
+    for (int i=0; i<m_vertexBodies.size(); i++) {
+      ((FBody)m_vertexBodies.get(i)).addForce(fx, fy);
     }
     
     m_force.add(Fisica.screenToWorld(fx, fy));
   }
 
   public void addTorque(float t) {
-    if ( m_joint != null ) {
-      for (int i=0; i<m_bodies.size(); i++) {
-        ((FBody)m_bodies.get(i)).addTorque(t);
-      }
-
-      for (int i=0; i<m_vertexBodies.size(); i++) {
-        ((FBody)m_vertexBodies.get(i)).addTorque(t);
-      }
+    for (int i=0; i<m_vertexBodies.size(); i++) {
+      ((FBody)m_vertexBodies.get(i)).addTorque(t);
     }
     
     m_torque += t;
   }
 
   public void setDensity(float d) {
-    if ( m_joint != null ) {
-      for (int i=0; i<m_bodies.size(); i++) {
-        ((FBody)m_bodies.get(i)).setDensity(d);
-      }
-
-      for (int i=0; i<m_vertexBodies.size(); i++) {
-        ((FBody)m_vertexBodies.get(i)).setDensity(d);
-      }
+    for (int i=0; i<m_vertexBodies.size(); i++) {
+      ((FBody)m_vertexBodies.get(i)).setDensity(d);
     }
     
     m_density = d;
   }
 
   public void setFriction(float d) {
-    if ( m_joint != null ) {
-      for (int i=0; i<m_bodies.size(); i++) {
-        ((FBody)m_bodies.get(i)).setFriction(d);
-      }
-
-      for (int i=0; i<m_vertexBodies.size(); i++) {
-        ((FBody)m_vertexBodies.get(i)).setFriction(d);
-      }
+    for (int i=0; i<m_vertexBodies.size(); i++) {
+      ((FBody)m_vertexBodies.get(i)).setFriction(d);
     }
     
     m_friction = d;
   }
 
   public void setRestitution(float d) {
-    if ( m_joint != null ) {
-      for (int i=0; i<m_bodies.size(); i++) {
-        ((FBody)m_bodies.get(i)).setRestitution(d);
-      }
-
-      for (int i=0; i<m_vertexBodies.size(); i++) {
-        ((FBody)m_vertexBodies.get(i)).setRestitution(d);
-      }
+    for (int i=0; i<m_vertexBodies.size(); i++) {
+      ((FBody)m_vertexBodies.get(i)).setRestitution(d);
     }
     
     m_restitution = d;
   }
 
   public void setBullet(boolean d) {
-    if ( m_joint != null ) {
-      for (int i=0; i<m_bodies.size(); i++) {
-        ((FBody)m_bodies.get(i)).setBullet(d);
-      }
-
-      for (int i=0; i<m_vertexBodies.size(); i++) {
-        ((FBody)m_vertexBodies.get(i)).setBullet(d);
-      }
+    for (int i=0; i<m_vertexBodies.size(); i++) {
+      ((FBody)m_vertexBodies.get(i)).setBullet(d);
     }
     
     m_bullet = d;
   }
 
-  public void draw(PApplet applet){
-    preDraw(applet);
+  public void setNoStroke() {
+    super.setNoStroke();
 
-    if (m_bodies.size()>0) {
-      applet.beginShape();
-      for (int i=0; i<m_bodies.size(); i++) {
-        applet.vertex(((FBody)m_bodies.get(i)).getX(), ((FBody)m_bodies.get(i)).getY());
-      }
-      applet.endShape(applet.CLOSE);
+    if (m_joint != null) {
+      m_joint.updateStyle(this);
     }
+  }
 
-    if (m_vertexBodies.size()>0) {
-      applet.beginShape();
-      for (int i=0; i<m_vertexBodies.size(); i++) {
-        applet.vertex(((FBody)m_vertexBodies.get(i)).getX(), ((FBody)m_vertexBodies.get(i)).getY());
-      }
-      applet.endShape(applet.CLOSE);
-    }
+  public void setNoFill() {
+    super.setNoFill();
     
-    postDraw(applet);
+    if (m_joint != null) {
+      m_joint.updateStyle(this);
+    }
+  }
+
+  public void setFillColorInt(int col) {
+    super.setFillColorInt(col);
+    
+    if (m_joint != null) {
+      m_joint.updateStyle(this);
+    }
+  }
+
+  public void setStrokeColorInt(int col) {
+    super.setStrokeColorInt(col);
+    
+    if (m_joint != null) {
+      m_joint.updateStyle(this);
+    }
+  }
+
+  public void setStrokeWeight(float col) {
+    super.setStrokeWeight(col);
+    
+    if (m_joint != null) {
+      m_joint.updateStyle(this);
+    }
+  }
+
+  public void setDrawable(boolean val) {
+    super.setDrawable(val);
+    
+    if (m_joint != null) {
+      m_joint.updateStyle(this);
+    }
   }
 }

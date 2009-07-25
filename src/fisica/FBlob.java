@@ -84,6 +84,17 @@ public class FBlob extends FBody {
     return Fisica.worldToScreen(m_vertexSize);
   }
 
+  public void setAsCircle(float x, float y, 
+                          float size, int vertexCount) {
+    for (int i=0; i<vertexCount; i++) {
+      float angle = Fisica.parent().map(i, 0, vertexCount-1, 0, Fisica.parent().TWO_PI);
+      float vx = x + size/2 * Fisica.parent().sin(angle);
+      float vy = y + size/2 * Fisica.parent().cos(angle);
+      
+      this.vertex(vx, vy);
+    }
+  }
+
   public void setVertexSize(float size){
     m_vertexSize = Fisica.screenToWorld(size);
   }

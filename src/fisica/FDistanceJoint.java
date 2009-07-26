@@ -17,6 +17,9 @@ public class FDistanceJoint extends FJoint {
   float m_frequency = 0.0f;
   float m_length;
 
+  public Vec2 m_anchor1;
+  public Vec2 m_anchor2;
+
   public FDistanceJoint(FBody body1, FBody body2) {
     super();
     m_body1 = body1;
@@ -69,6 +72,59 @@ public class FDistanceJoint extends FJoint {
     m_length = Fisica.screenToWorld(length);
   }
 
+
+  public void setAnchor2(float x, float y) {
+    if (m_joint != null) {
+      ((DistanceJoint)m_joint).getAnchor2().set(Fisica.screenToWorld(x), Fisica.screenToWorld(y));
+    }
+    
+    m_anchor2 = Fisica.screenToWorld(x, y);
+  }
+
+  public void setAnchor1(float x, float y) {
+    if (m_joint != null) {
+      ((DistanceJoint)m_joint).getAnchor1().set(Fisica.screenToWorld(x), Fisica.screenToWorld(y));
+    }
+    
+    m_anchor1 = Fisica.screenToWorld(x, y);
+  }
+  
+  /** Get the anchor point on body1 in world coordinates. */
+  public float getAnchor1X() {
+    if (m_joint != null) {
+      return Fisica.worldToScreen(m_joint.getAnchor1()).x;
+    }
+
+    return Fisica.worldToScreen(m_anchor1.x);
+  }
+
+  /** Get the anchor point on body1 in world coordinates. */
+  public float getAnchor1Y() {
+    if (m_joint != null) {
+      return Fisica.worldToScreen(m_joint.getAnchor1()).y;
+    }
+
+    return Fisica.worldToScreen(m_anchor1.y);
+  }
+
+  /** Get the anchor point on body1 in world coordinates. */
+  public float getAnchor2X() {
+    if (m_joint != null) {
+      return Fisica.worldToScreen(m_joint.getAnchor2()).x;
+    }
+
+    return Fisica.worldToScreen(m_anchor2.x);
+  }
+
+  /** Get the anchor point on body1 in world coordinates. */
+  public float getAnchor2Y() {
+    if (m_joint != null) {
+      return Fisica.worldToScreen(m_joint.getAnchor2()).y;
+    }
+
+    return Fisica.worldToScreen(m_anchor2.y);
+  }
+  
   public void draw(PApplet applet){
     preDraw(applet);
  

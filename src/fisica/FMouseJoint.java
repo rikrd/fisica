@@ -12,7 +12,10 @@ import org.jbox2d.dynamics.joints.*;
 
 public class FMouseJoint extends FJoint {  
   FBody m_fbody;
+
+  Vec2 m_anchor;
   Vec2 m_target;
+
   float m_damping = 0.9f;
   float m_frequency = 20.0f;
 
@@ -99,10 +102,36 @@ public class FMouseJoint extends FJoint {
     return m_fbody;
   }
 
+    public void setAnchor(float x, float y) {
+    if (m_joint != null) {
+      ((DistanceJoint)m_joint).getAnchor2().set(Fisica.screenToWorld(x), Fisica.screenToWorld(y));
+    }
+    
+    m_anchor = Fisica.screenToWorld(x, y);
+  }
+  
+  /** Get the anchor point on body1 in world coordinates. */
+  public float getAnchorX() {
+    if (m_joint != null) {
+      return Fisica.worldToScreen(m_joint.getAnchor2()).x;
+    }
+
+    return Fisica.worldToScreen(m_anchor.x);
+  }
+
+  /** Get the anchor point on body1 in world coordinates. */
+  public float getAnchorY() {
+    if (m_joint != null) {
+      return Fisica.worldToScreen(m_joint.getAnchor2()).y;
+    }
+
+    return Fisica.worldToScreen(m_anchor.y);
+  }
+
   public void draw(PApplet applet){
     preDraw(applet);
     
-    applet.line(getAnchor2X(), getAnchor2Y(), getTargetX(), getTargetY());
+    applet.line(getAnchorX(), getAnchorY(), getTargetX(), getTargetY());
     
     postDraw(applet);
   }

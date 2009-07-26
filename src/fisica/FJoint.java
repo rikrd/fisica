@@ -17,10 +17,10 @@ public class FJoint extends FDrawable {
   public Joint m_joint;
   public FWorld m_world;
 
-  public Vec2 m_anchor1;
-  public Vec2 m_anchor2;
+  public boolean m_collideConnected = true;
   
   public void processJoint(World world, JointDef jd){
+    jd.collideConnected = m_collideConnected;
     m_joint = world.createJoint(jd);
   }
 
@@ -76,59 +76,14 @@ public class FJoint extends FDrawable {
     return null;
   }
 
-
-  public void setAnchor1(float x, float y) {
+  public void setCollideConnected(boolean value) {
     if (m_joint != null) {
-      ((DistanceJoint)m_joint).getAnchor1().set(Fisica.screenToWorld(x), Fisica.screenToWorld(y));
+      ((Joint)m_joint).m_collideConnected = value;
     }
     
-    m_anchor1 = Fisica.screenToWorld(x, y);
+    m_collideConnected = value;
   }
 
-  public void setAnchor2(float x, float y) {
-    if (m_joint != null) {
-      ((DistanceJoint)m_joint).getAnchor2().set(Fisica.screenToWorld(x), Fisica.screenToWorld(y));
-    }
-    
-    m_anchor2 = Fisica.screenToWorld(x, y);
-  }
-  
-  /** Get the anchor point on body1 in world coordinates. */
-  public float getAnchor1X() {
-    if (m_joint != null) {
-      return Fisica.worldToScreen(m_joint.getAnchor1()).x;
-    }
-
-    return Fisica.worldToScreen(m_anchor1.x);
-  }
-
-  /** Get the anchor point on body1 in world coordinates. */
-  public float getAnchor1Y() {
-    if (m_joint != null) {
-      return Fisica.worldToScreen(m_joint.getAnchor1()).y;
-    }
-
-    return Fisica.worldToScreen(m_anchor1.y);
-  }
-
-  /** Get the anchor point on body1 in world coordinates. */
-  public float getAnchor2X() {
-    if (m_joint != null) {
-      return Fisica.worldToScreen(m_joint.getAnchor2()).x;
-    }
-
-    return Fisica.worldToScreen(m_anchor2.x);
-  }
-
-  /** Get the anchor point on body1 in world coordinates. */
-  public float getAnchor2Y() {
-    if (m_joint != null) {
-      return Fisica.worldToScreen(m_joint.getAnchor2()).y;
-    }
-
-    return Fisica.worldToScreen(m_anchor2.y);
-  }
-  
   /** Get the reaction force on body2 at the joint anchor. */
   public float getReactionForceX() {
     if (m_joint != null) {

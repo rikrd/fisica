@@ -92,8 +92,10 @@ public class FPrismaticJoint extends FJoint {
   }
 
   protected void updateLocalAnchors(){
-    m_localAnchor1 = Fisica.screenToWorld(getAnchorX() - m_body1.getX(), getAnchorY() - m_body1.getY());
-    m_localAnchor2 = Fisica.screenToWorld(getAnchorX() - m_body2.getX(), getAnchorY() - m_body2.getY());
+    if (m_body1.m_body != null) {
+      m_body1.m_body.getLocalPointToOut(m_anchor, m_localAnchor1);
+      m_body2.m_body.getLocalPointToOut(m_anchor, m_localAnchor2);
+    }
   }
 
   protected void updateLocalAxis(){
@@ -107,8 +109,8 @@ public class FPrismaticJoint extends FJoint {
     PrismaticJointDef md = new PrismaticJointDef();
     md.body1 = m_body1.m_body;
     md.body2 = m_body2.m_body;
-    md.localAnchor1 = m_localAnchor1.clone();
-    md.localAnchor2 = m_localAnchor2.clone();
+    md.localAnchor1 = m_localAnchor1;
+    md.localAnchor2 = m_localAnchor2;
     md.referenceAngle = m_referenceAngle;
     md.lowerTranslation = m_lowerTranslation;
     md.upperTranslation = m_upperTranslation;

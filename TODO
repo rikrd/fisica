@@ -1,0 +1,6 @@
++ Check which properties can and which cannot be changed once added to the world
++ Add a getStaticBody()/getDynamicBody() to Revolute and Prismatic joints
+  - Make GearJoint use the getDynamicBody()
++ Revolute and Prismatic (and maybe others) joints can both inherit from a BiBodyJoint
++ Use the ViewportTransform provided by jBox2D
++ Optimize by avoid creation of extra Vec2 instances

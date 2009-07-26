@@ -4,3 +4,6 @@
 + Revolute and Prismatic (and maybe others) joints can both inherit from a BiBodyJoint
 + Use the ViewportTransform provided by jBox2D
 + Optimize by avoid creation of extra Vec2 instances
++ Fix the tracking of Contacts
+  - Keep copies of the contacts in the World
+  - Handle contactresult

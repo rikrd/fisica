@@ -94,6 +94,9 @@ public class FPrismaticJoint extends FJoint {
   protected void updateLocalAnchors(){
     if (m_body1.m_body != null) {
       m_body1.m_body.getLocalPointToOut(m_anchor, m_localAnchor1);
+    }
+    
+    if (m_body2.m_body != null) {
       m_body2.m_body.getLocalPointToOut(m_anchor, m_localAnchor2);
     }
   }
@@ -127,14 +130,12 @@ public class FPrismaticJoint extends FJoint {
   public void setAxis(float x, float y) {
     // TODO: cannot change axis once it has been created    
     m_axis = Fisica.screenToWorld(x, y);
+    updateLocalAxis();
   }
 
-  public void setAnchor(float x, float y) {
-    if (m_joint != null) {
-      ((PrismaticJoint)m_joint).getAnchor2().set(Fisica.screenToWorld(x), Fisica.screenToWorld(y));
-    }
-    
+  public void setAnchor(float x, float y) {    
     m_anchor = Fisica.screenToWorld(x, y);
+    updateLocalAnchors();
   }
   
   public float getAnchorX() {

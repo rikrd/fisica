@@ -342,7 +342,7 @@ public class FWorld extends World {
   }
 
   public void step( float dt, int iterationCount) {
-    m_contacts.clear();
+    //m_contacts.clear();
     m_contactResults.clear();
     
     super.setWarmStarting( true );

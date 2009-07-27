@@ -7,15 +7,8 @@ import org.jbox2d.dynamics.contacts.*;
 
 public class FContact {
   public ContactPoint m_contactPoint;
-  public final int m_type;
   
-  public static final int START = 0;
-  public static final int PERSIST = 1;
-  public static final int END = 2;
-  
-  public FContact(ContactPoint contactPoint, int type) {
-    m_type = type;
-    
+  public FContact(ContactPoint contactPoint) {
     m_contactPoint = new ContactPoint();
     m_contactPoint.shape1 = contactPoint.shape1;
     m_contactPoint.shape2 = contactPoint.shape2;

@@ -20,7 +20,8 @@ public class FWorld extends World {
   float m_edgesRestitution = 0.5f;
   boolean m_grabbable = true;
   int m_mouseButton = MouseEvent.BUTTON1;
-  HashMap m_contacts;
+  ArrayList m_contacts;
+  ArrayList m_contactResults;
 
   FMouseJoint m_mouseJoint = new FMouseJoint((FBody)null, 0.0f, 0.0f);
 
@@ -34,10 +35,10 @@ public class FWorld extends World {
    *
    */
   class ConcreteContactListener implements ContactListener {
-    public void add(ContactPoint point) {
-      FContact contact = new FContact(point);
-      m_world.m_contacts.put(contact.getId(), contact);
-
+    public void add(ContactPoint point) {      
+      FContact contact = new FContact(point, FContact.START);
+      m_world.m_contacts.add(contact);
+      
       if (m_world.m_contactStartedMethod == null) {
         return;
       }
@@ -53,8 +54,8 @@ public class FWorld extends World {
     }
     
     public void persist(ContactPoint point) {
-      FContact contact = new FContact(point);
-      m_world.m_contacts.put(contact.getId(), contact);
+      FContact contact = new FContact(point, FContact.PERSIST);
+      m_world.m_contacts.add(contact);
       
       if (m_world.m_contactPersistedMethod == null) {
         return;
@@ -71,8 +72,8 @@ public class FWorld extends World {
     }
     
     public void remove(ContactPoint point) {
-      FContact contact = new FContact(point);
-      m_world.m_contacts.remove(contact.getId());
+      FContact contact = new FContact(point, FContact.END);
+      m_world.m_contacts.add(contact);
       
       if (m_world.m_contactEndedMethod == null) {
         return;
@@ -91,7 +92,24 @@ public class FWorld extends World {
     public FWorld m_world;
     
     public void result(ContactResult point) {
-      //TODO
+      FContactResult result = new FContactResult(point);
+      FContact contact = (FContact)m_contacts.remove(0);
+      
+      switch (contact.m_type) {
+      case FContact.START:
+        m_contactResults.add(result);
+        Fisica.parent().println("Start result");
+        break;
+
+      case FContact.PERSIST:
+        m_contactResults.add(result);
+        Fisica.parent().println("Persist result");
+        break;
+
+      case FContact.END:
+        Fisica.parent().println("End result");
+        break;
+      }
     }
   }
 
@@ -140,7 +158,8 @@ public class FWorld extends World {
     m_contactListener.m_world = this;
     setContactListener(m_contactListener);
     
-    m_contacts = new HashMap();
+    m_contacts = new ArrayList();
+    m_contactResults = new ArrayList();
 
     m_mouseJoint.setDrawable(false);
   }
@@ -318,6 +337,7 @@ public class FWorld extends World {
 
   public void step( float dt, int iterationCount) {
     m_contacts.clear();
+    m_contactResults.clear();
     
     super.setWarmStarting( true );
     super.setPositionCorrection( true );

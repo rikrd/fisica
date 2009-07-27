@@ -409,10 +409,8 @@ public class FBody extends FDrawable {
   public ArrayList getTouching() {
     ArrayList result = new ArrayList();
     
-    Collection contacts = m_world.m_contacts.values();
-    Iterator iter = contacts.iterator();
-    while (iter.hasNext()) {
-      FContact contact = (FContact)iter.next();
+    for (int i=0; i<m_world.m_contactResults.size(); i++) {
+      FContactResult contact = (FContactResult)m_world.m_contactResults.get(i);
       if (this == contact.getBody1()) {
         result.add(contact.getBody2());
       } else if (this == contact.getBody2()) {
@@ -426,10 +424,8 @@ public class FBody extends FDrawable {
   public ArrayList getContacts() {
     ArrayList result = new ArrayList();
     
-    Collection contacts = m_world.m_contacts.values();
-    Iterator iter = contacts.iterator();
-    while (iter.hasNext()) {
-      FContact contact = (FContact)iter.next();
+    for (int i=0; i<m_world.m_contactResults.size(); i++) {
+      FContactResult contact = (FContactResult)m_world.m_contactResults.get(i);
       if (this == contact.getBody1() ||
           this == contact.getBody2()) {
         result.add(contact);

@@ -7,12 +7,24 @@ import org.jbox2d.dynamics.contacts.*;
 
 public class FContact {
   public ContactPoint m_contactPoint;
+  public final int m_type;
   
-  public FContact(ContactPoint contactPoint) {
+  public static final int START = 0;
+  public static final int PERSIST = 1;
+  public static final int END = 2;
+  
+  public FContact(ContactPoint contactPoint, int type) {
+    m_type = type;
+    
     m_contactPoint = new ContactPoint();
+    m_contactPoint.shape1 = contactPoint.shape1;
+    m_contactPoint.shape2 = contactPoint.shape2;
     m_contactPoint.position.set(contactPoint.position);
     m_contactPoint.velocity.set(contactPoint.velocity);
     m_contactPoint.normal.set(contactPoint.normal);
+    m_contactPoint.separation = contactPoint.separation;
+    m_contactPoint.friction = contactPoint.friction;
+    m_contactPoint.restitution = contactPoint.restitution;
     m_contactPoint.id = new ContactID(contactPoint.id);
   }
 

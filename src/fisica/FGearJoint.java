@@ -14,29 +14,44 @@ public class FGearJoint extends FJoint {
   public FJoint m_joint1;
   public FJoint m_joint2;
 
-  public float m_ratio = 1.0f;
+  public float m_ratio = 1.0f;   // in screen params because the units depends on the joints
+  public float m_worldRatio = 1.0f;   // in screen params because the units depends on the joints
   
   public FGearJoint(FJoint joint1, FJoint joint2) {
     super();
     
     m_joint1 = joint1;
     m_joint2 = joint2;
+    updateRatio();
+  }
+
+  public void updateRatio(){
+    m_worldRatio = m_ratio;
+    
+    // TODO: check if it is this or the opposite
+    if (m_joint1.m_joint.getType() == JointType.PRISMATIC_JOINT ) {
+      m_worldRatio = Fisica.screenToWorld(m_worldRatio);
+    }
+    
+    if (m_joint2.m_joint.getType() == JointType.PRISMATIC_JOINT ) {
+      m_worldRatio = 1.0f / Fisica.screenToWorld(1.0f / m_worldRatio);
+    }
+ 
+    if (m_joint != null) {     
+      ((GearJoint)m_joint).m_ratio = m_worldRatio;
+    }
   }
 
   public void setRatio(float ratio) {
-    // TODO:  check if ratio can be changed during simulation
-    if (m_joint != null) {
-      ((GearJoint)m_joint).m_ratio = ratio;
-    }
-
     m_ratio = ratio;
+    updateRatio();
   }
 
   protected JointDef getJointDef(FWorld world) {
     GearJointDef md = new GearJointDef();
     md.joint1 = m_joint1.m_joint;
     md.joint2 = m_joint2.m_joint;
-    md.ratio = m_ratio;
+    md.ratio = m_worldRatio;
     return md;
   }
 

@@ -21,6 +21,7 @@ public class FWorld extends World {
   boolean m_grabbable = true;
   int m_mouseButton = MouseEvent.BUTTON1;
   HashMap m_contacts;
+  ArrayList m_contactResults;
 
   FMouseJoint m_mouseJoint = new FMouseJoint((FBody)null, 0.0f, 0.0f);
 
@@ -34,10 +35,10 @@ public class FWorld extends World {
    *
    */
   class ConcreteContactListener implements ContactListener {
-    public void add(ContactPoint point) {
+    public void add(ContactPoint point) {      
       FContact contact = new FContact(point);
       m_world.m_contacts.put(contact.getId(), contact);
-
+      
       if (m_world.m_contactStartedMethod == null) {
         return;
       }
@@ -64,7 +65,7 @@ public class FWorld extends World {
         m_world.m_contactPersistedMethod.invoke(Fisica.parent(),
                                                 new Object[] { contact });
       } catch (Exception e) {
-        System.err.println("Disabling contactPersisted(ContactPoint point) because of an error.");
+        System.err.println("Disabling contactPersisted(FContact point) because of an error.");
         e.printStackTrace();
         m_world.m_contactPersistedMethod = null;
       }
@@ -82,7 +83,7 @@ public class FWorld extends World {
         m_world.m_contactEndedMethod.invoke(Fisica.parent(),
                                             new Object[] { contact });
       } catch (Exception e) {
-        System.err.println("Disabling contactEnded(ContactPoint point) because of an error.");
+        System.err.println("Disabling contactEnded(FContact point) because of an error.");
         e.printStackTrace();
         m_world.m_contactEndedMethod = null;
       }
@@ -91,7 +92,21 @@ public class FWorld extends World {
     public FWorld m_world;
     
     public void result(ContactResult point) {
-      //TODO
+      FContactResult result = new FContactResult(point);
+      m_contactResults.add(result);
+
+      if (m_world.m_contactResultMethod == null) {
+        return;
+      }
+      
+      try {
+        m_world.m_contactResultMethod.invoke(Fisica.parent(),
+                                            new Object[] { result });
+      } catch (Exception e) {
+        System.err.println("Disabling contactResult(FContactResult result) because of an error.");
+        e.printStackTrace();
+        m_world.m_contactResultMethod = null;
+      }
     }
   }
 
@@ -99,6 +114,7 @@ public class FWorld extends World {
   private Method m_contactStartedMethod;
   private Method m_contactPersistedMethod;
   private Method m_contactEndedMethod;
+  private Method m_contactResultMethod;
   
   public FWorld() {
     super(new AABB(Fisica.screenToWorld(new Vec2(-Fisica.parent().width,
@@ -135,12 +151,21 @@ public class FWorld extends World {
     } catch (Exception e) {
       // no such method, or an error.. which is fine, just ignore
     }
+
+    try {
+      m_contactResultMethod =
+        Fisica.parent().getClass().getMethod("contactResult",
+                                             new Class[] { FContactResult.class });
+    } catch (Exception e) {
+      // no such method, or an error.. which is fine, just ignore
+    }
     
     m_contactListener = new ConcreteContactListener();
     m_contactListener.m_world = this;
     setContactListener(m_contactListener);
     
     m_contacts = new HashMap();
+    m_contactResults = new ArrayList();
 
     m_mouseJoint.setDrawable(false);
   }
@@ -317,7 +342,8 @@ public class FWorld extends World {
   }
 
   public void step( float dt, int iterationCount) {
-    m_contacts.clear();
+    //m_contacts.clear();
+    m_contactResults.clear();
     
     super.setWarmStarting( true );
     super.setPositionCorrection( true );

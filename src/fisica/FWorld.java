@@ -15,7 +15,7 @@ import org.jbox2d.dynamics.joints.*;
 import processing.core.*;
 
 public class FWorld extends World {
-  FBox left, right, top, bottom;
+  public FBox left, right, top, bottom;
   float m_edgesFriction = 0.5f;
   float m_edgesRestitution = 0.5f;
   boolean m_grabbable = true;

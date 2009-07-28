@@ -15,6 +15,8 @@ public class FContact {
   public float m_friction;
   public float m_restitution;
   
+  public FContactID m_id;
+  
   public FContact(ContactPoint contactPoint) {
     m_position = new Vec2(contactPoint.position);
     m_velocity = new Vec2(contactPoint.velocity);
@@ -26,6 +28,8 @@ public class FContact {
     
     m_body1 = (FBody)contactPoint.shape1.getBody().getUserData();
     m_body2 = (FBody)contactPoint.shape2.getBody().getUserData();
+    
+    m_id = new FContactID(new ContactID(contactPoint.id));
   }
 
   public FBody getBody1() {
@@ -72,4 +76,7 @@ public class FContact {
     return m_restitution;
   }
 
+  public FContactID getId() {
+    return m_id;
+  }
 }

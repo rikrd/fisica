@@ -9,7 +9,11 @@ public class FContactID {
   public ContactID m_id;
   
   public FContactID(ContactID id) {
-    m_id = new ContactID(id);
+    m_id = id;
+  }
+
+  public FContactID(FContactID fid) {
+    m_id = new ContactID(fid.m_id);
   }
 
   public int hashCode()

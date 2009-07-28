@@ -47,7 +47,6 @@ public class FBlob extends FBody {
       Vec2 p = Fisica.worldToScreen((Vec2)m_vertices.get(i));
       FBody fb = new FCircle(getVertexSize());
       fb.setPosition(p.x, p.y);
-      fb.setGroupIndex(-2);
       fb.setDrawable(false);
       fb.setDensity(m_density);
       fb.setRestitution(m_restitution);

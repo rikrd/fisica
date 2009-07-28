@@ -15,7 +15,7 @@ import org.jbox2d.dynamics.joints.*;
 import processing.core.*;
 
 public class FWorld extends World {
-  FBox left, right, top, bottom;
+  public FBox left, right, top, bottom;
   float m_edgesFriction = 0.5f;
   float m_edgesRestitution = 0.5f;
   boolean m_grabbable = true;
@@ -37,7 +37,7 @@ public class FWorld extends World {
   class ConcreteContactListener implements ContactListener {
     public void add(ContactPoint point) {      
       FContact contact = new FContact(point);
-      m_world.m_contacts.put(point.id, contact);
+      m_world.m_contacts.put(contact.getId(), contact);
       
       if (m_world.m_contactStartedMethod == null) {
         return;
@@ -55,7 +55,7 @@ public class FWorld extends World {
     
     public void persist(ContactPoint point) {
       FContact contact = new FContact(point);
-      m_world.m_contacts.put(point.id, contact);
+      m_world.m_contacts.put(contact.getId(), contact);
       
       if (m_world.m_contactPersistedMethod == null) {
         return;
@@ -73,7 +73,7 @@ public class FWorld extends World {
     
     public void remove(ContactPoint point) {
       FContact contact = new FContact(point);
-      m_world.m_contacts.remove(point.id);
+      m_world.m_contacts.remove(contact.getId());
       
       if (m_world.m_contactEndedMethod == null) {
         return;

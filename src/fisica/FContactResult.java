@@ -6,55 +6,63 @@ import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.*;
 
 public class FContactResult {
-  public ContactResult m_contactResult;
-  
+  public Vec2 m_position;
+  public Vec2 m_normal;
+
+  public FBody m_body1;
+  public FBody m_body2;
+
+  public float m_normalImpulse;
+  public float m_tangentImpulse;
+
+  public FContactID m_id;
+
   public FContactResult(ContactResult contactResult) {
-    m_contactResult = contactResult;
-    /*
-    m_contactResult = new ContactResult();
-    m_contactResult.shape1 = contactResult.shape1;
-    m_contactResult.shape2 = contactResult.shape2;
-    m_contactResult.position.set(contactResult.position);
-    m_contactResult.normal.set(contactResult.normal);
-    m_contactResult.normalImpulse = contactResult.normalImpulse;
-    m_contactResult.tangentImpulse = contactResult.tangentImpulse;
-    m_contactResult.id = new ContactID(contactResult.id);
-    */  
+    m_position = new Vec2(contactResult.position);
+    m_normal = new Vec2(contactResult.normal);
+    
+    m_body1 = (FBody)contactResult.shape1.getBody().getUserData();
+    m_body2 = (FBody)contactResult.shape2.getBody().getUserData();
+
+    m_normalImpulse = contactResult.normalImpulse;
+    m_tangentImpulse = contactResult.tangentImpulse;
+
+    m_id = new FContactID(new ContactID(contactResult.id));
   }
 
   public FBody getBody1() {
-    return (FBody)m_contactResult.shape1.getBody().getUserData();
+    return m_body1;
   }
 
   public FBody getBody2() {
-    return (FBody)m_contactResult.shape2.getBody().getUserData();
+    return m_body2;
   }
 
   public float getX() {
-    return Fisica.worldToScreen(m_contactResult.position).x;
+    return Fisica.worldToScreen(m_position).x;
   }
 
   public float getY() {
-    return Fisica.worldToScreen(m_contactResult.position).y;
+    return Fisica.worldToScreen(m_position).y;
   }
 
   public float getNormalX() {
-    return Fisica.worldToScreen(m_contactResult.normal).x;
+    return Fisica.worldToScreen(m_normal).x;
   }
 
   public float getNormalY() {
-    return Fisica.worldToScreen(m_contactResult.normal).y;
+    return Fisica.worldToScreen(m_normal).y;
   }
 
   public float getNormalImpulse() {
-    return Fisica.worldToScreen(m_contactResult.normalImpulse);
+    return Fisica.worldToScreen(m_normalImpulse);
   }
   
   public float getTangentImpulse() {
-    return Fisica.worldToScreen(m_contactResult.tangentImpulse);
+    return Fisica.worldToScreen(m_tangentImpulse);
   }
   
-  public ContactID getId(){
-    return m_contactResult.id;
+  public FContactID getId(){
+    return m_id;
   }
 }

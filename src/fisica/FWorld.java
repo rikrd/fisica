@@ -37,7 +37,7 @@ public class FWorld extends World {
   class ConcreteContactListener implements ContactListener {
     public void add(ContactPoint point) {      
       FContact contact = new FContact(point);
-      m_world.m_contacts.put(point.id, contact);
+      m_world.m_contacts.put(new FContactID(point.id), contact);
       
       if (m_world.m_contactStartedMethod == null) {
         return;
@@ -55,7 +55,7 @@ public class FWorld extends World {
     
     public void persist(ContactPoint point) {
       FContact contact = new FContact(point);
-      m_world.m_contacts.put(point.id, contact);
+      m_world.m_contacts.put(new FContactID(point.id), contact);
       
       if (m_world.m_contactPersistedMethod == null) {
         return;
@@ -73,7 +73,7 @@ public class FWorld extends World {
     
     public void remove(ContactPoint point) {
       FContact contact = new FContact(point);
-      m_world.m_contacts.remove(point.id);
+      m_world.m_contacts.remove(new FContactID(point.id));
       
       if (m_world.m_contactEndedMethod == null) {
         return;

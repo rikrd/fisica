@@ -75,8 +75,8 @@ public class FPrismaticJoint extends FJoint {
   public float m_maxMotorTorque = 0.0f;
   
   public FPrismaticJoint(FBody body1, FBody body2,
-                        float x, float y,
-                        float axisX, float axisY) {
+                         float x, float y,
+                         float axisX, float axisY) {
     super();
     
     m_body1 = body1;

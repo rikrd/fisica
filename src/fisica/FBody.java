@@ -349,6 +349,10 @@ public class FBody extends FDrawable {
     m_sensor = value;
   }
 
+  public boolean isSensor(){
+    return m_sensor;
+  }
+
   public void setStaticBody( boolean value ) {
     setStatic(value);
   }

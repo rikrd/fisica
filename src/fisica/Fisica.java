@@ -53,7 +53,7 @@ public class Fisica implements PConstants{
   private static PApplet m_parent;
   private static FViewport m_viewport;
 
-  protected static Vec2 m_temp = new Vec2();
+  //protected static Vec2 m_temp = new Vec2();
 
   protected static Vec2 screenToWorld( Vec2 m_in ) {
     return m_viewport.getScreenToWorld(m_in);

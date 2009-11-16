@@ -1,7 +1,7 @@
 
-FISICA_VERSION=2
+FISICA_VERSION=4
 
-JAVAC_ARGS=-source 5 -target 1.5
+JAVAC_ARGS=-source 1.5 -target 1.5
 CLASSPATH=3rdparty/JBox2D-2.0.1-b229-Library.jar:"$(PROCESSING_PATH)/lib/core.jar":"$(PROCESSING_PATH)/libraries/xml/library/xml.jar"
 DIST_DIR=distribution/fisica
 
@@ -48,6 +48,4 @@ doc:
 clean:
 	rm -rf build
 	rm -rf distribution
-
-clean_all: clean
 	rm -rf library

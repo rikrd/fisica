@@ -53,6 +53,7 @@ public class FBody extends FDrawable {
     m_body = world.createBody(bd);
 
     ShapeDef sd = getShapeDef();
+    sd.isSensor = m_sensor;
     processBody(m_body, sd);
 
     m_body.m_userData = this;
@@ -337,14 +338,19 @@ public class FBody extends FDrawable {
     m_body.setMassFromShapes();
   }
 
-  public void setStaticBody( boolean value ) {
+  public void setSensor( boolean value ){
     if( m_body != null ) {
-      m_body.m_type = value ? m_body.e_staticType : m_body.e_dynamicType;
+      // Set the density of shapes
+      for (Shape s = m_body.getShapeList(); s != null; s = s.m_next) {
+        s.m_isSensor = value;
+      }    
     }
+    
+    m_sensor = value;
+  }
 
-    m_static = value;
-
-    updateMass();
+  public void setStaticBody( boolean value ) {
+    setStatic(value);
   }
 
   public void setStatic( boolean value ){

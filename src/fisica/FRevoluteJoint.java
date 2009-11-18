@@ -98,6 +98,30 @@ public class FRevoluteJoint extends FJoint {
     return md;
   }
 
+  public void setLowerAngle(float a) {
+    if (m_joint != null) {
+      ((RevoluteJoint)m_joint).m_lowerAngle = a;
+    }
+    
+    m_lowerAngle = a;
+  }
+
+  public void setUpperAngle(float a) {
+    if (m_joint != null) {
+      ((RevoluteJoint)m_joint).m_upperAngle = a;
+    }
+    
+    m_upperAngle = a;
+  }
+
+  public void setEnableLimit(boolean v) {
+    if (m_joint != null) {
+      ((RevoluteJoint)m_joint).m_enableLimit = v;
+    }
+    
+    m_enableLimit = v;
+  }
+
   public void setAnchor(float x, float y) {
     if (m_joint != null) {
       ((RevoluteJoint)m_joint).getAnchor2().set(Fisica.screenToWorld(x), Fisica.screenToWorld(y));

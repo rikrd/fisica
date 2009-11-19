@@ -36,6 +36,8 @@ public class FBody extends FDrawable {
   public Body m_body;
   public FWorld m_world;
 
+  public boolean m_grabbable = true;
+  
   public FBody() {
     m_body = null;
   }
@@ -88,6 +90,10 @@ public class FBody extends FDrawable {
 
   public void setGroupIndex(int index) {
     m_groupIndex = index;
+  }
+
+  public void setGrabbable(boolean value) {
+    m_grabbable = value;
   }
 
   protected ShapeDef getShapeDef() {

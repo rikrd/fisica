@@ -192,9 +192,10 @@ public class FWorld extends World {
         && event.getButton() == m_mouseButton 
         && (m_mouseJoint.getGrabbedBody() == null)) {
 
-      FBody body = this.getBody(event.getX(), event.getY(), false);
+      FBody body = this.getBody(event.getX(), event.getY(), true);
       if ( body == null ) return;
-
+      if (!(body.m_grabbable)) return;
+      
       m_mouseJoint.setGrabbedBodyAndTarget(body, event.getX(), event.getY());
       m_mouseJoint.setFrequency(3.0f);
       m_mouseJoint.setDamping(0.1f);
@@ -255,6 +256,7 @@ public class FWorld extends World {
   public void setEdges(PApplet applet, int color) {
     left = new FBox(20, applet.height);
     left.setStaticBody(true);
+    left.setGrabbable(false);
     left.setRestitution(0.5f);
     left.setFillColorInt(color);
     left.setStrokeColorInt(color);	
@@ -263,6 +265,7 @@ public class FWorld extends World {
     
     right = new FBox(20, applet.height);
     right.setStaticBody(true);
+    right.setGrabbable(false);
     right.setRestitution(0.5f);
     right.setPosition(applet.width+5, applet.height/2);
     right.setFillColorInt(color);
@@ -271,6 +274,7 @@ public class FWorld extends World {
     
     top = new FBox(applet.width, 20);
     top.setStaticBody(true);
+    top.setGrabbable(false);
     top.setRestitution(0.5f);
     top.setPosition(applet.width/2, -5);
     top.setFillColorInt(color);
@@ -279,6 +283,7 @@ public class FWorld extends World {
 		
     bottom = new FBox(applet.width, 20);
     bottom.setStaticBody(true);
+    bottom.setGrabbable(false);
     bottom.setRestitution(0.5f);
     bottom.setPosition(applet.width/2, applet.height+5);
     bottom.setFillColorInt(color);

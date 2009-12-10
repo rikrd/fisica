@@ -1,5 +1,5 @@
 
-FISICA_VERSION=5
+FISICA_VERSION=6
 
 JAVAC_ARGS=-source 1.5 -target 1.5
 CLASSPATH=3rdparty/JBox2D-2.0.1-b229-Library.jar:"$(PROCESSING_PATH)/lib/core.jar":"$(PROCESSING_PATH)/libraries/xml/library/xml.jar"

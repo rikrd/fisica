@@ -29,7 +29,7 @@ public class FDistanceJoint extends FJoint {
     m_anchor1 = new Vec2(0.0f, 0.0f);
     m_anchor2 = new Vec2(0.0f, 0.0f);
     
-    m_length = m_body1.m_body.getPosition().sub(m_body2.m_body.getPosition()).length();
+    m_length = m_body1.m_body.getPosition().add(m_anchor1).sub(m_body2.m_body.getPosition().add(m_anchor2)).length();
   }
 
   protected JointDef getJointDef(FWorld world) {
@@ -62,6 +62,21 @@ public class FDistanceJoint extends FJoint {
     }
     
     m_frequency = frequency;
+  }
+
+  public void calculateLength() {
+    /*
+    float lengthX = ((m_body1.getX() + m_anchor1.x) - (m_body2.getX() + m_anchor2.x));
+    float lengthY = ((m_body1.getY() + m_anchor1.y) - (m_body2.getY() + m_anchor2.y));
+    setLength((float)Math.sqrt(lengthX*lengthX + lengthY*lengthY));
+    */
+    float world_length = m_body1.m_body.getPosition().add(m_anchor1).sub(m_body2.m_body.getPosition().add(m_anchor2)).length();
+
+    if ( m_joint != null ) {
+      ((DistanceJoint)m_joint).m_length = world_length;
+    }
+
+    m_length = world_length;
   }
 
   public void setLength(float length) {

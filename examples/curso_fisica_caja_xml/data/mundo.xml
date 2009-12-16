@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<mundo>
+  <caja width="50" height="30" x="200" y="100">Cajita</caja>
+  <bola radio="50" x="300" y="300">Bolita</bola>
+</mundo>

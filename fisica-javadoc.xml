@@ -1,0 +1,48 @@
+<project name="geomerative" default="build" basedir="./">
+
+  <property environment="env"/>
+
+  <path id="library-classpath">
+    <fileset dir="library" >
+      <include name="JBox2D-2.0.1-b229-Library.jar"/>
+    </fileset>
+  </path>
+  
+  <path id="processing-core">
+    <fileset dir="${env.PROCESSING_PATH}">
+      <include name="lib/core.jar"/>
+    </fileset>
+  </path>
+  
+  
+  <target name="build" description="generate the distribution" >
+    
+    <mkdir dir="documentation" />
+    
+    <javadoc bottom="Fisica by Ricard Marxer, http://www.ricardmarxer.com/fisica/"
+	     excludepackagenames="org.jbox2d.*"
+             access="public"
+             destdir="./documentation" 
+	     verbose="false" 
+	     doctitle="Fisica Reference"
+             version="true" 
+	     windowtitle="Fisica Reference"
+             stylesheetfile="stylesheet.css">
+      <fileset dir="src" defaultexcludes="yes">
+	<include name="**/*"/>
+      </fileset>
+      <classpath>
+	<path refid="library-classpath" />
+	<path refid="processing-core" />
+      </classpath>
+
+      <tag name="invisible" scope="all" enabled="false"/>
+      <tag name="related" scope="all" enabled="false"/>
+      <tag name="extended" scope="all" enabled="false"/>
+      <tag name="usage" scope="all" enabled="false"/>
+      <tag name="eexample" scope="all" enabled="false"/>
+    </javadoc>
+    
+  </target>
+  
+</project>

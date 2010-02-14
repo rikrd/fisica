@@ -10,10 +10,33 @@ import processing.core.*;
 public class FCircle extends FBody {
   float m_size;
 
+  /**
+   * Represents a circular body that can be added to an FWorld.  This body has all the properties that {@link FBody FBody} has.
+   *
+   * {@code
+   FCircle myCircle = new FCircle(40);
+   world.add(myCircle);
+   * }
+   *
+   * @usage Bodies
+   * @related FBox
+   * @param size  the size of the circle
+   */
   public FCircle(float size){
     super();
      
     m_size = Fisica.screenToWorld(size);
+  }
+
+  /**
+   * Returns the size of the circle.
+   *
+   * @usage Bodies
+   * @returns the size of the circle
+   */
+  public float getSize(){ 
+    // only for FBox
+    return Fisica.worldToScreen(m_size);
   }
   
   protected ShapeDef getShapeDef() {
@@ -24,11 +47,6 @@ public class FCircle extends FBody {
     pd.restitution = m_restitution;
     pd.isSensor = m_sensor;
     return pd;
-  }
-
-  public float getSize(){ 
-    // only for FBox
-    return Fisica.worldToScreen(m_size);
   }
 
   public void draw(PApplet applet) {

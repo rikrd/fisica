@@ -115,7 +115,17 @@ public class FWorld extends World {
   private Method m_contactPersistedMethod;
   private Method m_contactEndedMethod;
   private Method m_contactResultMethod;
-  
+
+  /**
+   * Represents the world where all the bodies live in.  When we create a world it will have the size of the applet that it is created in.  Once the world is created we can add bodies to it or remove bodies we have added.
+   *
+   * {@code
+   FWorld world = new FWorld();
+   * }
+   *
+   * @usage World
+   * @related FBody
+   */  
   public FWorld() {
     super(new AABB(Fisica.screenToWorld(new Vec2(-Fisica.parent().width,
                                                  -Fisica.parent().height)),
@@ -174,6 +184,17 @@ public class FWorld extends World {
     return m_mouseJoint;
   }
 
+  /**
+   * Controls whether the bodies in the world can be grabbed by the mouse or not.  By default the world bodies' are grabbable and draggable.
+   *
+   * {@code
+   world.setGrabbable(false);
+   * }
+   *
+   * @usage World
+   * @param value  if true the bodies that live in this world can be grabbed and dragged using the mouse
+   * @related FBody
+   */
   public void setGrabbable(boolean value) {
     if (m_grabbable == value) return;
     
@@ -221,6 +242,28 @@ public class FWorld extends World {
     }
   }
 
+  /**
+   * Draws all the bodies in the world.  This method is often called in the draw method of the applet.
+   *
+   * {@code
+   FWorld world;
+   
+   void setup() {
+     Fisica.init(this);
+     world = new FWorld();
+   }
+
+   void draw() {
+   
+     world.draw(this);
+   }
+
+   * }
+   *
+   * @usage World
+   * @param value  if true the bodies that live in this world can be grabbed and dragged using the mouse
+   * @related FBody
+   */
   public void draw( PApplet applet ) {
     for (Body b = getBodyList(); b != null; b = b.m_next) {
       FBody fb = (FBody)(b.m_userData);
@@ -232,6 +275,10 @@ public class FWorld extends World {
       if (fj != null && fj.isDrawable()) fj.draw(applet);
     }
 
+  }
+
+  public void draw() {
+    draw(Fisica.parent());
   }
 
   public void add( FBody body ) {
@@ -292,6 +339,10 @@ public class FWorld extends World {
 
     setEdgesFriction(m_edgesFriction);
     setEdgesRestitution(m_edgesRestitution);
+  }
+
+  public void setEdges() {
+    setEdges(Fisica.parent(), 0);
   }
 
   public void setEdgesFriction( float friction ) {

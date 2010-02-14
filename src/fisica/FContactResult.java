@@ -5,6 +5,7 @@ import org.jbox2d.collision.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.*;
 
+/** @invisible */
 public class FContactResult {
   public Vec2 m_position;
   public Vec2 m_normal;

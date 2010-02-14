@@ -12,18 +12,24 @@ import org.jbox2d.dynamics.joints.*;
 
 import processing.core.*;
 
+/** @invisible */
 public class FJoint extends FDrawable {  
   // Joint creation settings
+  /** @invisible */
   public Joint m_joint;
+  /** @invisible */
   public FWorld m_world;
 
+  /** @invisible */
   public boolean m_collideConnected = true;
   
+  /** @invisible */
   public void processJoint(World world, JointDef jd){
     jd.collideConnected = m_collideConnected;
     m_joint = world.createJoint(jd);
   }
 
+  /** @invisible */
   public void addToWorld(FWorld world) {
     m_world = world;
 
@@ -33,6 +39,7 @@ public class FJoint extends FDrawable {
     
   }
 
+  /** @invisible */
   public void removeFromWorld() {
     if (m_joint == null) return;
     
@@ -40,10 +47,12 @@ public class FJoint extends FDrawable {
     m_joint = null;
   }
 
+  /** @invisible */
   protected JointDef getJointDef(FWorld world) {
     return null;
   }
 
+  /** @invisible */
   protected void preDraw(PApplet applet) {
     applet.pushStyle();
     applet.pushMatrix();
@@ -53,6 +62,7 @@ public class FJoint extends FDrawable {
     appletFillStroke(applet);
   }
 
+  /** @invisible */
   protected void postDraw(PApplet applet) {
     applet.popMatrix();
     applet.popStyle();

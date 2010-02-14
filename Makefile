@@ -38,9 +38,9 @@ dist: library/fisica.jar #doc
 	cd distribution && zip -r fisica-$(FISICA_VERSION).zip .
 
 doc:
-	#mkdir -p $(DIST_DIR)
+	mkdir -p $(DIST_DIR)
 	#javadoc -classpath $(CLASSPATH) -doclet prodoc.StartDoclet -docletpath external -sourcepath src fisica
-	#rm -rf $(DIST_DIR)/documentation
+	rm -rf $(DIST_DIR)/documentation
 	ant -f fisica-javadoc.xml
 	mv -f documentation $(DIST_DIR)
 

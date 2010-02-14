@@ -8,6 +8,7 @@ import org.jbox2d.dynamics.*;
 import processing.core.*;
 
 public class FCircle extends FBody {
+  /** @invisible */
   float m_size;
 
   /**
@@ -15,7 +16,7 @@ public class FCircle extends FBody {
    *
    * {@code
    FCircle myCircle = new FCircle(40);
-   world.add(myCircle);
+CircleworCircleadd(myCiCirclee);
    * }
    *
    * @usage Bodies
@@ -32,7 +33,7 @@ public class FCircle extends FBody {
    * Returns the size of the circle.
    *
    * @usage Bodies
-   * @returns the size of the circle
+   * @return the size of the circle
    */
   public float getSize(){ 
     // only for FBox
@@ -49,6 +50,7 @@ public class FCircle extends FBody {
     return pd;
   }
 
+  /** @invisible */
   public void draw(PApplet applet) {
     preDraw(applet);
 

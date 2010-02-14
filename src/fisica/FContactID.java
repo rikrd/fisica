@@ -5,6 +5,7 @@ import org.jbox2d.collision.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.*;
 
+/** @invisible */
 public class FContactID {
   public ContactID m_id;
   

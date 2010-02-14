@@ -8,7 +8,9 @@ import org.jbox2d.dynamics.*;
 import processing.core.*;
 
 public class FBox extends FBody {
+  /** @invisible */
   float m_height;
+  /** @invisible */
   float m_width;
 
   /**
@@ -35,8 +37,8 @@ public class FBox extends FBody {
    * Returns the height of the rectangle.
    *
    * @usage Bodies
-   * @related getHeight
-   * @returns the height of the rectangle
+   * @related getWidth
+   * @return the height of the rectangle
    */  
   public float getHeight(){ 
     // only for FBox
@@ -47,8 +49,8 @@ public class FBox extends FBody {
    * Returns the width of the rectangle.
    *
    * @usage Bodies
-   * @related getWidth
-   * @returns the width of the rectangle
+   * @related getHeight
+   * @return the width of the rectangle
    */  
   public float getWidth(){
     // only for FBox

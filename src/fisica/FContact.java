@@ -5,6 +5,7 @@ import org.jbox2d.collision.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.*;
 
+/** @invisible */
 public class FContact {
   public FBody m_body1;
   public FBody m_body2;

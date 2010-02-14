@@ -10,56 +10,69 @@ import org.jbox2d.collision.shapes.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.joints.*;
 
+/** @invisible */
 public class FRevoluteJoint extends FJoint {    
+  /** @invisible */
   public FBody m_body1;
+  /** @invisible */
   public FBody m_body2;
 
+  /** @invisible */
   public Vec2 m_anchor;
 
   /**
    *  The local anchor point relative to body1's origin.
    */
+  /** @invisible */
   public Vec2 m_localAnchor1 = new Vec2(0.0f, 0.0f);
   
   /**
    *  The local anchor point relative to body2's origin.
    */
+  /** @invisible */
   public Vec2 m_localAnchor2 = new Vec2(0.0f, 0.0f);
   
   /**
    *  The body2 angle minus body1 angle in the reference state (radians).
    */
+  /** @invisible */
   public float m_referenceAngle = 0.0f;
   
   /**
    *  A flag to enable joint limits.
    */
+  /** @invisible */
   public boolean m_enableLimit = false;
   
   /**
    *  The lower angle for the joint limit (radians).
    */
+  /** @invisible */
   public float m_lowerAngle = 0.0f;
   
   /**
    *  The upper angle for the joint limit (radians).
    */
+  /** @invisible */
   public float m_upperAngle = 0.0f;
   
   /**
    *  A flag to enable the joint motor.
    */
+  /** @invisible */
   public boolean m_enableMotor = false;
   
   /**
    *  The desired motor speed. Usually in radians per second.
    */
+  /** @invisible */
   public float m_motorSpeed = 0.0f;
   
   /**
    *  The maximum motor torque used to achieve the desired motor speed.
    *  Usually in N-m.
    */
+  /** @invisible */
   public float m_maxMotorTorque = 0.0f;
   
   public FRevoluteJoint(FBody body1, FBody body2, float x, float y) {

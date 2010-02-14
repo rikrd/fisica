@@ -15,17 +15,30 @@ import org.jbox2d.dynamics.joints.*;
 import processing.core.*;
 
 public class FWorld extends World {
-  public FBox left, right, top, bottom;
+  public FBox left;
+  public FBox right;
+  public FBox top;
+  public FBox bottom;
+  
+  /** @invisible */
   float m_edgesFriction = 0.5f;
+  /** @invisible */
   float m_edgesRestitution = 0.5f;
+  /** @invisible */
   boolean m_grabbable = true;
+  /** @invisible */
   int m_mouseButton = MouseEvent.BUTTON1;
+  /** @invisible */
   HashMap m_contacts;
+  /** @invisible */
   ArrayList m_contactResults;
 
+  /** @invisible */
   FMouseJoint m_mouseJoint = new FMouseJoint((FBody)null, 0.0f, 0.0f);
 
+  /** @invisible */
   private Vec2 m_small = new Vec2(0.001f, 0.001f);
+  /** @invisible */
   private AABB m_aabb = new AABB();
     
   /**
@@ -33,6 +46,7 @@ public class FWorld extends World {
    * contactPersisted(ContactPoint point) and contactStopped(ContactPoint point)
    * which may be implemented in the sketch.
    *
+   * @invisible
    */
   class ConcreteContactListener implements ContactListener {
     public void add(ContactPoint point) {      
@@ -110,10 +124,15 @@ public class FWorld extends World {
     }
   }
 
+  /** @invisible */
   private ConcreteContactListener m_contactListener;
+  /** @invisible */
   private Method m_contactStartedMethod;
+  /** @invisible */
   private Method m_contactPersistedMethod;
+  /** @invisible */
   private Method m_contactEndedMethod;
+  /** @invisible */
   private Method m_contactResultMethod;
 
   /**
@@ -261,7 +280,7 @@ public class FWorld extends World {
    * }
    *
    * @usage World
-   * @param value  if true the bodies that live in this world can be grabbed and dragged using the mouse
+   * @param applet  applet to which to draw the world.  Useful when trying to draw the world on other Processing backends, such as PDF
    * @related FBody
    */
   public void draw( PApplet applet ) {

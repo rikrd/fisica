@@ -7,20 +7,38 @@ import org.jbox2d.dynamics.*;
 
 import processing.core.*;
 
+/**
+ * Represents a rectangular body that can be added to a world.
+ *
+ * <pre>
+ * {@code
+ * FBox myBox = new FBox(40, 20);
+ * world.add(myBox);
+ * }
+ * </pre>
+ *
+ * @usage Bodies
+ * @see FBlob
+ * @see FPoly
+ * @see FLine
+ */
 public class FBox extends FBody {
   protected float m_height;
   protected float m_width;
 
+  protected ShapeDef getShapeDef() {
+    PolygonDef pd = new PolygonDef();
+    pd.setAsBox(m_width/2.0f, m_height/2.0f);
+    pd.density = m_density;
+    pd.friction = m_friction;
+    pd.restitution = m_restitution;
+    pd.isSensor = m_sensor;
+    return pd;
+  }
+
   /**
-   * Represents a rectangular body that can be added to an FWorld.  Represents a circular body that can be added to an FWorld.  This body has the same properties as {@link FBody FBody}.
+   * Represents a rectangular body that can be added to a world.
    *
-   * {@code
-   FBox myBox = new FBox(40, 20);
-   world.add(myBox);
-   * }
-   *
-   * @usage Bodies
-   * @see FCircle
    * @param width  the width of the rectangle
    * @param height  the height of the rectangle
    */
@@ -53,16 +71,6 @@ public class FBox extends FBody {
   public float getWidth(){
     // only for FBox
     return Fisica.worldToScreen(m_width);
-  }
-
-  protected ShapeDef getShapeDef() {
-    PolygonDef pd = new PolygonDef();
-    pd.setAsBox(m_width/2.0f, m_height/2.0f);
-    pd.density = m_density;
-    pd.friction = m_friction;
-    pd.restitution = m_restitution;
-    pd.isSensor = m_sensor;
-    return pd;
   }
 
   public void draw(PApplet applet) {

@@ -7,19 +7,37 @@ import org.jbox2d.dynamics.*;
 
 import processing.core.*;
 
+/**
+ * Represents a circular body that can be added to a world.
+ * <pre>
+ * {@code
+ * FCircle myCircle = new FCircle(40);
+ * world.add(myCircle);
+ * }
+ * </pre>
+ *
+ * @usage Bodies
+ * @see FBox
+ * @see FBlob
+ * @see FPoly
+ * @see FLine
+ */
 public class FCircle extends FBody {
   protected float m_size;
 
+  protected ShapeDef getShapeDef() {
+    CircleDef pd = new CircleDef();
+    pd.radius = m_size/2.0f;
+    pd.density = m_density;
+    pd.friction = m_friction;
+    pd.restitution = m_restitution;
+    pd.isSensor = m_sensor;
+    return pd;
+  }
+
   /**
-   * Represents a circular body that can be added to an FWorld.  This body has all the properties that {@link FBody FBody} has.
+   * Represents a circular body that can be added to a world.  Since it is a body, it inherits all the methods from {@link FBody FBody}.
    *
-   * {@code
-   FCircle myCircle = new FCircle(40);
-CircleworCircleadd(myCiCirclee);
-   * }
-   *
-   * @usage Bodies
-   * @see FBox
    * @param size  the size of the circle
    */
   public FCircle(float size){
@@ -39,17 +57,6 @@ CircleworCircleadd(myCiCirclee);
     return Fisica.worldToScreen(m_size);
   }
 
-  protected ShapeDef getShapeDef() {
-    CircleDef pd = new CircleDef();
-    pd.radius = m_size/2.0f;
-    pd.density = m_density;
-    pd.friction = m_friction;
-    pd.restitution = m_restitution;
-    pd.isSensor = m_sensor;
-    return pd;
-  }
-
-  /** @invisible */
   public void draw(PApplet applet) {
     preDraw(applet);
 

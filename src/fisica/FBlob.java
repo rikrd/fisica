@@ -10,30 +10,70 @@ import org.jbox2d.collision.shapes.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.joints.*;
 
+/**
+ * Represents a blob body that can be added to a world.
+ * Blobs are soft bodies that are composed of vertices and tries to maintain constant the volume the vertices enclose.
+ * Blobs can be created by adding vertices in a similar way to {@link FPoly FPoly}:
+ * <pre>
+ * {@code
+ * FBlob myBlob = new FBlob();
+ * myBlob.vertex(40, 10);
+ * myBlob.vertex(50, 20);
+ * myBlob.vertex(60, 30);
+ * myBlob.vertex(60, 40);
+ * myBlob.vertex(50, 50);
+ * myBlob.vertex(40, 60);
+ * myBlob.vertex(30, 70);
+ * myBlob.vertex(20, 60);
+ * myBlob.vertex(10, 50);
+ * myBlob.vertex(10, 40);
+ * myBlob.vertex(20, 30);
+ * myBlob.vertex(30, 20);
+ * myBlob.vertex(40, 10);
+ * world.add(myBlob);
+ * }
+ * </pre>
+ *
+ * or it may be initialized using the method {@link #setAsCircle(float) setAsCircle} to set the initial shape as a circle:
+ * <pre>
+ * {@code
+ * FBlob myBlob = new FBlob();
+ * myBlob.setAsCircle(40);
+ * world.add(myBlob);
+ * }
+ * </pre>
+ *
+ * @usage Bodies
+ * @see FBox
+ * @see FCircle
+ */
 public class FBlob extends FBody {  
-  public ArrayList m_vertices;  // in world coords
-  public ArrayList m_vertexBodies;  // in world coords
-  float m_damping = 0.0f;
-  float m_frequency = 0.0f;
-  float m_vertexSize = 0.4f;  // in world coords
+  protected ArrayList m_vertices;  // in world coords
+  protected ArrayList m_vertexBodies;  // in world coords
+  protected float m_damping = 0.0f;
+  protected float m_frequency = 0.0f;
+  protected float m_vertexSize = 0.4f;  // in world coords
   
-  Vec2 m_force = new Vec2();
-  float m_torque = 0.0f;
-  float m_density = 1.0f;
-  float m_restitution = 0.5f;
-  float m_friction = 0.5f;
-  boolean m_bullet = false;
+  protected Vec2 m_force = new Vec2();
+  protected float m_torque = 0.0f;
+  protected float m_density = 1.0f;
+  protected float m_restitution = 0.5f;
+  protected float m_friction = 0.5f;
+  protected boolean m_bullet = false;
 
-  public FConstantVolumeJoint m_joint;
+  protected FConstantVolumeJoint m_joint;
   
-  public FBlob() {
+  /**
+   * Constructs a blob body that can be added to a world.  It creates an empty blob, before adding the blob to the world use {@link #vertex(float,float) vertex} or {@link #setAsCircle(float) setAsCircle} to define the initial shape of the blob.
+   */
+public FBlob() {
     super();
     
     m_vertices = new ArrayList();
     m_vertexBodies = new ArrayList();
   }
 
-  public void addToWorld(FWorld world) {
+  protected void addToWorld(FWorld world) {
     // Create the constant volume joint
     FConstantVolumeJoint m_joint = new FConstantVolumeJoint();
     m_joint.setFrequency(m_frequency);
@@ -65,7 +105,7 @@ public class FBlob extends FBody {
     world.add(m_joint);
   }
 
-  public void removeFromWorld(FWorld world) {
+  protected void removeFromWorld(FWorld world) {
     // Remove the constant volume joint
     m_joint.removeFromWorld();
     
@@ -94,16 +134,20 @@ public class FBlob extends FBody {
     }
   }
 
-  public void setVertexSize(float size){
-    m_vertexSize = Fisica.screenToWorld(size);
+  public void setAsCircle(float x, float y, float size) {
+    setAsCircle(x, y, size);
   }
 
-  public void setDamping(float damping) {
-    if ( m_joint != null ) {
-      m_joint.setDamping(damping);
-    }
+  public void setAsCircle(float size) {
+    setAsCircle(0, 0, size, 30);
+  }
 
-    m_damping = damping;
+  public void setAsCircle(float size, int vertexCount) {
+    setAsCircle(0, 0, size, vertexCount);
+  }
+
+  public void setVertexSize(float size){
+    m_vertexSize = Fisica.screenToWorld(size);
   }
 
   public void setFrequency(float frequency) {
@@ -112,6 +156,14 @@ public class FBlob extends FBody {
     }
     
     m_frequency = frequency;
+  }
+
+  public void setDamping(float damping) {
+    if ( m_joint != null ) {
+      m_joint.setDamping(damping);
+    }
+
+    m_damping = damping;
   }
 
   public void addForce(float fx, float fy) {
@@ -178,16 +230,16 @@ public class FBlob extends FBody {
     }
   }
 
-  public void setFillColorInt(int col) {
-    super.setFillColorInt(col);
+  public void setFillColor(int col) {
+    super.setFillColor(col);
     
     if (m_joint != null) {
       m_joint.updateStyle(this);
     }
   }
 
-  public void setStrokeColorInt(int col) {
-    super.setStrokeColorInt(col);
+  public void setStrokeColor(int col) {
+    super.setStrokeColor(col);
     
     if (m_joint != null) {
       m_joint.updateStyle(this);

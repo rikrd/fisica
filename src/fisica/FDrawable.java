@@ -122,7 +122,7 @@ abstract class FDrawable {
   /**
    * Set the opacity with which to draw the attached image.
    *
-   * @return the opacity, a value from 0.0 to 1.0 with which to draw the attached image
+   * @param alpha   the opacity, a value from 0.0 to 1.0 with which to draw the attached image
    * @see #attachImage(PImage)
    * @see #getImageAlpha()
    */

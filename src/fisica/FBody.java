@@ -621,7 +621,7 @@ public abstract class FBody extends FDrawable {
   /**
    * Set whether the body can rotate.
    *
-   * @param boolean   if {@code true} the body will not rotate
+   * @param rotatable   if {@code true} the body will not rotate
    */
   public void setRotatable( boolean rotatable ){
     if ( m_body != null ) {

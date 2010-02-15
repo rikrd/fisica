@@ -13,7 +13,7 @@ import org.jbox2d.dynamics.joints.*;
 /**
  * Represents a blob body that can be added to a world.
  * Blobs are soft bodies that are composed of vertices and tries to maintain constant the volume the vertices enclose.
- * Blobs can be created by adding vertices in a similar way to {@link FPoly FPoly}:
+ * Blobs can be created by adding vertices using the {@link #vertex(float,float) vertex} method in a similar way to {@link FPoly FPoly}:
  * <pre>
  * {@code
  * FBlob myBlob = new FBlob();
@@ -46,6 +46,8 @@ import org.jbox2d.dynamics.joints.*;
  * @usage Bodies
  * @see FBox
  * @see FCircle
+ * @see FPoly
+ * @see FLine
  */
 public class FBlob extends FBody {  
   protected ArrayList m_vertices;  // in world coords
@@ -114,17 +116,29 @@ public class FBlob extends FBody {
       ((FBody)m_vertexBodies.get(i)).removeFromWorld();
     }
   }
-
+  
+  /**
+   * Adds vertices to the initial shape of the blob.  This method must be called before adding the body to the world.
+   *
+   * @param x  x coordinate of the vertex to be added
+   * @param y  y coordinate of the vertex to be added
+   */
   public void vertex(float x, float y){
     m_vertices.add(Fisica.screenToWorld(x, y));
   }
 
-  public float getVertexSize(){
-    return Fisica.worldToScreen(m_vertexSize);
-  }
-
+  /**
+   * Sets the initial shape of the blob to a circle.  This method removes all the previous vertices tha may have been added by the use of the {@link #vertex(float,float) vertex}.  This method must be called before adding the body to the world.
+   *
+   * @param x  x coordinate of the position of the circle
+   * @param y  y coordinate of the position of the circle
+   * @param size  size of the circle
+   * @param vertexCount  number of vertices of the circle
+   */
   public void setAsCircle(float x, float y, 
                           float size, int vertexCount) {
+    m_vertices.clear();
+    
     for (int i=0; i<vertexCount; i++) {
       float angle = Fisica.parent().map(i, 0, vertexCount-1, 0, Fisica.parent().TWO_PI);
       float vx = x + size/2 * Fisica.parent().sin(angle);
@@ -134,22 +148,59 @@ public class FBlob extends FBody {
     }
   }
 
+  /**
+   * Sets the initial shape of the blob to a circle.  This method removes all the previous vertices tha may have been added by the use of the {@link #vertex(float,float) vertex}.  This method must be called before adding the body to the world.
+   *
+   * @param x  x coordinate of the position of the circle
+   * @param y  y coordinate of the position of the circle
+   * @param size  size of the circle
+   */
   public void setAsCircle(float x, float y, float size) {
     setAsCircle(x, y, size);
   }
 
+  /**
+   * Sets the initial shape of the blob to a circle.  This method removes all the previous vertices tha may have been added by the use of the {@link #vertex(float,float) vertex}.  This method must be called before adding the body to the world.
+   *
+   * @param size  size of the circle
+   */
   public void setAsCircle(float size) {
     setAsCircle(0, 0, size, 30);
   }
 
+  /**
+   * Sets the initial shape of the blob to a circle.  This method removes all the previous vertices tha may have been added by the use of the {@link #vertex(float,float) vertex}.  This method must be called before adding the body to the world.
+   *
+   * @param size  size of the circle
+   * @param vertexCount  number of vertices of the circle
+   */
   public void setAsCircle(float size, int vertexCount) {
     setAsCircle(0, 0, size, vertexCount);
   }
 
+  /**
+   * Returns the size of the circular vertices of the blob.  This method must be called before the body is added to the world.
+   *
+   * @return size of the circular vertices of the blob
+   */
+  public float getVertexSize(){
+    return Fisica.worldToScreen(m_vertexSize);
+  }
+
+  /**
+   * Sets the size of the circular vertices of the blob.  This method must be called before the body is added to the world.
+   *
+   * @param size  size of the circular vertices of the blob
+   */
   public void setVertexSize(float size){
     m_vertexSize = Fisica.screenToWorld(size);
   }
 
+  /**
+   * Sets the frequency of the springs used to maintain the volume defined by the vertices constant.
+   *
+   * @param frequency  the frequency of the springs of the constant volume joint
+   */
   public void setFrequency(float frequency) {
     if ( m_joint != null ) {
       m_joint.setFrequency(frequency);
@@ -158,6 +209,11 @@ public class FBlob extends FBody {
     m_frequency = frequency;
   }
 
+  /**
+   * Sets the damping of the springs used to maintain the volume defined by the vertices constant.
+   *
+   * @param damping  the damping of the springs of the constant volume joint
+   */
   public void setDamping(float damping) {
     if ( m_joint != null ) {
       m_joint.setDamping(damping);

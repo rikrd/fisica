@@ -14,6 +14,38 @@ import org.jbox2d.dynamics.joints.*;
 
 import processing.core.*;
 
+/**
+ * Represents the world where all the bodies live in.
+ * When we create a world it will have the size of the applet that it is created in.  Once the world is created we can add bodies to it or remove bodies we have added.
+ *
+ * Once the world is created we may add or remove bodies to it using {@link #add(FBody) add} and  {@link #remove(FBody) remove}.  We may also call {@link #step() step} to advance one step the simulation.  Finally we can draw the world and all the bodies living in it by using  {@link #draw() draw}.
+ *
+ *
+ *
+ * <pre>
+ * {@code
+ * FWorld world;
+ *
+ * void setup() {
+ *   Fisica.init(this);
+ *
+ *   world = new FWorld();
+ *   world.setEdges();
+ *
+ *   // Create and add bodies to the world here
+ *   // ...
+ * }
+ *
+ * void draw() {
+ *   world.step();
+ *   world.draw();
+ * }
+ *}
+ * </pre>
+ *
+ * @usage World
+ * @see FBody
+ */
 public class FWorld extends World {
   public FBox left;
   public FBox right;
@@ -157,14 +189,7 @@ public class FWorld extends World {
   }
 
   /**
-   * Represents the world where all the bodies live in.  When we create a world it will have the size of the applet that it is created in.  Once the world is created we can add bodies to it or remove bodies we have added.
-   *
-   * {@code
-   FWorld world = new FWorld();
-   * }
-   *
-   * @usage World
-   * @see FBody
+   * Constructs the world where all the bodies live in.
    */
   public FWorld() {
     super(new AABB(Fisica.screenToWorld(new Vec2(-Fisica.parent().width,
@@ -249,22 +274,6 @@ public class FWorld extends World {
   /**
    * Draws all the bodies in the world.  This method is often called in the draw method of the applet.
    *
-   * {@code
-   FWorld world;
-
-   void setup() {
-     Fisica.init(this);
-     world = new FWorld();
-   }
-
-   void draw() {
-
-     world.draw(this);
-   }
-
-   * }
-   *
-   * @usage World
    * @param applet  applet to which to draw the world.  Useful when trying to draw the world on other Processing backends, such as PDF
    * @see FBody
    */
@@ -281,6 +290,11 @@ public class FWorld extends World {
 
   }
 
+  /**
+   * Draws all the bodies in the world on the applet canvas.  This method is often called in the draw method of the applet.
+   *
+   * @see FBody
+   */
   public void draw() {
     draw(Fisica.parent());
   }
@@ -309,8 +323,8 @@ public class FWorld extends World {
     left.setStaticBody(true);
     left.setGrabbable(false);
     left.setRestitution(0.5f);
-    left.setFillColorInt(color);
-    left.setStrokeColorInt(color);
+    left.setFillColor(color);
+    left.setStrokeColor(color);
     left.setPosition(-5, applet.height/2);
     add(left);
 
@@ -319,8 +333,8 @@ public class FWorld extends World {
     right.setGrabbable(false);
     right.setRestitution(0.5f);
     right.setPosition(applet.width+5, applet.height/2);
-    right.setFillColorInt(color);
-    right.setStrokeColorInt(color);
+    right.setFillColor(color);
+    right.setStrokeColor(color);
     add(right);
 
     top = new FBox(applet.width, 20);
@@ -328,8 +342,8 @@ public class FWorld extends World {
     top.setGrabbable(false);
     top.setRestitution(0.5f);
     top.setPosition(applet.width/2, -5);
-    top.setFillColorInt(color);
-    top.setStrokeColorInt(color);
+    top.setFillColor(color);
+    top.setStrokeColor(color);
     add(top);
 
     bottom = new FBox(applet.width, 20);
@@ -337,8 +351,8 @@ public class FWorld extends World {
     bottom.setGrabbable(false);
     bottom.setRestitution(0.5f);
     bottom.setPosition(applet.width/2, applet.height+5);
-    bottom.setFillColorInt(color);
-    bottom.setStrokeColorInt(color);
+    bottom.setFillColor(color);
+    bottom.setStrokeColor(color);
     add(bottom);
 
     setEdgesFriction(m_edgesFriction);

@@ -10,24 +10,18 @@ import org.jbox2d.collision.shapes.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.joints.*;
 
-public class FMouseJoint extends FJoint {  
-  FBody m_fbody;
+public class FMouseJoint extends FJoint {
+  protected FBody m_fbody;
 
-  Vec2 m_anchor;
-  Vec2 m_target;
+  protected Vec2 m_anchor;
+  protected Vec2 m_target;
 
-  float m_damping = 0.9f;
-  float m_frequency = 20.0f;
-
-  public FMouseJoint(FBody body, float x, float y) {
-    super();
-    m_fbody = body;
-    m_target = Fisica.screenToWorld(x, y);
-  }
+  protected float m_damping = 0.9f;
+  protected float m_frequency = 20.0f;
 
   protected JointDef getJointDef(FWorld world) {
     Body body = m_fbody.m_body;
-    
+
     MouseJointDef md = new MouseJointDef();
     md.body1 = m_world.getGroundBody();
     md.body2 = body;
@@ -38,6 +32,12 @@ public class FMouseJoint extends FJoint {
     body.wakeUp();
 
     return md;
+  }
+
+  public FMouseJoint(FBody body, float x, float y) {
+    super();
+    m_fbody = body;
+    m_target = Fisica.screenToWorld(x, y);
   }
 
   public void setDamping(float damping) {
@@ -54,7 +54,7 @@ public class FMouseJoint extends FJoint {
     if (m_joint != null) {
       ((MouseJoint)m_joint).setTarget(Fisica.screenToWorld(x, y));
     }
-    
+
     m_target = Fisica.screenToWorld(x, y);
   }
 
@@ -79,7 +79,7 @@ public class FMouseJoint extends FJoint {
       m_joint.m_body2 = body.m_body;
       ((MouseJoint)m_joint).m_target.set(Fisica.screenToWorld(x, y));
     }
-    
+
     m_fbody = body;
     m_target = Fisica.screenToWorld(x, y);
   }
@@ -91,14 +91,14 @@ public class FMouseJoint extends FJoint {
     }
 
     m_fbody = null;
-    m_target = null;    
+    m_target = null;
   }
 
   public FBody getGrabbedBody() {
     if (m_joint != null) {
       return (FBody)m_joint.m_body2.getUserData();
     }
-    
+
     return m_fbody;
   }
 
@@ -106,10 +106,10 @@ public class FMouseJoint extends FJoint {
     if (m_joint != null) {
       ((DistanceJoint)m_joint).getAnchor2().set(Fisica.screenToWorld(x), Fisica.screenToWorld(y));
     }
-    
+
     m_anchor = Fisica.screenToWorld(x, y);
   }
-  
+
   /** Get the anchor point on body1 in world coordinates. */
   public float getAnchorX() {
     if (m_joint != null) {
@@ -130,9 +130,9 @@ public class FMouseJoint extends FJoint {
 
   public void draw(PApplet applet){
     preDraw(applet);
-    
+
     applet.line(getAnchorX(), getAnchorY(), getTargetX(), getTargetY());
-    
+
     postDraw(applet);
   }
 }

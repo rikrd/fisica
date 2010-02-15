@@ -10,30 +10,18 @@ import org.jbox2d.collision.shapes.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.joints.*;
 
-public class FDistanceJoint extends FJoint {  
-  FBody m_body1;
-  FBody m_body2;
-  float m_damping = 0.0f;
-  float m_frequency = 0.0f;
-  float m_length;
+public class FDistanceJoint extends FJoint {
+  protected FBody m_body1;
+  protected FBody m_body2;
+  protected float m_damping = 0.0f;
+  protected float m_frequency = 0.0f;
+  protected float m_length;
 
-  public Vec2 m_anchor1;
-  public Vec2 m_anchor2;
-
-  public FDistanceJoint(FBody body1, FBody body2) {
-    super();
-    m_body1 = body1;
-    m_body2 = body2;
-    
-    // These local positions ( relative to the bodys' positions )
-    m_anchor1 = new Vec2(0.0f, 0.0f);
-    m_anchor2 = new Vec2(0.0f, 0.0f);
-    
-    m_length = m_body1.m_body.getPosition().add(m_anchor1).sub(m_body2.m_body.getPosition().add(m_anchor2)).length();
-  }
+  protected Vec2 m_anchor1;
+  protected Vec2 m_anchor2;
 
   protected JointDef getJointDef(FWorld world) {
-    
+
     DistanceJointDef md = new DistanceJointDef();
     md.body1 = m_body1.m_body;
     md.body2 = m_body2.m_body;
@@ -48,6 +36,18 @@ public class FDistanceJoint extends FJoint {
     return md;
   }
 
+  public FDistanceJoint(FBody body1, FBody body2) {
+    super();
+    m_body1 = body1;
+    m_body2 = body2;
+
+    // These local positions ( relative to the bodys' positions )
+    m_anchor1 = new Vec2(0.0f, 0.0f);
+    m_anchor2 = new Vec2(0.0f, 0.0f);
+
+    m_length = m_body1.m_body.getPosition().add(m_anchor1).sub(m_body2.m_body.getPosition().add(m_anchor2)).length();
+  }
+
   public void setDamping(float damping) {
     if ( m_joint != null ) {
       ((DistanceJoint)m_joint).m_dampingRatio = damping;
@@ -60,7 +60,7 @@ public class FDistanceJoint extends FJoint {
     if ( m_joint != null ) {
       ((DistanceJoint)m_joint).m_frequencyHz = frequency;
     }
-    
+
     m_frequency = frequency;
   }
 
@@ -83,7 +83,7 @@ public class FDistanceJoint extends FJoint {
     if ( m_joint != null ) {
       ((DistanceJoint)m_joint).m_length = Fisica.screenToWorld(length);
     }
-    
+
     m_length = Fisica.screenToWorld(length);
   }
 
@@ -92,7 +92,7 @@ public class FDistanceJoint extends FJoint {
     if (m_joint != null) {
       ((DistanceJoint)m_joint).getAnchor2().set(Fisica.screenToWorld(x), Fisica.screenToWorld(y));
     }
-    
+
     m_anchor2 = Fisica.screenToWorld(x, y);
   }
 
@@ -100,10 +100,10 @@ public class FDistanceJoint extends FJoint {
     if (m_joint != null) {
       ((DistanceJoint)m_joint).getAnchor1().set(Fisica.screenToWorld(x), Fisica.screenToWorld(y));
     }
-    
+
     m_anchor1 = Fisica.screenToWorld(x, y);
   }
-  
+
   /** Get the anchor point on body1 in world coordinates. */
   public float getAnchor1X() {
     if (m_joint != null) {
@@ -139,12 +139,12 @@ public class FDistanceJoint extends FJoint {
 
     return Fisica.worldToScreen(m_anchor2.y);
   }
-  
+
   public void draw(PApplet applet){
     preDraw(applet);
- 
+
     applet.line(getAnchor1X(), getAnchor1Y(), getAnchor2X(), getAnchor2Y());
-    
+
     postDraw(applet);
   }
 }

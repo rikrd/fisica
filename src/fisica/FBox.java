@@ -8,10 +8,8 @@ import org.jbox2d.dynamics.*;
 import processing.core.*;
 
 public class FBox extends FBody {
-  /** @invisible */
-  float m_height;
-  /** @invisible */
-  float m_width;
+  protected float m_height;
+  protected float m_width;
 
   /**
    * Represents a rectangular body that can be added to an FWorld.  Represents a circular body that can be added to an FWorld.  This body has the same properties as {@link FBody FBody}.
@@ -22,13 +20,13 @@ public class FBox extends FBody {
    * }
    *
    * @usage Bodies
-   * @related FCircle
+   * @see FCircle
    * @param width  the width of the rectangle
    * @param height  the height of the rectangle
    */
   public FBox(float width, float height){
     super();
-    
+
     m_height = Fisica.screenToWorld(height);
     m_width = Fisica.screenToWorld(width);
   }
@@ -37,10 +35,10 @@ public class FBox extends FBody {
    * Returns the height of the rectangle.
    *
    * @usage Bodies
-   * @related getWidth
+   * @see #getWidth()
    * @return the height of the rectangle
-   */  
-  public float getHeight(){ 
+   */
+  public float getHeight(){
     // only for FBox
     return Fisica.worldToScreen(m_height);
   }
@@ -49,15 +47,15 @@ public class FBox extends FBody {
    * Returns the width of the rectangle.
    *
    * @usage Bodies
-   * @related getHeight
+   * @see #getHeight()
    * @return the width of the rectangle
-   */  
+   */
   public float getWidth(){
     // only for FBox
     return Fisica.worldToScreen(m_width);
-  }  
+  }
 
-  public ShapeDef getShapeDef() {
+  protected ShapeDef getShapeDef() {
     PolygonDef pd = new PolygonDef();
     pd.setAsBox(m_width/2.0f, m_height/2.0f);
     pd.density = m_density;
@@ -66,7 +64,7 @@ public class FBox extends FBody {
     pd.isSensor = m_sensor;
     return pd;
   }
-  
+
   public void draw(PApplet applet) {
     preDraw(applet);
 
@@ -75,8 +73,8 @@ public class FBox extends FBody {
     } else {
       applet.rect(0, 0, getWidth(), getHeight());
     }
-    
+
     postDraw(applet);
   }
-  
+
 }

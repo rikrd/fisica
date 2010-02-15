@@ -12,61 +12,57 @@ import org.jbox2d.dynamics.joints.*;
 
 import processing.core.*;
 
-/** @invisible */
-public class FJoint extends FDrawable {  
+/**
+ * Represents a joint between two or more bodies.
+ *
+ * A joint establishes some kind of relation between two or more bodies.  Depending on the specific joint the relation might be a distance relation, a rotation relation or even a volume conservation relation.  This class cannot be be instantiated, instead use one of the derived classes.
+ *
+ */
+public abstract class FJoint extends FDrawable {
   // Joint creation settings
-  /** @invisible */
-  public Joint m_joint;
-  /** @invisible */
-  public FWorld m_world;
+  protected Joint m_joint;
+  protected FWorld m_world;
 
-  /** @invisible */
-  public boolean m_collideConnected = true;
-  
-  /** @invisible */
-  public void processJoint(World world, JointDef jd){
+  protected boolean m_collideConnected = true;
+
+  protected void processJoint(World world, JointDef jd){
     jd.collideConnected = m_collideConnected;
     m_joint = world.createJoint(jd);
   }
 
-  /** @invisible */
-  public void addToWorld(FWorld world) {
+  protected void addToWorld(FWorld world) {
     m_world = world;
 
     JointDef jd = getJointDef(world);
     processJoint(m_world, jd);
     m_joint.m_userData = this;
-    
+
   }
 
-  /** @invisible */
-  public void removeFromWorld() {
+  protected void removeFromWorld() {
     if (m_joint == null) return;
-    
+
     m_world.destroyJoint(this.m_joint);
     m_joint = null;
   }
 
-  /** @invisible */
   protected JointDef getJointDef(FWorld world) {
     return null;
   }
 
-  /** @invisible */
   protected void preDraw(PApplet applet) {
     applet.pushStyle();
     applet.pushMatrix();
-    
+
     applet.ellipseMode(PConstants.CENTER);
     applet.rectMode(PConstants.CENTER);
     appletFillStroke(applet);
   }
 
-  /** @invisible */
   protected void postDraw(PApplet applet) {
     applet.popMatrix();
     applet.popStyle();
-  }  
+  }
 
   /** Get the first body attached to this joint. */
   public FBody getBody1() {
@@ -76,7 +72,7 @@ public class FJoint extends FDrawable {
 
     return null;
   }
-  
+
   /** Get the second body attached to this joint. */
   public FBody getBody2() {
     if (m_joint != null) {
@@ -90,7 +86,7 @@ public class FJoint extends FDrawable {
     if (m_joint != null) {
       ((Joint)m_joint).m_collideConnected = value;
     }
-    
+
     m_collideConnected = value;
   }
 
@@ -102,13 +98,13 @@ public class FJoint extends FDrawable {
 
     return 0.0f;
   }
-  
+
   /** Get the reaction force on body2 at the joint anchor. */
   public float getReactionForceY() {
     if (m_joint != null) {
       return Fisica.worldToScreen(m_joint.getReactionForce()).y;
     }
-    
+
     return 0.0f;
   }
 
@@ -117,7 +113,7 @@ public class FJoint extends FDrawable {
     if (m_joint != null) {
       return m_joint.getReactionTorque();
     }
-    
+
     return 0.0f;
   }
 

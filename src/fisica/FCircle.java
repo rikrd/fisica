@@ -36,7 +36,7 @@ public class FCircle extends FBody {
   }
 
   /**
-   * Represents a circular body that can be added to a world.  Since it is a body, it inherits all the methods from {@link FBody FBody}.
+   * Constructs a circular body that can be added to a world.
    *
    * @param size  the size of the circle
    */

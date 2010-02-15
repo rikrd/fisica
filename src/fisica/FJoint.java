@@ -64,7 +64,10 @@ public abstract class FJoint extends FDrawable {
     applet.popStyle();
   }
 
-  /** Get the first body attached to this joint. */
+  /** 
+   * Returns the first body attached to this joint. 
+   * @return first of the bodies connected by this joint
+   */
   public FBody getBody1() {
     if (m_joint != null) {
       return (FBody)m_joint.m_body1.getUserData();
@@ -73,7 +76,10 @@ public abstract class FJoint extends FDrawable {
     return null;
   }
 
-  /** Get the second body attached to this joint. */
+  /** 
+   * Returns the second body attached to this joint. 
+   * @return second of the bodies connected by this joint
+   */
   public FBody getBody2() {
     if (m_joint != null) {
       return (FBody)m_joint.m_body2.getUserData();
@@ -82,6 +88,11 @@ public abstract class FJoint extends FDrawable {
     return null;
   }
 
+  /** 
+   * Sets whether the bodies connected by the joint should collide with each other. 
+   *
+   * @param value  if {@code true} the bodies connected by this joint will be allowed to collide with each other
+   */
   public void setCollideConnected(boolean value) {
     if (m_joint != null) {
       ((Joint)m_joint).m_collideConnected = value;
@@ -90,7 +101,10 @@ public abstract class FJoint extends FDrawable {
     m_collideConnected = value;
   }
 
-  /** Get the reaction force on body2 at the joint anchor. */
+  /**
+   * Returns the horizontal component of the reaction force on the second body at the joint anchor.
+   * @return horizontal component of the reaction force
+   */
   public float getReactionForceX() {
     if (m_joint != null) {
       return Fisica.worldToScreen(m_joint.getReactionForce()).x;
@@ -99,7 +113,10 @@ public abstract class FJoint extends FDrawable {
     return 0.0f;
   }
 
-  /** Get the reaction force on body2 at the joint anchor. */
+  /** 
+   * Returns the vertical component of the reaction force on the second body at the joint anchor.
+   * @return vertical component of the reaction force
+   */
   public float getReactionForceY() {
     if (m_joint != null) {
       return Fisica.worldToScreen(m_joint.getReactionForce()).y;
@@ -108,7 +125,10 @@ public abstract class FJoint extends FDrawable {
     return 0.0f;
   }
 
-  /** Get the reaction force on body2 at the joint anchor. */
+  /** 
+   * Returns the reaction torque on the second body at the joint anchor.
+   * @return reaction torque
+   */
   public float getReactionTorque() {
     if (m_joint != null) {
       return m_joint.getReactionTorque();

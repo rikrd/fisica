@@ -228,7 +228,7 @@ public abstract class FBody extends FDrawable {
   }
 
   /**
-   * Get the horizontal velocity of the body.
+   * Returns the horizontal velocity of the body.
    *
    * @return the horizontal velocity of the body in pixels per second
    */
@@ -242,7 +242,7 @@ public abstract class FBody extends FDrawable {
   }
 
   /**
-   * Get the vertical velocity of the body.
+   * Returns the vertical velocity of the body.
    *
    * @return the vertical velocity of the body in pixels per second
    */
@@ -288,7 +288,7 @@ public abstract class FBody extends FDrawable {
   }
 
   /**
-   * Get the horizontal position of the body.
+   * Returns the horizontal position of the body.
    *
    * @return the horizontal position of the body in pixels
    * @see #getY
@@ -304,7 +304,7 @@ public abstract class FBody extends FDrawable {
   }
 
   /**
-   * Get the vertical position of the body.
+   * Returns the vertical position of the body.
    *
    * @return the vertical position of the body in pixels
    * @see #getX
@@ -359,7 +359,7 @@ public abstract class FBody extends FDrawable {
   }
 
   /**
-   * Get the rotation of the body.
+   * Returns the rotation of the body.
    *
    * @return the rotation of the body in radians
    * @see #setRotation(float)
@@ -417,7 +417,7 @@ public abstract class FBody extends FDrawable {
   }
 
   /**
-   * Get the rotation velocity of the body.
+   * Returns the rotation velocity of the body.
    *
    * @return the rotation velocity of the body in radians per second
    * @see #setAngularVelocity(float)
@@ -563,7 +563,7 @@ public abstract class FBody extends FDrawable {
   }
 
   /**
-   * Get whether the body is static.  Static bodies do not move or rotate, unless done manually using {@link #setPosition(float,float) setPosition} or {@link #setRotation(float) setRotation}.
+   * Returns whether the body is static.  Static bodies do not move or rotate, unless done manually using {@link #setPosition(float,float) setPosition} or {@link #setRotation(float) setRotation}.
    *
    * @return   if {@code true} the body is static
    */

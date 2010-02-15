@@ -66,7 +66,7 @@ public class FBlob extends FBody {
   /**
    * Constructs a blob body that can be added to a world.  It creates an empty blob, before adding the blob to the world use {@link #vertex(float,float) vertex} or {@link #setAsCircle(float) setAsCircle} to define the initial shape of the blob.
    */
-public FBlob() {
+  public FBlob() {
     super();
     
     m_vertices = new ArrayList();

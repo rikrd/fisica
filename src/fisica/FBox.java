@@ -37,7 +37,7 @@ public class FBox extends FBody {
   }
 
   /**
-   * Represents a rectangular body that can be added to a world.
+   * Constructs a rectangular body that can be added to a world.
    *
    * @param width  the width of the rectangle
    * @param height  the height of the rectangle

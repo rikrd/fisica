@@ -17,8 +17,8 @@ import org.jbox2d.dynamics.joints.*;
 public class FDistanceJoint extends FJoint {
   protected FBody m_body1;
   protected FBody m_body2;
-  protected float m_damping = 0.0f;
-  protected float m_frequency = 0.0f;
+  protected float m_damping = 0.3f;
+  protected float m_frequency = 10.0f;
   protected float m_length;
 
   protected Vec2 m_anchor1;

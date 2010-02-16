@@ -6,13 +6,14 @@ FWorld world;
 int boxWidth = 30;
 
 void setup() {
-  size(400, 400);
+  size(400, 400, P3D);
   smooth();
 
   Fisica.init(this);
+  Fisica.setScale(100);
 
   world = new FWorld();
-  world.setEdges(this, color(0));
+  world.setEdges();
   world.setGravity(0, 200);
 
   FCircle bola = new FCircle(40);
@@ -48,6 +49,6 @@ void draw() {
   background(255);
 
   world.step();
-  world.draw(this);
+  world.draw();
 }
 

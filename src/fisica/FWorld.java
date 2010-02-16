@@ -183,7 +183,12 @@ public class FWorld extends World {
   private Method m_contactEndedMethod;
   private Method m_contactResultMethod;
 
-  protected void mouseEvent(MouseEvent event){
+  /**
+   * This is an internal method to handle mouse interaction and should not be used.
+   * @internal
+   * @exclude
+   */
+  public void mouseEvent(MouseEvent event){
 
     // mousePressed
     if (event.getID() == event.MOUSE_PRESSED

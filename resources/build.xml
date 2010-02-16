@@ -96,6 +96,7 @@
   <property name="bin" location="bin"/>
   <property name="reference" location="reference"/>
   <property name="dist" location="distribution"/>
+  <property name="zipName" value="${libraryName}-${versionNumber}"/>
 
 
 
@@ -179,10 +180,11 @@
     </copy>
 
     <!-- zip the distribution of the library -->
-    <zip destfile="${dist}/${libraryName}.zip"
-  	 basedir="${dist}"
+    <zip destfile="${dist}/${zipName}.zip"
   	 excludes="**/_DS.Store"
-	 />
+	 >
+      <zipfileset dir="${dist}" prefix="${libraryName}"/>
+    </zip>
 
     <!-- <rename src="${dist}/${libraryName}.zip" dest="${dist}/${libraryName}_${versionNumber}.zip" /> -->
 
@@ -239,6 +241,11 @@
   	  	   replace="${keywords}"
   	  	   flags="g" />
 
+    <replaceregexp file="${dist}/web/index.html"
+  	           match="##zipName##"
+  	           replace="${zipName}"
+  	           flags="g" />
+
 
 
     <replaceregexp file="${dist}/web/index.html"
@@ -279,7 +286,7 @@
 
     <!-- finish organizating library's distribution -->
     <mkdir dir="${dist}/web/download" />
-    <copy file="${dist}/${libraryName}.zip" todir="${dist}/web/download" />
+    <copy file="${dist}/${zipName}.zip" todir="${dist}/web/download" />
 
     <copy todir="${processing}/${libraryName}/reference">
       <fileset dir="${reference}" />

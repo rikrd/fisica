@@ -47,9 +47,40 @@ import processing.core.*;
  * @see FBody
  */
 public class FWorld extends World {
+  /**
+   * The left edge of the world.  For this edge to exist, the edges must have been created by calling {@link #setEdges()}.
+   * @see #left
+   * @see #right
+   * @see #bottom
+   * @see #top
+   */
   public FBox left;
+
+  /**
+   * The right edge of the world.  For this edge to exist, the edges must have been created by calling {@link #setEdges()}.
+   * @see #left
+   * @see #right
+   * @see #bottom
+   * @see #top
+   */
   public FBox right;
+
+  /**
+   * The top edge of the world.  For this edge to exist, the edges must have been created by calling {@link #setEdges()}.
+   * @see #left
+   * @see #right
+   * @see #bottom
+   * @see #top
+   */
   public FBox top;
+
+  /**
+   * The bottom edge of the world.  For this edge to exist, the edges must have been created by calling {@link #setEdges()}.
+   * @see #left
+   * @see #right
+   * @see #bottom
+   * @see #top
+   */
   public FBox bottom;
 
   protected float m_edgesFriction = 0.5f;
@@ -245,6 +276,11 @@ public class FWorld extends World {
     m_mouseJoint.setDrawable(false);
   }
 
+  /**
+   * Returns the mouse joint that is used for interaction with the bodies in the world.
+   *
+   * @return the mouse joint used for grabbing bodies
+   */
   public FMouseJoint getMouseJoint() {
     return m_mouseJoint;
   }
@@ -299,25 +335,58 @@ public class FWorld extends World {
     draw(Fisica.parent());
   }
 
+  /**
+   * Add a body to the world.
+   *
+   * @param body   body to be added to the world
+   * @see #remove(FBody)
+   */
   public void add( FBody body ) {
     body.addToWorld(this);
   }
 
+  /**
+   * Remove a body from the world.
+   *
+   * @param body   body to be removed from the world
+   * @see #add(FBody)
+   */
   public void remove( FBody body ) {
     body.removeFromWorld();
   }
 
+  /**
+   * Add a joint to the world.
+   *
+   * @param joint   joint to be added to the world
+   * @see #remove(FJoint)
+   */
   public void add( FJoint joint ) {
     joint.addToWorld(this);
   }
 
+  /**
+   * Remove a joint from the world.
+   *
+   * @param joint   joint to be removed from the world
+   * @see #add(FJoint)
+   */
   public void remove( FJoint joint ) {
     joint.removeFromWorld();
   }
+  
+  /**
+   * Clear all bodies and joints from the world.  NOT IMPLEMENTED YET.
+   *
+   */
   public void clear() { }
 
-  public void setDamping( float damping ) { }
-
+  /**
+   * Add edges to the world. This will create the bodies for {@link #left}, {@link #right}, {@link #bottom} and {@link #top}.
+   *
+   * @param applet  applet from where to get the dimensions for the edges
+   * @param color  the color of the edges.  This color must be passed using Processing's color() function
+   */
   public void setEdges(PApplet applet, int color) {
     left = new FBox(20, applet.height);
     left.setStaticBody(true);
@@ -359,10 +428,27 @@ public class FWorld extends World {
     setEdgesRestitution(m_edgesRestitution);
   }
 
-  public void setEdges() {
-    setEdges(Fisica.parent(), 0);
+  /**
+   * Add black edges to the world. This will create the bodies for {@link #left}, {@link #right}, {@link #bottom} and {@link #top}.
+   *
+   * @param color  the color of the edges.  This color must be passed using Processing's color() function
+   */
+  public void setEdges(int color) {
+    setEdges(Fisica.parent(), color);
   }
 
+  /**
+   * Add edges black to the world. This will create the bodies for {@link #left}, {@link #right}, {@link #bottom} and {@link #top}.
+   */
+  public void setEdges() {
+    setEdges(Fisica.parent(), Fisica.parent().color(0));
+  }
+
+  /**
+   * Set the friction of all the edges.
+   *
+   * @param friction   the friction of the edges
+   */
   public void setEdgesFriction( float friction ) {
     if (left != null) {
       left.setFriction(friction);
@@ -383,6 +469,11 @@ public class FWorld extends World {
     m_edgesFriction = friction;
   }
 
+  /**
+   * Set the restitution of all the edges.
+   *
+   * @param restitution   the restitution of the edges
+   */
   public void setEdgesRestitution( float restitution ) {
     if (left != null) {
       left.setRestitution(restitution);
@@ -403,18 +494,38 @@ public class FWorld extends World {
     m_edgesRestitution = restitution;
   }
 
+  /**
+   * Set the gravity of the world. Use {@code world.setGravity(0,0);} to have a world without gravity.
+   *
+   * @param gx   the horizontal component of the gravity
+   * @param gy   the vertical component of the gravity
+   */
   public void setGravity( float gx, float gy ) {
     setGravity(Fisica.screenToWorld(new Vec2(gx, gy)));
   }
 
+  /**
+   * Advance the world simulation of 1/60th of a second.
+   */
   public void step() {
     step(1.0f/60.0f);
   }
 
+  /**
+   * Advance the world simulation of given time.
+   *
+   * @param dt   the time to advance the world simulation
+   */
   public void step( float dt ) {
     step(dt, 10);
   }
 
+  /**
+   * Advance the world simulation of given time, with a given number of iterations.  The larger the number of iterations, the more computationally expensive and precise it will be.  The default is 10 iterations.
+   *
+   * @param dt   the time to advance the world simulation
+   * @param iterationCount   the number of iterations for the world simulation step
+   */
   public void step( float dt, int iterationCount) {
     //m_contacts.clear();
     m_contactResults.clear();
@@ -426,10 +537,25 @@ public class FWorld extends World {
     super.step( dt, iterationCount );
   }
 
+  /**
+   * Returns the first object found at the given position.
+   *
+   * @param x   the horizontal component of the position
+   * @param y   the vertical component of the position
+   * @return    the body found at the given position
+   */
   public FBody getBody( float x, float y ) {
     return this.getBody(x, y, true);
   }
 
+  /**
+   * Returns the first object found at the given position.
+   *
+   * @param x   the horizontal component of the position
+   * @param y   the vertical component of the position
+   * @param getStatic   if {@code true} it will also get static objects that can be found at that position
+   * @return    the body found at the given position
+   */
   public FBody getBody( float x, float y, boolean getStatic ) {
     ArrayList bodies = this.getBodies(x, y, getStatic);
     if (bodies.size() == 0) return null;
@@ -437,14 +563,38 @@ public class FWorld extends World {
     return (FBody)bodies.get(0);
   }
 
+  /**
+   * Returns a list with the 10 first bodies found at the given position.
+   *
+   * @param x   the horizontal component of the position
+   * @param y   the vertical component of the position
+   * @return    an ArrayList (of FBody) of the 10 first bodies found at the given position
+   */
   public ArrayList getBodies( float x, float y ) {
     return this.getBodies(x, y, true);
   }
 
+  /**
+   * Returns a list with the 10 first bodies found at the given position.
+   *
+   * @param x   the horizontal component of the position
+   * @param y   the vertical component of the position
+   * @param getStatic   if {@code true} it will also get static objects that can be found at that position
+   * @return    an ArrayList (of FBody) of the 10 first bodies found at the given position
+   */
   public ArrayList getBodies( float x, float y, boolean getStatic ) {
     return this.getBodies(x, y, getStatic, 10);
   }
 
+  /**
+   * Returns a list with all the bodies found at the given position.
+   *
+   * @param x   the horizontal component of the position
+   * @param y   the vertical component of the position
+   * @param getStatic   if {@code true} it will also get static objects that can be found at that position
+   * @param count   the maximum number of bodies to be retrieved
+   * @return    an ArrayList (of FBody) of all bodies found at the given position
+   */
   public ArrayList getBodies( float x, float y, boolean getStatic, int count ) {
     // Make a small box.
     Vec2 p = Fisica.screenToWorld(x, y);

@@ -6,6 +6,7 @@
     Fisica. ant build file.
   </description>
 
+  <property name="jBox2d" value="JBox2D-2.0.1-b229-Library.jar"/>
 
   <!-- #### (1) where are your processing libraries located? edit location. #### -->
   <property name="processing" location="${env.PROCESSING_PATH}"/>
@@ -19,7 +20,7 @@
       <!-- #### (3) add the jar files that are required for compiling. edit name.
 	   for more include files. duplicate <include name="" /> #### -->
       <include name="core.jar"/>
-      <include name="JBox2D-2.0.1-b229-Library.jar"/>
+      <include name="${jBox2d}"/>
     </fileset>
   </path>
 
@@ -137,6 +138,9 @@
     <mkdir dir="${dist}/reference" />
     <mkdir dir="${dist}/src" />
     <jar jarfile="${dist}/library/${jarFile}" basedir="${bin}"/>
+    <copy todir="${dist}/library">
+      <fileset file="libs/${jBox2d}"/>
+    </copy>
     <copy todir="${dist}/examples">
       <fileset dir="examples"/>
     </copy>

@@ -589,7 +589,7 @@ public abstract class FBody extends FDrawable {
   }
 
   /**
-   * Set the restitution of the body.  The restitution determines the ratio of the velocity with which the body returns from a collision.  The resititution of the bodies in a collision is calculated from the restitution values of the 2 bodies involved.
+   * Set the restitution of the body.  The restitution determines the ratio of the reaction force normal to a contact, when the body collides with another body.  Basically it can be seen as a coefficient that will control the strength with which the body bounces back from a collision.  The resititution of a contact of two bodies in a collision is calculated from the restitution values of the 2 bodies involved.
    *
    * @param restitution   a positive value.  A value of 0 means no bounce after a collision, and a value of 1 means bounce with it's full speed from a collision
    */
@@ -604,9 +604,9 @@ public abstract class FBody extends FDrawable {
   }
 
   /**
-   * Set the friction of the body.  The friction determines the damping of the velocity of the body.
+   * Set the friction of the body.  The friction determines the ratio of the reaction force tangent to a contact, when the body collides with another body.  Basically it can be seen as a coefficient that will control how the body gets slown down when the body slides against another body.  The friction of a contact of two bodies in a collision is calculated from the friction values of the 2 bodies involved.
    *
-   * @param friction   a positive value.  A value of 0 means no friction and thus the body will maintain it's speed if no other forces are applied
+   * @param friction   a positive value.  A value of 0 means no friction and thus the body will not be slown down if no other forces are applied
    */
   public void setFriction( float friction ){
     if ( m_body != null ) {

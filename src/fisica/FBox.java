@@ -18,6 +18,7 @@ import processing.core.*;
  * </pre>
  *
  * @usage Bodies
+ * @see FCircle
  * @see FBlob
  * @see FPoly
  * @see FLine

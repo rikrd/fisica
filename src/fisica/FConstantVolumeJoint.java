@@ -10,16 +10,10 @@ import org.jbox2d.collision.shapes.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.joints.*;
 
-public class FConstantVolumeJoint extends FJoint {  
-  public ArrayList m_bodies;
-  float m_damping = 0.0f;
-  float m_frequency = 0.0f;
-    
-  public FConstantVolumeJoint() {
-    super();
-    
-    m_bodies = new ArrayList();
-  }
+public class FConstantVolumeJoint extends FJoint {
+  protected ArrayList m_bodies;
+  protected float m_damping = 0.0f;
+  protected float m_frequency = 0.0f;
 
   protected JointDef getJointDef(FWorld world) {
     ConstantVolumeJointDef md = new ConstantVolumeJointDef();
@@ -32,8 +26,14 @@ public class FConstantVolumeJoint extends FJoint {
         md.addBody(b);
       }
     }
-    
+
     return md;
+  }
+
+  public FConstantVolumeJoint() {
+    super();
+
+    m_bodies = new ArrayList();
   }
 
   public void addBody(FBody b) {
@@ -62,7 +62,7 @@ public class FConstantVolumeJoint extends FJoint {
       }
       applet.endShape(applet.CLOSE);
     }
-    
+
     postDraw(applet);
   }
 }

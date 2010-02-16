@@ -3,7 +3,22 @@ import processing.core.*;
 
 import org.jbox2d.common.*;
 
-
+/**
+ * Represents the library Fisica.  It is mainly used to initialize it with the PApplet:
+ * <pre>
+ * {@code
+ * Fisica.init(this);
+ * }
+ * </pre>
+ * It also allows to modify global properties of the simulation such as the scale of meters to pixels:
+ * <pre>
+ * {@code
+ * Fisica.setScale(40);
+ * }
+ * </pre>
+ * In the future it may contain helping methods to create the objects.
+ *
+ */
 public class Fisica implements PConstants{
   protected static class FViewport {
     float m_scale;

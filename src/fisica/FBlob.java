@@ -49,13 +49,13 @@ import org.jbox2d.dynamics.joints.*;
  * @see FPoly
  * @see FLine
  */
-public class FBlob extends FBody {  
+public class FBlob extends FBody {
   protected ArrayList m_vertices;  // in world coords
   protected ArrayList m_vertexBodies;  // in world coords
   protected float m_damping = 0.0f;
   protected float m_frequency = 0.0f;
   protected float m_vertexSize = 0.4f;  // in world coords
-  
+
   protected Vec2 m_force = new Vec2();
   protected float m_torque = 0.0f;
   protected float m_density = 1.0f;
@@ -64,13 +64,13 @@ public class FBlob extends FBody {
   protected boolean m_bullet = false;
 
   protected FConstantVolumeJoint m_joint;
-  
+
   /**
    * Constructs a blob body that can be added to a world.  It creates an empty blob, before adding the blob to the world use {@link #vertex(float,float) vertex} or {@link #setAsCircle(float) setAsCircle} to define the initial shape of the blob.
    */
   public FBlob() {
     super();
-    
+
     m_vertices = new ArrayList();
     m_vertexBodies = new ArrayList();
   }
@@ -81,7 +81,7 @@ public class FBlob extends FBody {
     m_joint.setFrequency(m_frequency);
     m_joint.setDamping(m_damping);
     m_joint.updateStyle(this);
-    
+
     // Create bodies from the vertices and add them to the
     // constant volume joint that we just created
     m_vertexBodies = new ArrayList();
@@ -94,9 +94,9 @@ public class FBlob extends FBody {
       fb.setRestitution(m_restitution);
       fb.setFriction(m_friction);
       world.add(fb);
-      
+
       m_vertexBodies.add(fb);
-      
+
       Vec2 f = Fisica.worldToScreen(m_force);
       fb.addForce(f.x, f.y);
       fb.addTorque(m_torque);
@@ -110,15 +110,15 @@ public class FBlob extends FBody {
   protected void removeFromWorld(FWorld world) {
     // Remove the constant volume joint
     m_joint.removeFromWorld();
-    
+
     // Remove the vertex bodies
     for (int i=0; i<m_vertexBodies.size(); i++) {
       ((FBody)m_vertexBodies.get(i)).removeFromWorld();
     }
   }
-  
+
   /**
-   * Adds vertices to the initial shape of the blob.  This method must be called before adding the body to the world.
+   * Adds a vertex to the initial shape of the blob.  This method must be called before adding the body to the world.
    *
    * @param x  x coordinate of the vertex to be added
    * @param y  y coordinate of the vertex to be added
@@ -135,15 +135,15 @@ public class FBlob extends FBody {
    * @param size  size of the circle
    * @param vertexCount  number of vertices of the circle
    */
-  public void setAsCircle(float x, float y, 
+  public void setAsCircle(float x, float y,
                           float size, int vertexCount) {
     m_vertices.clear();
-    
+
     for (int i=0; i<vertexCount; i++) {
       float angle = Fisica.parent().map(i, 0, vertexCount-1, 0, Fisica.parent().TWO_PI);
       float vx = x + size/2 * Fisica.parent().sin(angle);
       float vy = y + size/2 * Fisica.parent().cos(angle);
-      
+
       this.vertex(vx, vy);
     }
   }
@@ -205,7 +205,7 @@ public class FBlob extends FBody {
     if ( m_joint != null ) {
       m_joint.setFrequency(frequency);
     }
-    
+
     m_frequency = frequency;
   }
 
@@ -226,7 +226,7 @@ public class FBlob extends FBody {
     for (int i=0; i<m_vertexBodies.size(); i++) {
       ((FBody)m_vertexBodies.get(i)).addForce(fx, fy);
     }
-    
+
     m_force.add(Fisica.screenToWorld(fx, fy));
   }
 
@@ -234,7 +234,7 @@ public class FBlob extends FBody {
     for (int i=0; i<m_vertexBodies.size(); i++) {
       ((FBody)m_vertexBodies.get(i)).addTorque(t);
     }
-    
+
     m_torque += t;
   }
 
@@ -242,7 +242,7 @@ public class FBlob extends FBody {
     for (int i=0; i<m_vertexBodies.size(); i++) {
       ((FBody)m_vertexBodies.get(i)).setDensity(d);
     }
-    
+
     m_density = d;
   }
 
@@ -250,7 +250,7 @@ public class FBlob extends FBody {
     for (int i=0; i<m_vertexBodies.size(); i++) {
       ((FBody)m_vertexBodies.get(i)).setFriction(d);
     }
-    
+
     m_friction = d;
   }
 
@@ -258,7 +258,7 @@ public class FBlob extends FBody {
     for (int i=0; i<m_vertexBodies.size(); i++) {
       ((FBody)m_vertexBodies.get(i)).setRestitution(d);
     }
-    
+
     m_restitution = d;
   }
 
@@ -266,7 +266,7 @@ public class FBlob extends FBody {
     for (int i=0; i<m_vertexBodies.size(); i++) {
       ((FBody)m_vertexBodies.get(i)).setBullet(d);
     }
-    
+
     m_bullet = d;
   }
 
@@ -280,7 +280,7 @@ public class FBlob extends FBody {
 
   public void setNoFill() {
     super.setNoFill();
-    
+
     if (m_joint != null) {
       m_joint.updateStyle(this);
     }
@@ -288,7 +288,7 @@ public class FBlob extends FBody {
 
   public void setFillColor(int col) {
     super.setFillColor(col);
-    
+
     if (m_joint != null) {
       m_joint.updateStyle(this);
     }
@@ -296,7 +296,7 @@ public class FBlob extends FBody {
 
   public void setStrokeColor(int col) {
     super.setStrokeColor(col);
-    
+
     if (m_joint != null) {
       m_joint.updateStyle(this);
     }
@@ -304,7 +304,7 @@ public class FBlob extends FBody {
 
   public void setStrokeWeight(float col) {
     super.setStrokeWeight(col);
-    
+
     if (m_joint != null) {
       m_joint.updateStyle(this);
     }
@@ -312,7 +312,7 @@ public class FBlob extends FBody {
 
   public void setDrawable(boolean val) {
     super.setDrawable(val);
-    
+
     if (m_joint != null) {
       m_joint.updateStyle(this);
     }

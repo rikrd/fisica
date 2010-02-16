@@ -10,6 +10,10 @@ import org.jbox2d.collision.shapes.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.joints.*;
 
+/**
+ * Represents a prismatic joint that restricts the movement of one body with respect to another to a translation along a given axis.  Often this joint is used with one of the bodies being static in order to only allow translation of the other body along a given axis.  This translation can also be bounded given lower and upper translation limits.
+ *
+ */
 public class FPrismaticJoint extends FJoint {
   protected FBody m_body1;
   protected FBody m_body2;
@@ -74,23 +78,6 @@ public class FPrismaticJoint extends FJoint {
    */
   protected float m_maxMotorTorque = 0.0f;
 
-  public FPrismaticJoint(FBody body1, FBody body2,
-                         float x, float y,
-                         float axisX, float axisY) {
-    super();
-
-    m_body1 = body1;
-    m_body2 = body2;
-
-    m_anchor = Fisica.screenToWorld(x, y);
-    updateLocalAnchors();
-
-    m_axis = Fisica.screenToWorld(axisX, axisY);
-    updateLocalAxis();
-
-    m_referenceAngle = m_body2.getRotation() - m_body1.getRotation();
-  }
-
   protected void updateLocalAnchors(){
     if (m_body1.m_body != null) {
       m_body1.m_body.getLocalPointToOut(m_anchor, m_localAnchor1);
@@ -127,17 +114,57 @@ public class FPrismaticJoint extends FJoint {
     return md;
   }
 
+  /**
+   * Construct a prismatic joint between two bodies.  The constructor automatically sets the anchor of the joint to the center of each body, and the length of the joint to the current distance between the bodies.
+   *
+   * @param body1  first body of the joint
+   * @param body2  second body of the joint
+   */
+  public FPrismaticJoint(FBody body1, FBody body2,
+                         float x, float y,
+                         float axisX, float axisY) {
+    super();
+
+    m_body1 = body1;
+    m_body2 = body2;
+
+    m_anchor = Fisica.screenToWorld(x, y);
+    updateLocalAnchors();
+
+    m_axis = Fisica.screenToWorld(axisX, axisY);
+    updateLocalAxis();
+
+    m_referenceAngle = m_body2.getRotation() - m_body1.getRotation();
+  }
+
+  /**
+   * Sets the axis of movement of the joint.  This is only axis alog which the bodies can translate with relation to each other.  The axis is given global coordinates, relative to the center of the canvas.  This property must be set before adding the joint to the world.
+   *
+   * @param x  the horizontal component of the axis in global coordinates, relative to the center of the canvas
+   * @param y  the vertical coordinate of the axis in global coordinates, relative to the center of the canvas
+   */
   public void setAxis(float x, float y) {
     // TODO: cannot change axis once it has been created
     m_axis = Fisica.screenToWorld(x, y);
     updateLocalAxis();
   }
 
+  /**
+   * Sets the position of the anchor of the joint.  This position is given global coordinates, relative to the center of the canvas.
+   *
+   * @param x  the horizontal coordinate of the anchor in global coordinates, relative to the center of the canvas
+   * @param y  the vertical coordinate of the anchor in global coordinates, relative to the center of the canvas
+   */
   public void setAnchor(float x, float y) {
     m_anchor = Fisica.screenToWorld(x, y);
     updateLocalAnchors();
   }
 
+  /**
+   * Get the horizontal coordinate of the anchor of the joint.  This position is given global coordinates, relative to the center of the canvas.
+   *
+   * @return  the horizontal coordinate of the anchor in global coordinates, relative to the center of the canvas
+   */
   public float getAnchorX() {
     if (m_joint != null) {
       return Fisica.worldToScreen(m_joint.getAnchor2()).x;
@@ -146,6 +173,11 @@ public class FPrismaticJoint extends FJoint {
     return Fisica.worldToScreen(m_anchor.x);
   }
 
+  /**
+   * Get the vertical coordinate of the anchor of the joint.  This position is given global coordinates, relative to the center of the canvas.
+   *
+   * @return  the vertical coordinate of the anchor in global coordinates, relative to the center of the canvas
+   */
   public float getAnchorY() {
     if (m_joint != null) {
       return Fisica.worldToScreen(m_joint.getAnchor2()).y;
@@ -154,6 +186,11 @@ public class FPrismaticJoint extends FJoint {
     return Fisica.worldToScreen(m_anchor.y);
   }
 
+  /**
+   * Set the lowest translation allowed.  This property only has effect if the {@code enableLimit} has been set to {@code true} using {@link #setEnableLimit(boolean)}.
+   *
+   * @param translation  lowest translation position in pixels
+   */
   public void setLowerTranslation(float translation) {
     if (m_joint != null) {
       ((PrismaticJoint)m_joint).m_lowerTranslation = Fisica.screenToWorld(translation);
@@ -162,6 +199,11 @@ public class FPrismaticJoint extends FJoint {
     m_lowerTranslation = Fisica.screenToWorld(translation);
   }
 
+  /**
+   * Set the highest translation allowed.  This property only has effect if the {@code enableLimit} has been set to {@code true} using {@link #setEnableLimit(boolean)}.
+   *
+   * @param translation  highest translation position in pixels
+   */
   public void setUpperTranslation(float translation) {
     if (m_joint != null) {
       ((PrismaticJoint)m_joint).m_upperTranslation = Fisica.screenToWorld(translation);
@@ -170,6 +212,11 @@ public class FPrismaticJoint extends FJoint {
     m_upperTranslation = Fisica.screenToWorld(translation);
   }
 
+  /**
+   * Set limits to the allowed translation of one body respect to the other.  If set to {@code true} the limits imposed using {@link #setLowerTranslation(float) setLowerTranslation} and {@link #setUpperTranslation(float) setLowerTranslation} are enforced.
+   *
+   * @param value  if {@code true} the bodies will be able to translate along the axis only between certain limits
+   */
   public void setEnableLimit(boolean value) {
     if (m_joint != null) {
       ((PrismaticJoint)m_joint).m_enableLimit = value;

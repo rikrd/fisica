@@ -10,6 +10,10 @@ import org.jbox2d.collision.shapes.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.joints.*;
 
+/**
+ * Represents a distance joint that tries to keep two bodies at a constant distance.  This joint is similar to connecting both bodies by a spring.
+ *
+ */
 public class FDistanceJoint extends FJoint {
   protected FBody m_body1;
   protected FBody m_body2;
@@ -36,6 +40,12 @@ public class FDistanceJoint extends FJoint {
     return md;
   }
 
+  /**
+   * Construct a distance joint between two bodies.  The constructor automatically sets the anchors of the joint to the centers of each body, and the length of the joint to the current distance between the bodies.
+   *
+   * @param body1  first body of the joint
+   * @param body2  second body of the joint
+   */
   public FDistanceJoint(FBody body1, FBody body2) {
     super();
     m_body1 = body1;
@@ -48,6 +58,11 @@ public class FDistanceJoint extends FJoint {
     m_length = m_body1.m_body.getPosition().add(m_anchor1).sub(m_body2.m_body.getPosition().add(m_anchor2)).length();
   }
 
+  /**
+   * Sets the damping of the spring used to maintain the distance between the bodies constant.
+   *
+   * @param damping  the damping of the spring
+   */
   public void setDamping(float damping) {
     if ( m_joint != null ) {
       ((DistanceJoint)m_joint).m_dampingRatio = damping;
@@ -56,6 +71,11 @@ public class FDistanceJoint extends FJoint {
     m_damping = damping;
   }
 
+  /**
+   * Sets the frequency of the spring used to maintain the distance between the bodies constant.
+   *
+   * @param frequency  the frequency of the spring
+   */
   public void setFrequency(float frequency) {
     if ( m_joint != null ) {
       ((DistanceJoint)m_joint).m_frequencyHz = frequency;
@@ -64,6 +84,10 @@ public class FDistanceJoint extends FJoint {
     m_frequency = frequency;
   }
 
+  /**
+   * Sets the length of the joint to the current distance between the bodies.
+   *
+   */
   public void calculateLength() {
     /*
     float lengthX = ((m_body1.getX() + m_anchor1.x) - (m_body2.getX() + m_anchor2.x));
@@ -79,6 +103,11 @@ public class FDistanceJoint extends FJoint {
     m_length = world_length;
   }
 
+  /**
+   * Sets the target distance for the joint.  This is the distance that the joint will try to maintain between the two bodies.  If you want to use as length the current distance between the two bodies, use the method {@link #calculateLength() calculateLength}.
+   *
+   * @param length  the length of the joint
+   */
   public void setLength(float length) {
     if ( m_joint != null ) {
       ((DistanceJoint)m_joint).m_length = Fisica.screenToWorld(length);
@@ -88,6 +117,12 @@ public class FDistanceJoint extends FJoint {
   }
 
 
+  /**
+   * Sets the position of the anchor of the second end of the joint on the second body.  This position must be given relative to the center of the second body.  The anchor point is the point used to calculate the distance and to apply forces in order to move the body.
+   *
+   * @param x  the horizontal coordinate of the second anchor relative to the center of the second body
+   * @param y  the vertical coordinate of the second anchor relative to the center of the second body
+   */
   public void setAnchor2(float x, float y) {
     if (m_joint != null) {
       ((DistanceJoint)m_joint).getAnchor2().set(Fisica.screenToWorld(x), Fisica.screenToWorld(y));
@@ -96,6 +131,12 @@ public class FDistanceJoint extends FJoint {
     m_anchor2 = Fisica.screenToWorld(x, y);
   }
 
+  /**
+   * Sets the position of the anchor of the first end of the joint on the first body.  This position must be given relative to the center of the first body.  The anchor point is the point used to calculate the distance and to apply forces in order to move the body.
+   *
+   * @param x  the horizontal coordinate of the first anchor relative to the center of the first body
+   * @param y  the vertical coordinate of the first anchor relative to the center of the first body
+   */
   public void setAnchor1(float x, float y) {
     if (m_joint != null) {
       ((DistanceJoint)m_joint).getAnchor1().set(Fisica.screenToWorld(x), Fisica.screenToWorld(y));
@@ -104,7 +145,11 @@ public class FDistanceJoint extends FJoint {
     m_anchor1 = Fisica.screenToWorld(x, y);
   }
 
-  /** Get the anchor point on body1 in world coordinates. */
+  /**
+   * Get the horizontal coordinate of the first anchor point on the first body.  This position is given relative to the center of the first body.
+   *
+   * @return  the horizontal coordinate of the first anchor relative to the center of the first body
+   */
   public float getAnchor1X() {
     if (m_joint != null) {
       return Fisica.worldToScreen(m_joint.getAnchor1()).x;
@@ -113,7 +158,11 @@ public class FDistanceJoint extends FJoint {
     return Fisica.worldToScreen(m_anchor1.x);
   }
 
-  /** Get the anchor point on body1 in world coordinates. */
+  /**
+   * Get the vertical coordinate of the first anchor point on the first body.  This position is given relative to the center of the first body.
+   *
+   * @return  the vertical coordinate of the first anchor relative to the center of the first body
+   */
   public float getAnchor1Y() {
     if (m_joint != null) {
       return Fisica.worldToScreen(m_joint.getAnchor1()).y;
@@ -122,7 +171,11 @@ public class FDistanceJoint extends FJoint {
     return Fisica.worldToScreen(m_anchor1.y);
   }
 
-  /** Get the anchor point on body1 in world coordinates. */
+  /**
+   * Get the horizontal coordinate of the second anchor point on the second body.  This position is given relative to the center of the second body.
+   *
+   * @return  the horizontal coordinate of the second anchor relative to the center of the second body
+   */
   public float getAnchor2X() {
     if (m_joint != null) {
       return Fisica.worldToScreen(m_joint.getAnchor2()).x;
@@ -131,7 +184,11 @@ public class FDistanceJoint extends FJoint {
     return Fisica.worldToScreen(m_anchor2.x);
   }
 
-  /** Get the anchor point on body1 in world coordinates. */
+  /**
+   * Get the vertical coordinate of the second anchor point on the second body.  This position is given relative to the center of the second body.
+   *
+   * @return  the vertical coordinate of the second anchor relative to the center of the second body
+   */
   public float getAnchor2Y() {
     if (m_joint != null) {
       return Fisica.worldToScreen(m_joint.getAnchor2()).y;

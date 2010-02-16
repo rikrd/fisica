@@ -10,6 +10,10 @@ import org.jbox2d.collision.shapes.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.joints.*;
 
+/**
+ * Represents a gear joint between joints that transfers the movement of one joint to the other.  This type of joint can only be used on joints of types {@link FRevoluteJoint} and {@link FPrismaticJoint}.
+ *
+ */
 public class FGearJoint extends FJoint {
   protected FJoint m_joint1;
   protected FJoint m_joint2;
@@ -25,15 +29,7 @@ public class FGearJoint extends FJoint {
     return md;
   }
 
-  public FGearJoint(FJoint joint1, FJoint joint2) {
-    super();
-
-    m_joint1 = joint1;
-    m_joint2 = joint2;
-    updateRatio();
-  }
-
-  public void updateRatio(){
+  protected void updateRatio(){
     m_worldRatio = m_ratio;
 
     // TODO: check if it is this or the opposite
@@ -50,6 +46,27 @@ public class FGearJoint extends FJoint {
     }
   }
 
+  /**
+   * Construct a gear joint between two joints.
+   *
+   * @param joint1  first joint of the gear
+   * @param joint2  second joint of the gear
+   *
+   */
+  public FGearJoint(FJoint joint1, FJoint joint2) {
+    super();
+
+    m_joint1 = joint1;
+    m_joint2 = joint2;
+    updateRatio();
+  }
+
+  /**
+   * Sets the ratio of movement transfer from one joint to the other of the gear.
+   *
+   * @param ratio  the ratio of movement that is transfered between the first and the second joints of the gear
+   *
+   */
   public void setRatio(float ratio) {
     m_ratio = ratio;
     updateRatio();

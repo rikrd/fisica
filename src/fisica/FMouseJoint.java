@@ -10,6 +10,10 @@ import org.jbox2d.collision.shapes.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.joints.*;
 
+/**
+ * Represents a mouse joint that tries to keep a body at a constant distance from the target.  This joint is similar to connecting a spring from from the body to a target whose position can be changed programatically using {@link #setTarget}.
+ *
+ */
 public class FMouseJoint extends FJoint {
   protected FBody m_fbody;
 
@@ -34,22 +38,45 @@ public class FMouseJoint extends FJoint {
     return md;
   }
 
+  /**
+   * Construct a mouse joint between a body and a target.  The constructor automatically sets the anchors of the joint to the center of the body.
+   *
+   * @param body  the body to be grabbed by the joint
+   * @param x  horizontal coordinate of the initial target of the joint
+   * @param y  vertical coordinate of the initial target of the joint
+   */
   public FMouseJoint(FBody body, float x, float y) {
     super();
     m_fbody = body;
     m_target = Fisica.screenToWorld(x, y);
   }
 
+  /**
+   * Sets the damping of the spring used to maintain the body and the target together.  This property must be set before adding the joint to the world.
+   *
+   * @param damping  the damping of the spring
+   */
   public void setDamping(float damping) {
     // TODO: handle the fact that this is not updated when already added to the world
     m_damping = damping;
   }
 
+  /**
+   * Sets the frequency of the spring used to maintain the body and the target together.  This property must be set before adding the joint to the world.
+   *
+   * @param frequency  the frequency of the spring
+   */
   public void setFrequency(float frequency) {
     // TODO: handle the fact that this is not updated when already added to the world
     m_frequency = frequency;
   }
 
+  /**
+   * Sets the target position of the joint.  By setting this property everytime the mouse is used we are able to make the body of this joint follow mouse.
+   *
+   * @param x  horizontal coordinate of the target of the joint
+   * @param y  vertical coordinate of the target of the joint
+   */
   public void setTarget(float x, float y) {
     if (m_joint != null) {
       ((MouseJoint)m_joint).setTarget(Fisica.screenToWorld(x, y));
@@ -58,6 +85,11 @@ public class FMouseJoint extends FJoint {
     m_target = Fisica.screenToWorld(x, y);
   }
 
+  /**
+   * Returns the horizontal target position of the joint.
+   *
+   * @return  horizontal coordinate of the target of the joint
+   */
   public float getTargetX(){
     if (m_joint != null) {
       return Fisica.worldToScreen(((MouseJoint)m_joint).m_target).x;
@@ -66,6 +98,11 @@ public class FMouseJoint extends FJoint {
     return Fisica.worldToScreen(m_target).x;
   }
 
+  /**
+   * Returns the vertical target position of the joint.
+   *
+   * @return  vertical coordinate of the target of the joint
+   */
   public float getTargetY(){
     if (m_joint != null) {
       return Fisica.worldToScreen(((MouseJoint)m_joint).m_target).y;
@@ -74,6 +111,13 @@ public class FMouseJoint extends FJoint {
     return Fisica.worldToScreen(m_target).y;
   }
 
+  /**
+   * Sets the body grabbed by this joint and the target position.
+   *
+   * @param body  the body to be grabbed by the joint
+   * @param x  horizontal coordinate of the target of the joint
+   * @param y  vertical coordinate of the target of the joint
+   */
   public void setGrabbedBodyAndTarget(FBody body, float x, float y) {
     if (m_joint != null) {
       m_joint.m_body2 = body.m_body;
@@ -84,6 +128,10 @@ public class FMouseJoint extends FJoint {
     m_target = Fisica.screenToWorld(x, y);
   }
 
+  /**
+   * Releases the body grabbed by this joint.
+   *
+   */
   public void releaseGrabbedBody() {
     if (m_joint != null) {
       m_joint.m_body2 = null;
@@ -94,6 +142,11 @@ public class FMouseJoint extends FJoint {
     m_target = null;
   }
 
+  /**
+   * Returns the body grabbed by this joint.
+   *
+   * @return the body grabbed by this joint
+   */
   public FBody getGrabbedBody() {
     if (m_joint != null) {
       return (FBody)m_joint.m_body2.getUserData();
@@ -102,7 +155,13 @@ public class FMouseJoint extends FJoint {
     return m_fbody;
   }
 
-    public void setAnchor(float x, float y) {
+  /**
+   * Sets the anchor position at which the joint grabs the body.  The anchor point is the point used to apply forces in order to move the body.
+   *
+   * @param x  the horizontal coordinate of the anchor relative to the center of the body
+   * @param y  the vertical coordinate of the anchor relative to the center of the body
+   */
+  public void setAnchor(float x, float y) {
     if (m_joint != null) {
       ((DistanceJoint)m_joint).getAnchor2().set(Fisica.screenToWorld(x), Fisica.screenToWorld(y));
     }
@@ -110,7 +169,11 @@ public class FMouseJoint extends FJoint {
     m_anchor = Fisica.screenToWorld(x, y);
   }
 
-  /** Get the anchor point on body1 in world coordinates. */
+  /**
+   * Get the horizontal coordinate of the anchor point on the body.  This position is given relative to the center of the body.
+   *
+   * @return  the horizontal coordinate of the anchor relative to the center of the first body
+   */
   public float getAnchorX() {
     if (m_joint != null) {
       return Fisica.worldToScreen(m_joint.getAnchor2()).x;
@@ -119,7 +182,11 @@ public class FMouseJoint extends FJoint {
     return Fisica.worldToScreen(m_anchor.x);
   }
 
-  /** Get the anchor point on body1 in world coordinates. */
+  /**
+   * Get the vertical coordinate of the anchor point on the body.  This position is given relative to the center of the body.
+   *
+   * @return  the vertical coordinate of the anchor relative to the center of the first body
+   */
   public float getAnchorY() {
     if (m_joint != null) {
       return Fisica.worldToScreen(m_joint.getAnchor2()).y;

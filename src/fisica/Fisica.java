@@ -84,6 +84,11 @@ public class Fisica implements PConstants{
     return m_viewport.getWorldToScreen(a);
   }
 
+  /**
+   * Exception thrown when the library has not been initialized.  The method {@link Fisica.init(PApplet)} must be called before any use of the library.
+   *
+   * @param applet  The applet on which to use the library.  This library can only be used with one applet
+   */
   public static class LibraryNotInitializedException extends NullPointerException{
     private static final long serialVersionUID = -3710605630786298674L;
 
@@ -105,7 +110,7 @@ public class Fisica implements PConstants{
   }
 
   /**
-   * Initialize the library.  Must be called before any call to Geomerative methods.  Must be called by passing the PApplet.  e.g. {@code Fisica.init(this)}
+   * Initialize the library.  Must be called before any use of the library.  Must be called by passing the PApplet.  e.g. {@code Fisica.init(this)}
    *
    * @param applet  The applet on which to use the library.  This library can only be used with one applet
    */

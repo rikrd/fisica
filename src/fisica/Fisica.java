@@ -85,7 +85,7 @@ public class Fisica implements PConstants{
   }
 
   /**
-   * Exception thrown when the library has not been initialized.  The method {@link Fisica.init(PApplet)} must be called before any use of the library.
+   * Exception thrown when the library has not been initialized.  The method {@link Fisica#init(PApplet)} must be called before any use of the library.
    *
    * @param applet  The applet on which to use the library.  This library can only be used with one applet
    */

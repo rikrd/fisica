@@ -20,8 +20,8 @@ import processing.core.*;
 public abstract class FBody extends FDrawable {
   // Body creation settings
   protected float m_density = 1.0f;
-  protected float m_restitution = 0.5f;
-  protected float m_friction = 0.5f;
+  protected float m_restitution = 0.1f;
+  protected float m_friction = 0.1f;
   protected boolean m_bullet = false;
   protected boolean m_sensor = false;
   protected boolean m_static = false;

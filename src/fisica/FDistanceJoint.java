@@ -200,8 +200,10 @@ public class FDistanceJoint extends FJoint {
   public void draw(PApplet applet){
     preDraw(applet);
 
+    applet.ellipse(getAnchor1X(), getAnchor1Y(), 5, 5);
     applet.line(getAnchor1X(), getAnchor1Y(), getAnchor2X(), getAnchor2Y());
-
+    applet.ellipse(getAnchor2X(), getAnchor2Y(), 5, 5);
+    
     postDraw(applet);
   }
 }

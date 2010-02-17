@@ -6,7 +6,7 @@
     Fisica. ant build file.
   </description>
 
-  <property name="jBox2d" value="JBox2D-2.0.1-b229-Library.jar"/>
+  <property name="jBox2d" value="JBox2D-2.1.180-Library.jar"/>
 
   <!-- #### (1) where are your processing libraries located? edit location. #### -->
   <property name="processing" location="${env.PROCESSING_PATH}"/>

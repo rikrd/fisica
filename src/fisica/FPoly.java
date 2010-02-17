@@ -71,12 +71,14 @@ public class FPoly extends FBody {
 
   protected void processBody(Body bd, ShapeDef sd){
     Polygon.decomposeConvexAndAddTo(m_polygon, bd, (PolygonDef)sd);
-    m_closed = true;
   }
 
   protected ShapeDef getShapeDef() {
     PolygonDef pd = new PolygonDef();
     
+    m_vertices.add(new Vec2((Vec2)m_vertices.get(m_vertices.size()-1)));
+    m_closed = true;
+
     Vec2[] vertices = new Vec2[m_vertices.size()];
     m_vertices.toArray(vertices);
     m_polygon = new Polygon(vertices);

@@ -119,7 +119,7 @@ public class Fisica implements PConstants{
     m_initialized = true;
 
     m_viewport = new FViewport();
-    m_viewport.setScaleTransform(100);
+    m_viewport.setScaleTransform(20);
   }
 
   /**

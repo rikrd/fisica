@@ -83,8 +83,8 @@ public class FWorld extends World {
    */
   public FBox bottom;
 
-  protected float m_edgesFriction = 0.5f;
-  protected float m_edgesRestitution = 0.5f;
+  protected float m_edgesFriction = 0.1f;
+  protected float m_edgesRestitution = 0.1f;
   protected boolean m_grabbable = true;
   protected int m_mouseButton = MouseEvent.BUTTON1;
   protected HashMap m_contacts;

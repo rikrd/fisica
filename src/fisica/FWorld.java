@@ -279,6 +279,8 @@ public class FWorld extends World {
     m_contactResults = new ArrayList();
 
     m_mouseJoint.setDrawable(false);
+
+    setGravity(0, 100);
   }
 
   /**

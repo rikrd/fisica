@@ -41,6 +41,7 @@ import java.util.ArrayList;
  */
 public class FPoly extends FBody {
   protected Polygon m_polygon;
+  protected boolean m_closed;
   protected ArrayList m_vertices;
   
   /**
@@ -49,6 +50,7 @@ public class FPoly extends FBody {
   public FPoly(){
     super();
     
+    m_closed = false;
     m_vertices = new ArrayList<Vec2>();
   }
 
@@ -69,6 +71,7 @@ public class FPoly extends FBody {
 
   protected void processBody(Body bd, ShapeDef sd){
     Polygon.decomposeConvexAndAddTo(m_polygon, bd, (PolygonDef)sd);
+    m_closed = true;
   }
 
   protected ShapeDef getShapeDef() {
@@ -96,7 +99,11 @@ public class FPoly extends FBody {
         Vec2 v = Fisica.worldToScreen((Vec2)m_vertices.get(i));
         applet.vertex(v.x, v.y);
       }
-      applet.endShape(PConstants.CLOSE);
+      if (m_closed) {
+        applet.endShape(PConstants.CLOSE);
+      } else {
+        applet.endShape();
+      }
     }
     
     postDraw(applet);

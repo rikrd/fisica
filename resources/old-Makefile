@@ -1,8 +1,8 @@
 
 FISICA_VERSION=7
 
-JAVAC_ARGS=-source 1.5 -target 1.5
-CLASSPATH=3rdparty/JBox2D-2.0.1-b229-Library.jar:"$(PROCESSING_PATH)/lib/core.jar":"$(PROCESSING_PATH)/libraries/xml/library/xml.jar"
+JAVAC_ARGS=-source 1.5 -target 1.5 -Xlint:unchecked
+CLASSPATH=libs/JBox2D-2.1.180-Library.jar:"$(PROCESSING_PATH)/lib/core.jar":"$(PROCESSING_PATH)/libraries/xml/library/xml.jar"
 DIST_DIR=distribution/fisica
 
 #
@@ -13,7 +13,7 @@ library/fisica.jar: src/fisica/*.java
 	mkdir -p build
 	mkdir -p library
 	javac $(JAVAC_ARGS) src/fisica/*.java -d build -cp $(CLASSPATH)
-	cp 3rdparty/JBox2D*.jar library
+	cp libs/JBox2D*.jar library
 	jar cvf library/fisica.jar -C build fisica
 
 dist: library/fisica.jar #doc
@@ -21,7 +21,7 @@ dist: library/fisica.jar #doc
 
         ##  Copy libs
 	cp library/fisica.jar $(DIST_DIR)/library
-	cp 3rdparty/JBox2D*.jar $(DIST_DIR)/library
+	cp libs/JBox2D*.jar $(DIST_DIR)/library
 
         ##  Copy docs
 	#cp README $(DIST_DIR)

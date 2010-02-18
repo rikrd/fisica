@@ -3,6 +3,7 @@ package fisica;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.awt.event.MouseEvent;
 
 import org.jbox2d.common.*;
@@ -90,11 +91,30 @@ public class FWorld extends World {
   protected HashMap m_contacts;
   protected ArrayList m_contactResults;
 
+  protected LinkedList m_actions;
+
   protected FMouseJoint m_mouseJoint = new FMouseJoint((FBody)null, 0.0f, 0.0f);
 
   private Vec2 m_small = new Vec2(0.001f, 0.001f);
   private AABB m_aabb = new AABB();
 
+  protected void addBody(FBody body) {
+    body.addToWorld(this);    
+  }
+
+  protected void removeBody(FBody body) {
+    body.removeFromWorld();    
+  }
+
+  protected void addJoint(FJoint joint) {
+    joint.addToWorld(this);
+  }
+
+  protected void removeJoint(FJoint joint) {
+    joint.removeFromWorld();    
+  }
+  
+  
   /**
    * Forward the contact events to the contactStarted(ContactPoint point),
    * contactPersisted(ContactPoint point) and contactStopped(ContactPoint point)
@@ -277,6 +297,8 @@ public class FWorld extends World {
 
     m_contacts = new HashMap();
     m_contactResults = new ArrayList();
+    
+    m_actions = new LinkedList();
 
     m_mouseJoint.setDrawable(false);
 
@@ -321,6 +343,10 @@ public class FWorld extends World {
    * @see FBody
    */
   public void draw( PApplet applet ) {
+    while (m_actions.size()>0) {
+      ((FWorldAction)m_actions.poll()).apply(this);
+    }
+
     for (Body b = getBodyList(); b != null; b = b.m_next) {
       FBody fb = (FBody)(b.m_userData);
       if (fb != null && fb.isDrawable()) fb.draw(applet);
@@ -349,7 +375,8 @@ public class FWorld extends World {
    * @see #remove(FBody)
    */
   public void add( FBody body ) {
-    body.addToWorld(this);
+    FWorldAction action = new FAddBodyAction(body);
+    m_actions.add(action);
   }
 
   /**
@@ -359,7 +386,8 @@ public class FWorld extends World {
    * @see #add(FBody)
    */
   public void remove( FBody body ) {
-    body.removeFromWorld();
+    FWorldAction action = new FRemoveBodyAction(body);
+    m_actions.add(action);
   }
 
   /**
@@ -369,7 +397,8 @@ public class FWorld extends World {
    * @see #remove(FJoint)
    */
   public void add( FJoint joint ) {
-    joint.addToWorld(this);
+    FWorldAction action = new FAddJointAction(joint);
+    m_actions.add(action);
   }
 
   /**
@@ -379,7 +408,8 @@ public class FWorld extends World {
    * @see #add(FJoint)
    */
   public void remove( FJoint joint ) {
-    joint.removeFromWorld();
+    FWorldAction action = new FRemoveJointAction(joint);
+    m_actions.add(action);
   }
   
   /**
@@ -530,6 +560,10 @@ public class FWorld extends World {
    * @param iterationCount   the number of iterations for the world simulation step
    */
   public void step( float dt, int iterationCount) {
+    while (m_actions.size()>0) {
+      ((FWorldAction)m_actions.poll()).apply(this);
+    }
+    
     //m_contacts.clear();
     m_contactResults.clear();
 

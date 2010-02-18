@@ -280,7 +280,7 @@ public class FWorld extends World {
 
     m_mouseJoint.setDrawable(false);
 
-    setGravity(0, 100);
+    setGravity(0, 200);
   }
 
   /**

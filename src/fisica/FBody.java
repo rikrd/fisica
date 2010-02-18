@@ -490,7 +490,9 @@ public abstract class FBody extends FDrawable {
   }
 
   /**
-   * Set the density of the body.  The density will determine the total mass of the body and thus it's behavior with respect to collisions, bounces, inertia, joints,...  When the density is set, the mass of the body is recalculated automatically given it's volume.
+   * Set the density of the body.  The density will determine the total mass of the body and thus it's behavior with respect to collisions, bounces, inertia, joints,...  When the density is set, the mass of the body is recalculated automatically given it's area.
+   *
+   * Note that a density of 0.0 corresponds to a mass of 0.0 independently of the area and the body will be considered static.
    *
    * @param density   the density of the body
    */

@@ -25,8 +25,8 @@ public abstract class FBody extends FDrawable {
   protected boolean m_bullet = false;
   protected boolean m_sensor = false;
   protected boolean m_static = false;
-  protected float m_linearDamping = 1.0f;
-  protected float m_angularDamping = 1.0f;
+  protected float m_linearDamping = 0.5f;
+  protected float m_angularDamping = 0.5f;
   protected boolean m_rotatable = true;
 
   protected boolean m_isSleeping = false;
@@ -589,7 +589,7 @@ public abstract class FBody extends FDrawable {
   }
 
   /**
-   * Set the restitution of the body.  The restitution determines the ratio of the reaction force normal to a contact, when the body collides with another body.  Basically it can be seen as a coefficient that will control the strength with which the body bounces back from a collision.  The resititution of a contact of two bodies in a collision is calculated from the restitution values of the 2 bodies involved.
+   * Set the restitution of the body.  The restitution determines the ratio of the reaction force normal to a contact, when the body collides with another body.  Basically it can be seen as a coefficient that will control the strength with which the body bounces back from a collision.  The resititution of a contact of two bodies in a collision is calculated as the maximum of the restitution values of the 2 bodies involved.
    *
    * @param restitution   a positive value.  A value of 0 means no bounce after a collision, and a value of 1 means bounce with it's full speed from a collision
    */

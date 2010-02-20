@@ -230,7 +230,7 @@ public class FRevoluteJoint extends FJoint {
 
 
 
-  public void draw(PApplet applet){
+  public void draw(PGraphics applet){
     preDraw(applet);
 
     applet.line(getAnchorX(), getAnchorY(), getBody1().getX(), getBody1().getY());

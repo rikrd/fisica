@@ -40,7 +40,7 @@ abstract class FDrawable {
     m_mask = other.m_mask;
   }
 
-  protected void appletStroke( PApplet applet, int argb ){
+  protected void appletStroke( PGraphics applet, int argb ){
     final int a = (argb >> 24) & 0xFF;
     final int r = (argb >> 16) & 0xFF;  // Faster way of getting red(argb)
     final int g = (argb >> 8) & 0xFF;   // Faster way of getting green(argb)
@@ -49,7 +49,7 @@ abstract class FDrawable {
     applet.stroke(r, g, b, a);
   }
 
-  protected void appletFill( PApplet applet, int argb ){
+  protected void appletFill( PGraphics applet, int argb ){
     final int a = (argb >> 24) & 0xFF;
     final int r = (argb >> 16) & 0xFF;  // Faster way of getting red(argb)
     final int g = (argb >> 8) & 0xFF;   // Faster way of getting green(argb)
@@ -58,7 +58,7 @@ abstract class FDrawable {
     applet.fill(r, g, b, a);
   }
 
-  protected void appletFillStroke( PApplet applet ) {
+  protected void appletFillStroke( PGraphics applet ) {
     if (m_fill) {
       appletFill(applet, m_fillColor);
     } else {
@@ -73,7 +73,7 @@ abstract class FDrawable {
     applet.strokeWeight(m_strokeWeight);
   }
 
-  protected void drawImage(PApplet applet) {
+  protected void drawImage(PGraphics applet) {
     applet.tint(255, 255, 255, m_imageAlpha);
     applet.image(m_image, 0-m_image.width/2, 0-m_image.height/2);
     applet.tint(255, 255, 255, 255);
@@ -85,8 +85,13 @@ abstract class FDrawable {
    *
    * @param applet  the applet onto which the object must be drawn.
    */
+  public void draw(PGraphics applet) {
+    // Don't draw anything, each subclass will draw itself
+  }
+
   public void draw(PApplet applet) {
     // Don't draw anything, each subclass will draw itself
+    draw(applet.g);
   }
 
   /**

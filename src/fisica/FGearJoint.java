@@ -72,6 +72,6 @@ public class FGearJoint extends FJoint {
     updateRatio();
   }
 
-  public void draw(PApplet applet){
+  public void draw(PGraphics applet){
   }
 }

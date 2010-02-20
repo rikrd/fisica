@@ -94,7 +94,7 @@ public abstract class FBody extends FDrawable {
     return new ShapeDef();
   }
 
-  protected void preDraw(PApplet applet) {
+  protected void preDraw(PGraphics applet) {
     applet.pushStyle();
     applet.pushMatrix();
 
@@ -104,12 +104,12 @@ public abstract class FBody extends FDrawable {
     appletFillStroke(applet);
   }
 
-  protected void postDraw(PApplet applet) {
+  protected void postDraw(PGraphics applet) {
     applet.popMatrix();
     applet.popStyle();
   }
 
-  protected void applyMatrix(PApplet applet){
+  protected void applyMatrix(PGraphics applet){
     applet.translate(getX(), getY());
     applet.rotate(getRotation());
   }

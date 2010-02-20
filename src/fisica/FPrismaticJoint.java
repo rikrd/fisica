@@ -225,7 +225,7 @@ public class FPrismaticJoint extends FJoint {
     m_enableLimit = value;
   }
 
-  public void draw(PApplet applet){
+  public void draw(PGraphics applet){
     preDraw(applet);
 
     applet.line(getAnchorX(), getAnchorY(), getBody1().getX(), getBody1().getY());

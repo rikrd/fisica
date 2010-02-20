@@ -34,13 +34,15 @@ public abstract class FJoint extends FDrawable {
     m_world = world;
 
     JointDef jd = getJointDef(world);
+    if (jd == null) return;
+
     processJoint(m_world, jd);
     m_joint.m_userData = this;
 
   }
 
   protected void removeFromWorld() {
-    if (m_joint == null) return;
+    //if (m_joint == null) return;
 
     m_world.destroyJoint(this.m_joint);
     m_joint = null;
@@ -50,7 +52,7 @@ public abstract class FJoint extends FDrawable {
     return null;
   }
 
-  protected void preDraw(PApplet applet) {
+  protected void preDraw(PGraphics applet) {
     applet.pushStyle();
     applet.pushMatrix();
 
@@ -59,7 +61,7 @@ public abstract class FJoint extends FDrawable {
     appletFillStroke(applet);
   }
 
-  protected void postDraw(PApplet applet) {
+  protected void postDraw(PGraphics applet) {
     applet.popMatrix();
     applet.popStyle();
   }

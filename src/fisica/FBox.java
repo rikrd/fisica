@@ -74,7 +74,7 @@ public class FBox extends FBody {
     return Fisica.worldToScreen(m_width);
   }
 
-  public void draw(PApplet applet) {
+  public void draw(PGraphics applet) {
     preDraw(applet);
 
     if (m_image != null ) {

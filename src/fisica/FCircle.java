@@ -57,7 +57,7 @@ public class FCircle extends FBody {
     return Fisica.worldToScreen(m_size);
   }
 
-  public void draw(PApplet applet) {
+  public void draw(PGraphics applet) {
     preDraw(applet);
 
     if (m_image != null ) {

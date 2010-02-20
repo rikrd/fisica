@@ -90,7 +90,7 @@ public class FPoly extends FBody {
     return pd;
   }
     
-  public void draw(PApplet applet) {
+  public void draw(PGraphics applet) {
     preDraw(applet);
 
     if (m_image != null ) {

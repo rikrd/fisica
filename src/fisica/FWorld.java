@@ -222,7 +222,7 @@ public class FWorld extends World {
       m_mouseJoint.setGrabbedBodyAndTarget(body, event.getX(), event.getY());
       m_mouseJoint.setFrequency(3.0f);
       m_mouseJoint.setDamping(0.1f);
-      this.add(m_mouseJoint);
+      this.addJoint(m_mouseJoint);
       // TODO: send a bodyGrabbed(FBody body) event
     }
 
@@ -230,7 +230,7 @@ public class FWorld extends World {
     if (event.getID() == event.MOUSE_RELEASED
         && event.getButton() == m_mouseButton
         && (m_mouseJoint.getGrabbedBody() != null)) {
-      this.remove(m_mouseJoint);
+      this.removeJoint(m_mouseJoint);
       m_mouseJoint.releaseGrabbedBody();
       // TODO: send a bodyReleased(FBody body) event
     }
@@ -239,7 +239,6 @@ public class FWorld extends World {
     if (event.getID() == event.MOUSE_DRAGGED
         && (m_mouseJoint.getGrabbedBody() != null)) {
       m_mouseJoint.setTarget(event.getX(), event.getY());
-
       // TODO: send a bodyDragged(FBody body) event
     }
   }

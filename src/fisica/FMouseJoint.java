@@ -24,6 +24,7 @@ public class FMouseJoint extends FJoint {
   protected float m_frequency = 20.0f;
 
   protected JointDef getJointDef(FWorld world) {
+    //if (m_fbody == null) return null;
     Body body = m_fbody.m_body;
 
     MouseJointDef md = new MouseJointDef();

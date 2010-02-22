@@ -430,7 +430,7 @@ public class FWorld extends World {
     left.setFillColor(color);
     left.setStrokeColor(color);
     left.setPosition(-5, applet.height/2);
-    add(left);
+    addBody(left);
 
     right = new FBox(20, applet.height);
     right.setStaticBody(true);
@@ -438,7 +438,7 @@ public class FWorld extends World {
     right.setPosition(applet.width+5, applet.height/2);
     right.setFillColor(color);
     right.setStrokeColor(color);
-    add(right);
+    addBody(right);
 
     top = new FBox(applet.width, 20);
     top.setStaticBody(true);
@@ -446,7 +446,7 @@ public class FWorld extends World {
     top.setPosition(applet.width/2, -5);
     top.setFillColor(color);
     top.setStrokeColor(color);
-    add(top);
+    addBody(top);
 
     bottom = new FBox(applet.width, 20);
     bottom.setStaticBody(true);
@@ -454,7 +454,7 @@ public class FWorld extends World {
     bottom.setPosition(applet.width/2, applet.height+5);
     bottom.setFillColor(color);
     bottom.setStrokeColor(color);
-    add(bottom);
+    addBody(bottom);
 
     setEdgesFriction(m_edgesFriction);
     setEdgesRestitution(m_edgesRestitution);

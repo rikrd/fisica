@@ -196,7 +196,7 @@ public class FMouseJoint extends FJoint {
     return Fisica.worldToScreen(m_anchor.y);
   }
 
-  public void draw(PApplet applet){
+  public void draw(PGraphics applet){
     preDraw(applet);
 
     applet.line(getAnchorX(), getAnchorY(), getTargetX(), getTargetY());

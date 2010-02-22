@@ -198,7 +198,7 @@ public class FDistanceJoint extends FJoint {
     return Fisica.worldToScreen(m_anchor2.y);
   }
 
-  public void draw(PApplet applet){
+  public void draw(PGraphics applet){
     preDraw(applet);
 
     applet.ellipse(getAnchor1X(), getAnchor1Y(), 5, 5);

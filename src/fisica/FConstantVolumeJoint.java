@@ -80,7 +80,7 @@ public class FConstantVolumeJoint extends FJoint {
     m_frequency = frequency;
   }
 
-  public void draw(PApplet applet){
+  public void draw(PGraphics applet){
     preDraw(applet);
 
     if (m_bodies.size()>0) {

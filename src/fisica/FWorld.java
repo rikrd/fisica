@@ -342,6 +342,10 @@ public class FWorld extends World {
    * @see FBody
    */
   public void draw( PApplet applet ) {
+    draw(applet.g);
+  }
+
+  public void draw( PGraphics applet ) {
     while (m_actions.size()>0) {
       ((FWorldAction)m_actions.poll()).apply(this);
     }
@@ -350,13 +354,13 @@ public class FWorld extends World {
       FBody fb = (FBody)(b.m_userData);
       if (fb != null && fb.isDrawable()) fb.draw(applet);
     }
-
+    
     for (Joint j = getJointList(); j != null; j = j.m_next) {
       FJoint fj = (FJoint)(j.m_userData);
       if (fj != null && fj.isDrawable()) fj.draw(applet);
     }
-
   }
+
 
   /**
    * Draws all the bodies in the world on the applet canvas.  This method is often called in the draw method of the applet.

@@ -46,7 +46,7 @@
   <property name="versionNumber"  value="0.1.1"/>
 
   <!-- #### (9) your contact url. edit value. #### -->
-  <property name="yourLink"  value="http://www.ricardmarxer.org" />
+  <property name="yourLink"  value="http://www.ricardmarxer.com" />
 
   <!-- #### (10) a comma separated list of keywords describing your library. edit value. #### -->
   <property name="keywords"  value="physics, simulation" />

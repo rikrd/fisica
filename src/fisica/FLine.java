@@ -59,7 +59,7 @@ public class FLine extends FBody {
     m_end = Fisica.screenToWorld(x2, y2);
   }
 
-  public void draw(PApplet applet) {
+  public void draw(PGraphics applet) {
     preDraw(applet);
 
     if (m_image != null ) {

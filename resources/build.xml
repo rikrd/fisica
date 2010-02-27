@@ -281,6 +281,7 @@
     <echo>---------------------</echo>
     <antcall target="processExamples" />
     <echo>---------------------</echo>
+    <antcall target="exportAllExamples" />
 
     <replaceregexp file="${dist}/web/index.html"
   	  	   match="##examples##"
@@ -308,6 +309,23 @@
     <property name="examples.list" refid="examples.contents"/>
     <foreach list="${examples.list}" target="addExamples" param="exampleDir" delimiter=";">
     </foreach>
+  </target>
+
+  <target name="exportAllExamples">
+    <dirset id="examples.contents" dir="examples" excludes="*/*"/>
+    <property name="examples.list" refid="examples.contents"/>
+    <foreach list="${examples.list}" target="exportExample" param="exampleDir" delimiter=";">
+    </foreach>
+  </target>
+
+
+  <target name="exportExample">
+    <property name="exampleDirAbs" location="examples/${exampleDir}"/>
+    <exec executable="${exportApplet}">
+      <arg value="${exampleDirAbs}"/>
+      <arg value="${dist}/web/examples/${exampleDir}/applet"/>
+      <arg value="${exportAppletPreferences}"/>
+    </exec>
   </target>
 
   <target name="addExamples">

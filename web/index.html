@@ -1,132 +1,125 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-<title>##yourLibrary##</title>
-<meta name="description" content="a library for the programming environment processing" />
-<meta name="keywords" content="processing.org, library" />
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="Content-Language" content="en-us" />
-<meta name="ROBOTS" content="index,follow,archive" />
-<meta http-equiv="imagetoolbar" content="false" />
-<meta name="MSSmartTagsPreventParsing" content="true" />
-<meta name="author" content="##author##" />
-<meta name="Rating" content="General" />
-<meta name="revisit-after" content="7 Days" />
-<meta name="doc-class" content="Living Document" />
-<link rel="stylesheet" type="text/css" href="./stylesheet.css">
-</head>
-<body>
-	<div id="container">
-
-		<div id="header">
-			<h1>##yourLibrary##</h1>
-		</div>
-
-		<div id="menu" class="clear">
-			<ul>
-				<li><a href="#about">About</a> \ </li>
-				<li><a href="#download">Download</a> \ </li>
-				<li><a href="#download">Installation</a> \ </li>
-				<li><a href="#examples">Examples</a> \ </li>
-				<li><a href="./reference/index.html" target="_blank">Reference</a></li>
-				<!-- <li><a href="#demos">Demos</a> \ </li> -->
-				<!-- <li><a href="#misc">Misc</a> \ </li> -->
-				<!-- <li><a href="#images">Images</a> \ </li> -->
-			</ul>
-		</div>
-
-		<div id="content" class="clear">
-
-			<div id="about">
-			<h2>##yourLibrary##</h2>
-			<p>
-			A library by <a href="##yourLink##">##author##</a> for the programming environment <a href="http://www.processing.org" target="_blank">processing</a>. Last update, ##date##.
-			</p>
-			<p>
-			Feel free to replace this paragraph with a description of the library. Contributed libraries are developed, documented, and maintained by members of the Processing community. Further directions are included with each library. For feedback and support, please post to the Discourse. We strongly encourage all libraries to be open source, but not all of them are.
-			</p>
-			</div>
-
-
-
-			<div id="download" class="clear">
-			<h2>Download</h2>
-			<p>
-			Download ##yourLibrary## version ##versionNumber## in
-			<a href="./download/##zipName##.zip">.zip format</a>.
-			</p>
-			<h2>Installation</h2>
-			<p>
-			Unzip and put the extracted ##yourLibrary## folder into the libraries folder of your processing sketches. Reference and examples are included in the ##yourLibrary## folder.
-			</p>
-			</div>
-
-
-			<div id="resources">
-			<p><strong>Keywords</strong> ##keywords##</p>
-			<p><strong>Reference</strong>. Have a look at the javadoc reference <a href="./reference/index.html" target="_blank">here</a>. a copy of the reference is included in the .zip as well.</p>
-			<p><strong>Source</strong>. The source code of ##yourLibrary## is available at <a href="##source:url##">##source:host##</a>, and its repository can be browsed <a href="##source:repository##" target="_blank">here</a>.</p>
-			</div>
-
-			<div id="examples" class="clear">
-			<h2>Examples</h2>
-			<p>Find a list of examples in the current distribution of ##yourLibrary##, or have a look at them by following the links below.</p>
-			<ul>
-			##examples##
-			</ul>
-			</div>
+<html>
+  <head>
+    <title>##yourLibrary##</title>
+    
+    <meta name="description" content="a library for the programming environment processing" />
+    <meta name="keywords" content="processing.org, library" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="en-us" />
+    <meta name="ROBOTS" content="index,follow,archive" />
+    <meta http-equiv="imagetoolbar" content="false" />
+    <meta name="MSSmartTagsPreventParsing" content="true" />
+    <meta name="author" content="##author##" />
+    <meta name="Rating" content="General" />
+    <meta name="revisit-after" content="7 Days" />
+    <meta name="doc-class" content="Living Document" />
+    
+    <link rel="stylesheet" type="text/css" href="./stylesheet.css">
+  </head>
+  <body>
+    
+    <div id="title">
+      ##yourLibrary##
+    </div>
+    
+    <div id="wrap">
+      <div id="main">
+        <div id="intro">
+          <h1>Introduction</h1>
+          <div class="content">
+            <p>A library by <a href="##yourLink##">##author##</a> for the programming environment <a href="http://www.processing.org" target="_blank">processing</a>. Last update, ##date##.</p>
+            <p>It is simply a wrapper around <a target="_blank" href="http://www.jbox2d.org/">JBox2D</a>.  It pretends to make it much easier to create physical models by exposing an object oriented API similar to <a target="_blank" href="http://pphys2d.jmcouillard.com/">PPhys2D</a> physics library for Processing.</p>
+            <p>Stay tuned for updates at <a href="http://www.twitter.com/ricardmp"><img src="http://twitter-badges.s3.amazonaws.com/t_mini-c.png" alt="Follow ricardmp on Twitter"/></a> with the tag <pre>#fisica</pre></p>
+          </div>
+        </div>
+        
+        <div id="download">
+          <h1>Download</h1>
+          <div class="content">
+            <p>
+              Download ##yourLibrary## version ##versionNumber## in
+              <a href="./download/##zipName##.zip">.zip format</a>. <br/>
+              Unzip the contents of this file to /path/to/sketchbook/libraries
+            </p>
+          </div>
+        </div>
+                
+        <div id="works">
+          <h1>Works</h1>
+          <div class="content">
+            <p>
+              ##yourLibrary## has been used in the following projects:<br/>
+              <ul>
+                <li><A href="http://www.ricardmarxer.com/mechanical">Mechanical Attractors</A></li>
+              </ul>
+              If you have done other projects with this library, please let me know.
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <div id="advanced">
+        <div id="overview">
+          <h1>Overview</h1>
+        </div>
 
 
-			<div id="info">
-			<h2>Tested</h2>
-			<p>
-			<!-- on which platform has the library been tested? -->
-			<strong>Platform</strong> ##tested:platform##
+        <div id="examples">
+          <h1>Examples</h1>
+          <div class="content">
+            The examples can also be found in the <strong>examples</strong> directory inside the zip file.
+            <div class="gallery">
+              ##examples##
+            </div>
+          </div>
+        </div>
+        
+        <div id="documentation">
+          <h1>Documentation</h1>
+          <div class="content">
+            <p>
+              The documentation is available online <a href="./reference/index.html">here</a>.<br>
+              It can also be found in the <b>documentation</b> directory inside the zip file.
+            </p>
+          </div>
+        </div>
+        
+        <div id="source">
+          <h1>Source</h1>
+          <div class="content">
+            <p>The source code of ##yourLibrary## is available at <a href="##source:url##">##source:host##</a>, and its repository can be browsed <a href="##source:repository##" target="_blank">here</a>.</p>
+            <p>This library is licensed under the <a href="http://www.gnu.org/licenses/lgpl.html" target="_blank">LGPL v3</a> license.</p>
+          </div>
+        </div>
 
-			<!-- which processing version did you use for testing your library? -->
-			<br /><strong>Processing</strong> ##tested:processingVersion##
-
-			<!-- does your library depend on any other library or framework? -->
-			<br /><strong>Dependencies</strong> ##tested:dependencies##
-			</p>
-			</div>
-
-
-			<!-- use the demos section for a list of applets run in a browser. -->
-			<!--
-			<div id="demos" class="clear">
-				<h2>demos</h2>
-				<p>
-				find a list of online applet demos below.
-
-				<ul>
-					<li><a href="./applets/demo/index.html">demo</a></li>
-				</ul>
-				</p>
-			</div>
-			-->
-
-			<!-- use the misc section for other relevant information. Activate the link to the misc section in the menu above. -->
-			<!--
-			<div id="misc" class="clear">
-				<p></p>
-			</div>
-			-->
-
-			<!-- use the images/screenshots section. Activate the link to the misc section in the menu above. -->
-			<!--
-			<div id="images" class="clear">
-			</div>
-			-->
-
-
-			<br class="clear" />
-		</div>
-
-		<div id="footer">
-			<p>by ##author##, 2008.</p>
-		</div>
-	</div>
-</body>
+        <div id="changelog">
+          <h1>Changelog</h1>
+          <div class="content">
+            <dl>
+              
+              <dt>rev 10 (27 - February - 2009):</dt><dd>
+                <ul>
+                  <li> First release of the library.</li>
+                </ul>
+              </dd>
+              
+            </dl>
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+    
+  </body>
+  
+  <script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+  <script type="text/javascript">
+    var pageTracker = _gat._getTracker("UA-312817-2");
+    pageTracker._initData();
+    pageTracker._trackPageview();
+  </script>
 </html>

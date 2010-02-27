@@ -1,203 +1,224 @@
 /* processingLibs style by andreas schlegel, sojamo. */
 
+#overview {
+    display:none;
+}
 
 * {
-	margin:0;
-	padding:0;
-	border:0;
+    margin:0;
+    padding:0;
+    border:0;
 }
-
 
 body {
-	font-family : Verdana, Geneva, Arial, Helvetica, sans-serif; 
-	font-size : 100%; 
-    font-size : 0.70em;
-	font-weight : normal;
-	line-height	: normal;
+    font-family : Verdana, Geneva, Arial, Helvetica, sans-serif; 
+    font-size : small;
+    font-weight : normal;
+    line-height	: normal;
 }
-
-
-
-#container {
-	margin-left:64px;
-	background-color:#fff;
-}
-
-#header {
-	float:left;
-	padding-top:24px;
-	padding-bottom:48px;
-}
-
-#menu {
-	margin-top:16px;
-	float:left;
-	margin-bottom:64px;
-}
-
-
-#about,
-#download,
-#examples,
-#demos,
-#misc {
-	width:480px;
-	float:left;
-	margin-right:24px;
-}
-
-
-#resources, #info {
-	width:320px;
-	float:left;
-}
-
 
 .clear {
-	clear:both;
+    clear:both;
 }
 
-#footer {
-	margin-top:300px;
-	height:20px;
-	margin-bottom:32px;
+
+a
+{
+    color:#666;
+    //background-color:#666;
+    text-decoration:none;
+    font-weight:bold;
 }
 
+a:visited
+{
+    //color:#FFF;
+    //background-color:#666;
+}
+
+a:hover
+{
+    color:#AAA;
+    //background-color:#333;
+}
+
+img
+{
+    border: solid 1px #DDD;
+    margin: 0px;
+}
+
+h1
+{
+  font-family: Helvetica, Verdana, sans-serif;
+  margin: 0px;
+  padding: 0px;
+  text-transform: uppercase;
+  color: #222;
+  font-size:large;
+  font-weight:normal;
+}
+
+
+#title
+{
+  padding: 0.2em;
+  padding-left: 0.5em;
+  margin: 0px;
+  color: #FFF;
+  background-color: #000;
+  font-size: xx-large;
+  font-family: Helvetica, Verdana, sans-serif;
+}
+
+#wrap
+{
+  padding: 2em;
+  margin: 0px;
+}
+
+#main
+{
+  float:left;
+  width:40%;
+  padding-right:3em;
+}
+
+.content
+{
+  padding-left:1em;
+  margin-bottom:1em;
+}
+
+#advanced
+{
+  float:left;
+  width:40%;
+  padding-left:3em;
+}
 
 ul {
-	list-style:none;
-	padding:0;
-	margin:0;
+    padding-left:20;
+    margin:5;
+    margin-left:20;
 }
-
-
-#menu ul li, #subMenu ul li {
-	float:left;
-	padding-right:6px; 
-}
-
-
-
-
-
 
 /* Headings */
 
 h1 {
-	font-size:2em;
-	font-weight:normal;
 }
-
 
 h2, h3, h4, h5, th {
-	font-size:1.3em;
-	font-weight:normal;
-	margin-bottom:4px;
+    font-size:large;
+    font-weight:normal;
+    margin-bottom:4px;
+    margin-top:20px;
 }
-
-
 
 p { 
-	font-size:1em;
-	width:90%;
-	margin-bottom:32px;
+    font-size:1em;
+    width:90%;
+    margin-bottom:10px;
 }
-
 
 pre, code {  
-	font-family:"Courier New", Courier, monospace; 
-	font-size:1em; 
-	line-height:normal;
+    font-family:"Courier New", Courier, monospace; 
+    font-size:1em; 
+    line-height:normal;
 }
-
-
-
 
 hr {
-	border:0;
-	height:1px;
-	margin-bottom:24px;
+    border:0;
+    height:1px;
+    margin-bottom:24px;
 }
-
-
-a {
-	text-decoration: underline;
-	font-weight: normal;
-}
-
-
-a:hover, 
-a:active {
-	text-decoration: underline;
-	font-weight: normal;
-}
-
-
-a:visited,
-a:link:visited {
-	text-decoration: underline;
-	font-weight: normal;
-}
-
-
 
 img {
-	border: 0px solid #000000;
+    border: 0px solid #000000;
 }
-
-
-
 
 
 /* COLORS */
-
-
 body {
-	color : #333;
-	background-color :#fff;
-}
-
-
-#header {
-	background-color:#fff;
-	color:#333;
-}
-
-
-
-h1, h2, h3, h4, h5, h6 {
-	color:#666;
+    color : #333;
+    background-color :#fff;
 }
 
 
 pre, code {  
-	color: #000000;
+    color: #000000;
 }
 
 
-a,strong {
-	color: #333;
+strong {
+    color: #333;
 }
 
 
-a:hover, 
-a:active {
-	color: #333;
+div.gallery
+{
+    margin-left:10px;
+    border-left:0px solid gray;
+    padding:1em;
 }
 
-
-a:visited,
-a:link:visited {
-	color: #333;
+a
+{
+    color:SteelBlue;
+    text-decoration:none;
+    font-weight:bold;
 }
 
-
-#footer, #menu {
-	background-color:#fff;
-	color:#333;
+a:hover 
+{
+    color: DarkRed;
 }
 
+a:active 
+{
+    color: Crimson;
+}
 
-#footer a, #menu a {
-	color:#333;
+h1 a
+{
+    color: inherit;
+    font-weight: inherit;
+}
+
+div.img
+{
+    margin:2px;
+    border:0px solid #555555;
+    height:auto;
+    width:auto;
+    float:left;
+    align:center;
+    text-align:center;
+}
+
+div.img img
+{
+    display:inline;
+    margin:3px;
+    padding:-1px;
+    border:1px solid #555555;
+    opacity:0.7;
+    filter:alpha(opacity=70);
+}
+
+div.img a:hover img
+{
+    border:1px solid #000000;
+    padding:-1px;
+    opacity:1.0;
+    filter:alpha(opacity=100);
+}
+
+div.desc
+{
+    display:none;
+    text-align:center;
+    font-weight:normal;
+    width:120px;
+    margin:2px;
 }

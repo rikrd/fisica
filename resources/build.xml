@@ -40,7 +40,7 @@
   <property name="copyright" value="(c) 2009"/>
 
   <!-- #### (7) give your library a name. edit value.  #### -->
-  <property name="libraryName"  value="fisica"/>
+  <property name="libraryName"  value="Fisica"/>
 
   <!-- #### (8) give your library a name. edit value.   #### -->
   <property name="versionNumber"  value="0.1.1"/>

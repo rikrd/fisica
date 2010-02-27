@@ -5,7 +5,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <META name="Author" content="Ricard Marxer Piñón">
 
-    <title>Mechanical Attractors :: @@sketch@@</title>
+    <title>Fisica Library :: @@sketch@@</title>
 
     <style type="text/css">
       /* <![CDATA[ */
@@ -20,12 +20,24 @@
 	  line-height: normal; 
 	}
 
-        div {
+        #content {
           margin: auto;
           width: 500px;
           height: 503px;
         }
+
+        #content {
+          float:left;
+          width:40%;
+          padding-right:3em;
+        }
 		 
+        #@@sketch@@_container {
+          float:left;
+          width:40%;
+          padding-left:3em;
+        }
+
 	a          { color: #3399cc; }
 	a:link     { color: #3399cc; text-decoration: underline; }
 	a:visited  { color: #3399cc; text-decoration: underline; }
@@ -38,6 +50,20 @@
 
   <body>
     <div id="content">
+      <div id="description">
+        <p>
+	  @@description@@
+        </p>
+        
+        <p>
+	  Source code: @@source@@
+        </p>
+        
+        <p>
+	  Built with <a href="http://processing.org" title="Processing.org">Processing</a>
+        </p>
+      </div>
+      
       <div id="@@sketch@@_container">
 
 	<!-- This version plays nicer with older browsers, 

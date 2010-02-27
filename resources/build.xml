@@ -1,6 +1,8 @@
 <project name="fisica" default="build" basedir="../">
 
   <property environment="env"/>
+  <property name="exportApplet" location="./resources/exportApplet"/>
+  <property name="exportAppletPreferences" location="./resources/preferences.txt"/>
 
   <description>
     Fisica. ant build file.
@@ -331,8 +333,21 @@
   <target name="addExamples">
     <replaceregexp file="${dist}/web/index.html"
 	  	   match="(##examples##)"
+	  	   replace="&lt;div class=&quot;img&quot;&gt;
+                            &lt;a target=&quot;_blank&quot; href=&quot;examples/${exampleDir}/applet/index.html&quot;&gt;
+                            &lt;img src=&quot;examples/${exampleDir}/screenshot.png&quot; alt=&quot;${exampleDir}&quot; /&gt;
+                            &lt;/a&gt;
+                            &lt;/div&gt;
+                            &lt;/li&gt; \1"
+	  	   flags="g" />
+  </target>
+  <!--
+  <target name="addExamples">
+    <replaceregexp file="${dist}/web/index.html"
+	  	   match="(##examples##)"
 	  	   replace="&lt;li&gt;&lt;a href=&quot;examples/${exampleDir}/${exampleDir}.pde&quot;&gt;${exampleDir}&lt;/a&gt;&lt;/li&gt; \1"
 	  	   flags="g" />
   </target>
+  -->
 </project>
 

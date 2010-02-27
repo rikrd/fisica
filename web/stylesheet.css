@@ -57,6 +57,7 @@ h1
   color: #222;
   font-size:large;
   font-weight:normal;
+  clear:both;
 }
 
 
@@ -198,6 +199,8 @@ div.img
 
 div.img img
 {
+    width: 80px;
+    height: 80px;
     display:inline;
     margin:3px;
     padding:-1px;

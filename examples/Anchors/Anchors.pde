@@ -19,7 +19,7 @@ FWorld world;
 int boxWidth = 400/(steps.length) - 2;
 
 void setup() {
-  size(400, 400, P3D);
+  size(400, 400, P2D);
   smooth();
 
   puenteY = height/3;
@@ -27,7 +27,6 @@ void setup() {
   Fisica.init(this);
 
   world = new FWorld();
-  world.setEdges();
 
   FCircle bola = new FCircle(40);
   bola.setPosition(width/3, puenteY-10);
@@ -55,18 +54,30 @@ void setup() {
     world.add(junta);
   }
 
-  FDistanceJoint juntaPrincipio = new FDistanceJoint(steps[0], world.left);
+  FCircle left = new FCircle(10);
+  left.setStatic(true);
+  left.setPosition(0, puenteY);
+  left.setDrawable(false);
+  world.add(left);
+
+  FCircle right = new FCircle(10);
+  right.setStatic(true);
+  right.setPosition(width, puenteY);
+  right.setDrawable(false);
+  world.add(right);
+
+  FDistanceJoint juntaPrincipio = new FDistanceJoint(steps[0], left);
   juntaPrincipio.setAnchor1(-boxWidth/2, 0);
-  juntaPrincipio.setAnchor2(0, puenteY-world.left.getY());
+  juntaPrincipio.setAnchor2(0, 0);
   juntaPrincipio.setFrequency(frequency);
   juntaPrincipio.setDamping(damping);
   juntaPrincipio.calculateLength();
   juntaPrincipio.setFill(0);
   world.add(juntaPrincipio);
 
-  FDistanceJoint juntaFinal = new FDistanceJoint(steps[steps.length-1], world.right);
+  FDistanceJoint juntaFinal = new FDistanceJoint(steps[steps.length-1], right);
   juntaFinal.setAnchor1(boxWidth/2, 0);
-  juntaFinal.setAnchor2(0, puenteY-world.right.getY());
+  juntaFinal.setAnchor2(0, 0);
   juntaFinal.setFrequency(frequency);
   juntaFinal.setDamping(damping);
   juntaFinal.calculateLength();
@@ -91,8 +102,12 @@ void mousePressed() {
   world.add(bola);  
 }
 
-
 void keyPressed() {
-  saveFrame("screenie-puentes.png");
+  try {
+    saveFrame("screenshot.png");
+  } 
+  catch (Exception e) {
+  }
 }
+
 

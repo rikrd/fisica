@@ -12,7 +12,7 @@ FWorld world;
 FPoly poly;
 
 void setup() {
-  size(400, 400, P3D);
+  size(400, 400, P2D);
   smooth();
 
   Fisica.init(this);
@@ -20,6 +20,10 @@ void setup() {
   world = new FWorld();
   world.setGravity(0, 800);
   world.setEdges();
+  world.remove(world.left);
+  world.remove(world.right);
+  world.remove(world.top);
+  
   world.setEdgesRestitution(0.5);
 }
 
@@ -71,6 +75,16 @@ void keyPressed() {
     if ( hovered != null) {
       world.remove(hovered);
     }
+  } 
+  else {
+    try {
+      saveFrame("screenshot.png");
+    } 
+    catch (Exception e) {
+    }
   }
 }
+
+
+
 

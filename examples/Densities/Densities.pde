@@ -26,7 +26,10 @@ void setup() {
   world = new FWorld();
   world.setGravity(0, 0);
   world.setEdges();
-  
+  world.remove(world.left);
+  world.remove(world.top);
+  world.remove(world.bottom);
+
   for (int i=0; i<ballCount; i++) {
     FCircle b = new FCircle(25);
     b.setPosition(40, map(i, 0, ballCount-1, 40, height-40));
@@ -57,3 +60,12 @@ void draw() {
   world.step();
   world.draw();
 }
+
+void keyPressed() {
+  try {
+    saveFrame("screenshot.png");
+  } 
+  catch (Exception e) {
+  }
+}
+

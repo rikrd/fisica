@@ -12,13 +12,16 @@ FWorld world;
 int ballCount = 10;
 
 void setup() {
-  size(400, 400);
+  size(400, 400, P2D);
   smooth();
 
   Fisica.init(this);
 
   world = new FWorld();
   world.setEdges();
+  world.remove(world.left);
+  world.remove(world.right);
+  world.remove(world.top);
   world.setEdgesRestitution(0.0);
  
   for (int i=0; i<ballCount; i++) {
@@ -37,3 +40,12 @@ void draw() {
   world.step();
   world.draw();
 }
+
+void keyPressed() {
+  try {
+    saveFrame("screenshot.png");
+  } 
+  catch (Exception e) {
+  }
+}
+

@@ -20,13 +20,16 @@ color hoverColor = #55AA11;
 color bodyColor = #6E0595;
 
 void setup() {
-  size(400, 400);
+  size(400, 400, P2D);
   smooth();
 
   Fisica.init(this);
 
   world = new FWorld();
   world.setEdges();
+  world.remove(world.left);
+  world.remove(world.right);
+  world.remove(world.top);
 
   boxButton = new FBox(40, 40);
   boxButton.setPosition(width/4, 100);
@@ -110,7 +113,11 @@ void mouseMoved() {
 }
 
 void keyPressed() {
-  saveFrame("screenie-puentes.png");
+  try {
+    saveFrame("screenshot.png");
+  } 
+  catch (Exception e) {
+  }
 }
 
 

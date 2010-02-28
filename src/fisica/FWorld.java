@@ -268,8 +268,8 @@ public class FWorld extends World {
   public FWorld() {
     super(new AABB(Fisica.screenToWorld(new Vec2(-Fisica.parent().width,
                                                  -Fisica.parent().height)),
-                   Fisica.screenToWorld(new Vec2(Fisica.parent().width,
-                                                 Fisica.parent().height))),
+                   Fisica.screenToWorld(new Vec2(2*Fisica.parent().width,
+                                                 2*Fisica.parent().height))),
           Fisica.screenToWorld(new Vec2(0.0f, 10.0f)),                  // gravity vertical downwards 10 m/s^2
           true);                                   // allow sleeping bodies
 

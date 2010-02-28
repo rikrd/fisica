@@ -42,7 +42,7 @@
   <property name="copyright" value="(c) 2009"/>
 
   <!-- #### (7) give your library a name. edit value.  #### -->
-  <property name="libraryName"  value="Fisica"/>
+  <property name="libraryName"  value="fisica"/>
 
   <!-- #### (8) give your library a name. edit value.   #### -->
   <property name="versionNumber"  value="0.1.1"/>
@@ -149,6 +149,14 @@
     <copy todir="${dist}/src">
       <fileset dir="src"/>
     </copy>
+    <copy todir="${dist}">
+      <fileset dir="." >
+        <include name="COPYING"/>
+        <include name="COPYING.LESSER"/>
+        <include name="README"/>
+      </fileset>
+    </copy>
+
 
     <!-- create the java reference of the library -->
     <mkdir dir="${reference}" />
@@ -205,6 +213,9 @@
     </move>
 
     <delete dir="${dist}/library" />
+    <delete file="${dist}/README" />
+    <delete file="${dist}/COPYING" />
+    <delete file="${dist}/COPYING.LESSER" />
 
     <copy todir="${dist}/web">
       <fileset dir="web" />

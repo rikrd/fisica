@@ -12,6 +12,7 @@
 
   <!-- #### (1) where are your processing libraries located? edit location. #### -->
   <property name="processing" location="${env.PROCESSING_PATH}"/>
+  <property name="librariesPath" location="/mnt/extra/dev/works/libraries"/>
 
   <!-- #### (2) where are the jar files located that are required for compiling
        your library such as e.g. core.jar ? edit location. #### -->
@@ -188,8 +189,8 @@
     </copy>
 
     <!-- copy the jar file to processing's libraries -->
-    <mkdir dir="${processing}/${libraryName}" />
-    <copy todir="${processing}/${libraryName}">
+    <mkdir dir="${librariesPath}/${libraryName}" />
+    <copy todir="${librariesPath}/${libraryName}">
       <fileset dir="${dist}"/>
     </copy>
 
@@ -306,7 +307,7 @@
     <mkdir dir="${dist}/web/download" />
     <copy file="${dist}/${zipName}.zip" todir="${dist}/web/download" />
 
-    <copy todir="${processing}/${libraryName}/reference">
+    <copy todir="${librariesPath}/${libraryName}/reference">
       <fileset dir="${reference}" />
     </copy>
 

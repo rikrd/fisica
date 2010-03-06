@@ -12,7 +12,7 @@
 
   <!-- #### (1) where are your processing libraries located? edit location. #### -->
   <property name="processing" location="${env.PROCESSING_PATH}"/>
-  <property name="librariesPath" location="/mnt/extra/dev/works/libraries"/>
+  <property name="librariesPath" location="/home/rmarxer/dev/works/libraries"/>
 
   <!-- #### (2) where are the jar files located that are required for compiling
        your library such as e.g. core.jar ? edit location. #### -->

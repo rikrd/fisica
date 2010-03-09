@@ -106,6 +106,8 @@ public class FWorld extends World {
   protected float m_edgesFriction = 0.1f;
   protected float m_edgesRestitution = 0.1f;
   protected boolean m_grabbable = true;
+    protected float m_grabPositionX = 0.0f;
+    protected float m_grabPositionY = 0.0f;
   protected int m_mouseButton = MouseEvent.BUTTON1;
   protected HashMap m_contacts;
   protected ArrayList m_contactResults;
@@ -238,10 +240,15 @@ public class FWorld extends World {
       if ( body == null ) return;
       if (!(body.m_grabbable)) return;
 
+
       m_mouseJoint.setGrabbedBodyAndTarget(body, event.getX(), event.getY());
       m_mouseJoint.setFrequency(3.0f);
       m_mouseJoint.setDamping(0.1f);
       this.addJoint(m_mouseJoint);
+
+      m_grabPositionX = event.getX() - body.getX();
+      m_grabPositionY = event.getY() - body.getY();
+      
       // TODO: send a bodyGrabbed(FBody body) event
     }
 
@@ -257,7 +264,14 @@ public class FWorld extends World {
     // mouseDragged
     if (event.getID() == event.MOUSE_DRAGGED
         && (m_mouseJoint.getGrabbedBody() != null)) {
-      m_mouseJoint.setTarget(event.getX(), event.getY());
+	
+	FBody body = m_mouseJoint.getGrabbedBody();
+	if (body.isStatic()) {
+	    body.setPosition(event.getX() - m_grabPositionX, 
+			     event.getY() - m_grabPositionY);
+	} else {
+	    m_mouseJoint.setTarget(event.getX(), event.getY());
+	}
       // TODO: send a bodyDragged(FBody body) event
     }
   }

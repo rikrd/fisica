@@ -12,7 +12,7 @@ FWorld world;
 FPoly poly;
 
 void setup() {
-  size(400, 400, P2D);
+  size(400, 400, JAVA2D);
   smooth();
 
   Fisica.init(this);
@@ -72,7 +72,8 @@ void mouseReleased() {
 void keyPressed() {
   if (key == BACKSPACE) {
     FBody hovered = world.getBody(mouseX, mouseY);
-    if ( hovered != null) {
+    if ( hovered != null &&
+         hovered.isStatic() == false ) {
       world.remove(hovered);
     }
   } 

@@ -120,19 +120,27 @@ public class FWorld extends World {
   private AABB m_aabb = new AABB();
 
   protected void addBody(FBody body) {
-    body.addToWorld(this);    
+      if (body == null) { return; }
+
+      body.addToWorld(this);    
   }
 
   protected void removeBody(FBody body) {
-    body.removeFromWorld();    
+      if (body == null) { return; }
+
+      body.removeFromWorld();  
   }
 
   protected void addJoint(FJoint joint) {
-    joint.addToWorld(this);
+      if (joint == null) { return; }
+
+      joint.addToWorld(this);
   }
 
   protected void removeJoint(FJoint joint) {
-    joint.removeFromWorld();    
+      if (joint == null) { return; }
+
+      joint.removeFromWorld();
   }
   
   
@@ -452,7 +460,17 @@ public class FWorld extends World {
    * Clear all bodies and joints from the world.  NOT IMPLEMENTED YET.
    *
    */
-  public void clear() { }
+  public void clear() { 
+    for (Joint j = getJointList(); j != null; j = j.m_next) {
+      FJoint fj = (FJoint)(j.m_userData);
+      remove(fj);
+    }
+
+    for (Body b = getBodyList(); b != null; b = b.m_next) {
+      FBody fb = (FBody)(b.m_userData);
+      remove(fb);
+    }
+  }
 
   /**
    * Add edges to the world. This will create the bodies for {@link #left}, {@link #right}, {@link #bottom} and {@link #top}.

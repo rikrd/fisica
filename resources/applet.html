@@ -63,24 +63,7 @@
       </div>
       
       <div id="@@sketch@@_container">
-
-	<!-- This version plays nicer with older browsers, 
-	     but requires JavaScript to be enabled. 
-	     http://java.sun.com/javase/6/docs/technotes/guides/jweb/deployment_advice.html -->
-	<script type="text/javascript"
-		src="http://www.java.com/js/deployJava.js"></script>
-	<script type="text/javascript">
-	  /* <![CDATA[ */
-	  var attributes = { code:'@@sketch@@.class',
-                             archive: '@@archive@@',
-                             width:@@width@@, height:@@height@@ } ;
-          var parameters = { };
-          var version = '1.5';
-          deployJava.runApplet(attributes, parameters, version);
-          /* ]]> */
-        </script>
-        
-	<noscript> <div>
+	<div>
 	  <!--[if !IE]> -->
 	  <object classid="java:@@sketch@@.class" 
             	  type="application/x-java-applet"
@@ -137,8 +120,7 @@
 	  </object>
 	  <!--<![endif]-->
 
-	</div> </noscript>
-
+	</div>
       </div>
     </div>
 

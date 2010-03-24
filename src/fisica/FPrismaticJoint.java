@@ -149,7 +149,7 @@ public class FPrismaticJoint extends FJoint {
     m_anchor = Fisica.screenToWorld(body2.getX(), body2.getY());
     updateLocalAnchors();
 
-    m_axis = Fisica.screenToWorld(0, 0);
+    m_axis = new Vec2(0f, 0f);
     updateLocalAxis();
 
     m_referenceAngle = m_body2.getRotation() - m_body1.getRotation();
@@ -164,7 +164,7 @@ public class FPrismaticJoint extends FJoint {
    */
   public void setAxis(float x, float y) {
     // TODO: cannot change axis once it has been created
-    m_axis = Fisica.screenToWorld(x, y);
+    m_axis.set(x, y);
     updateLocalAxis();
   }
 
@@ -186,7 +186,7 @@ public class FPrismaticJoint extends FJoint {
    */
   public float getAnchorX() {
     if (m_joint != null) {
-      return Fisica.worldToScreen(m_joint.getAnchor2()).x;
+      return Fisica.worldToScreen(m_joint.getAnchor1()).x;
     }
 
     return Fisica.worldToScreen(m_anchor.x);
@@ -199,7 +199,7 @@ public class FPrismaticJoint extends FJoint {
    */
   public float getAnchorY() {
     if (m_joint != null) {
-      return Fisica.worldToScreen(m_joint.getAnchor2()).y;
+      return Fisica.worldToScreen(m_joint.getAnchor1()).y;
     }
 
     return Fisica.worldToScreen(m_anchor.y);

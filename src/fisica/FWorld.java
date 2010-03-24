@@ -127,6 +127,11 @@ public class FWorld extends World {
 
   protected void removeBody(FBody body) {
       if (body == null) { return; }
+      
+      if (body == m_mouseJoint.getGrabbedBody()) {
+        this.removeJoint(m_mouseJoint);
+        m_mouseJoint.releaseGrabbedBody();
+      }
 
       body.removeFromWorld();  
   }

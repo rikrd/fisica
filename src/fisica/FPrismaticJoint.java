@@ -127,6 +127,7 @@ public class FPrismaticJoint extends FJoint {
     md.enableLimit = m_enableLimit;
     md.motorSpeed = m_motorSpeed;
     md.maxMotorForce = m_maxMotorForce;
+    md.localAxis1 = m_localAxis1;
     m_body1.m_body.wakeUp();
     m_body2.m_body.wakeUp();
 
@@ -134,27 +135,26 @@ public class FPrismaticJoint extends FJoint {
   }
 
   /**
-   * Construct a prismatic joint between two bodies.  The constructor automatically sets the anchor of the joint to the center of each body, and the length of the joint to the current distance between the bodies.
+   * Construct a prismatic joint between two bodies.  The constructor automatically sets the anchor of the joint to the center of the second body.
    *
    * @param body1  first body of the joint
    * @param body2  second body of the joint
    */
-  public FPrismaticJoint(FBody body1, FBody body2,
-                         float x, float y,
-                         float axisX, float axisY) {
+  public FPrismaticJoint(FBody body1, FBody body2) {
     super();
 
     m_body1 = body1;
     m_body2 = body2;
 
-    m_anchor = Fisica.screenToWorld(x, y);
+    m_anchor = Fisica.screenToWorld(body2.getX(), body2.getY());
     updateLocalAnchors();
 
-    m_axis = Fisica.screenToWorld(axisX, axisY);
+    m_axis = Fisica.screenToWorld(0, 0);
     updateLocalAxis();
 
     m_referenceAngle = m_body2.getRotation() - m_body1.getRotation();
   }
+
 
   /**
    * Sets the axis of movement of the joint.  This is only axis alog which the bodies can translate with relation to each other.  The axis is given global coordinates, relative to the center of the canvas.  This property must be set before adding the joint to the world.

@@ -175,7 +175,7 @@ public class FBlob extends FBody {
    * @param size  size of the circle
    */
   public void setAsCircle(float x, float y, float size) {
-    setAsCircle(x, y, size);
+      setAsCircle(x, y, size, 30);
   }
 
   /**

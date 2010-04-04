@@ -12,7 +12,7 @@ FWorld world;
 FPoly poly;
 
 void setup() {
-  size(400, 400, JAVA2D);
+  size(400, 400);
   smooth();
 
   Fisica.init(this);

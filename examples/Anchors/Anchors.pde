@@ -19,7 +19,7 @@ FWorld world;
 int boxWidth = 400/(steps.length) - 2;
 
 void setup() {
-  size(400, 400, P2D);
+  size(400, 400);
   smooth();
 
   puenteY = height/3;

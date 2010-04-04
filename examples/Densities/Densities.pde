@@ -18,7 +18,7 @@ FWorld world;
 int ballCount = 9;
 
 void setup() {
-  size(400, 400, P2D);
+  size(400, 400);
   smooth();
 
   Fisica.init(this);

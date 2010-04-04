@@ -3,7 +3,18 @@
   <property environment="env"/>
 
   <property file="resources/building.properties"/>
+  <property name="tested:platform"  value="GNU/Linux" />
 
+  <!-- #### (12) the processing version this library has been tested with. edit value. #### -->
+  <property name="tested:processingVersion"  value="1.0.9" />
+
+  <!-- #### (13) does the library depend on any other library, dll, jnilib, etc. edit value. #### -->
+  <property name="tested:dependencies"  value="JBox2D" />
+
+  <!-- #### (14) where can the source code be found? edit value. #### -->
+  <property name="source:host"  value="gitorious" />
+  <property name="source:url"  value="http://www.gitorious.com/fisica" />
+  <property name="source:repository"  value="git://gitorious.org/fisica/fisica.git" />
 
   <description>
     Fisica. ant build file.

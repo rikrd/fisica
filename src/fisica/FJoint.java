@@ -72,7 +72,7 @@ public abstract class FJoint extends FDrawable {
   }
 
   protected void preDraw(PGraphics applet) {
-    //applet.pushStyle();
+    applet.pushStyle();
     applet.pushMatrix();
 
     applet.ellipseMode(PConstants.CENTER);
@@ -82,7 +82,7 @@ public abstract class FJoint extends FDrawable {
 
   protected void postDraw(PGraphics applet) {
     applet.popMatrix();
-    //applet.popStyle();
+    applet.popStyle();
   }
 
   /** 

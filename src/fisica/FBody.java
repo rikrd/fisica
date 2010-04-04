@@ -114,7 +114,7 @@ public abstract class FBody extends FDrawable {
   }
 
   protected void preDraw(PGraphics applet) {
-    applet.pushStyle();
+      //applet.pushStyle();
     applet.pushMatrix();
 
     applyMatrix(applet);
@@ -125,7 +125,7 @@ public abstract class FBody extends FDrawable {
 
   protected void postDraw(PGraphics applet) {
     applet.popMatrix();
-    applet.popStyle();
+    //applet.popStyle();
   }
 
   protected void applyMatrix(PGraphics applet){

@@ -300,6 +300,11 @@ public class FWorld extends World {
           Fisica.screenToWorld(new Vec2(0.0f, 10.0f)),                  // gravity vertical downwards 10 m/s^2
           true);                                   // allow sleeping bodies
 
+    
+    super.setWarmStarting( true );
+    super.setPositionCorrection( true );
+    super.setContinuousPhysics( true );
+
     Fisica.parent().registerMouseEvent(this);
 
     // Get the contactStarted(), contactPersisted() and contactEnded()
@@ -626,10 +631,6 @@ public class FWorld extends World {
     //m_contacts.clear();
     m_contactResults.clear();
 
-    super.setWarmStarting( true );
-    super.setPositionCorrection( true );
-    super.setContinuousPhysics( true );
-
     super.step( dt, iterationCount );
   }
 
@@ -657,6 +658,22 @@ public class FWorld extends World {
     if (bodies.size() == 0) return null;
 
     return (FBody)bodies.get(0);
+  }
+
+  /**
+   * Returns a list with all the bodies in the world
+   *
+   * @return    an ArrayList (of FBody) of the bodies in the world
+   */
+  public ArrayList getBodies() {
+      ArrayList result = new ArrayList();
+
+      for (Body b = getBodyList(); b != null; b = b.m_next) {
+	  FBody fb = (FBody)(b.m_userData);
+	  result.add(fb);
+      }
+      
+      return result;
   }
 
   /**

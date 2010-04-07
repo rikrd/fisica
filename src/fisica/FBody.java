@@ -107,6 +107,8 @@ public abstract class FBody extends FDrawable {
     if (m_body == null) return;
 
     m_world.destroyBody(this.m_body);
+
+    m_body = null;
   }
 
   protected ShapeDef getShapeDef() {

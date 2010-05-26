@@ -1,10 +1,12 @@
 class Texto extends FBox {
   
   String texto;
-  
+  float textOffset;
+
   Texto(String _texto){
-    super(textWidth(_texto), textAscent() + textDescent()+4);
+    super(textWidth(_texto), textAscent() + textDescent());
     texto = _texto;
+    textOffset = textAscent() - getHeight()/2;
   }
   
   void draw(PGraphics applet) {
@@ -14,7 +16,7 @@ class Texto extends FBox {
     fill(0);
     stroke(0);
     textAlign(CENTER);
-    text(texto, 0, textDescent());
+    text(texto, 0, textOffset);
     postDraw(applet);
   }
   

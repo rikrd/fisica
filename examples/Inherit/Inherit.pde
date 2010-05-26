@@ -10,13 +10,11 @@ void setup(){
 
   Fisica.init(this);
 
-  font = loadFont("AndaleMono-18.vlw");
-  textFont(font, 18);
+  font = loadFont("FreeMonoBold-24.vlw");
+  textFont(font, 24);
 
   world = new FWorld();
-  world.setEdges(this, color(80, 120, 160));
-  world.remove(world.left);
-  world.remove(world.right);
+  world.setEdges(this, color(200, 210, 120));
   world.remove(world.top);
   world.setGravity(0, 500);
 
@@ -30,7 +28,7 @@ void setup(){
 }
 
 void draw() {
-  background(80, 120, 160);
+  background(200, 210, 120);
 
   world.step();
   world.draw(this);
@@ -44,11 +42,18 @@ void keyPressed() {
       t.setRotation(random(-1, 1));
       t.setFill(255);
       t.setNoStroke();
-      t.setRestitution(0.75);
+      t.setRestitution(0.65);
       world.add(t);
       msg = "";
     }
-  } 
+  }  
+  else if (key == CODED && keyCode == CONTROL) {
+    try {
+      saveFrame("screenshot.png");
+    } 
+    catch (Exception e) {
+    }
+  }
   else {
     msg+= key;
   }

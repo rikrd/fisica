@@ -68,9 +68,8 @@ public class FPoly extends FBody {
    */
   public FPoly(){
     super();
-    
     m_closed = false;
-    m_vertices = new ArrayList<Vec2>();
+    m_vertices = new ArrayList();
   }
 
   /**

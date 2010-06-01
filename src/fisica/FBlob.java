@@ -112,6 +112,9 @@ public class FBlob extends FBody {
       fb.setDensity(m_density);
       fb.setRestitution(m_restitution);
       fb.setFriction(m_friction);
+      fb.setGroupIndex(m_groupIndex);
+      fb.setFilterBits(m_filterBits);
+      fb.setCategoryBits(m_categoryBits);
       world.add(fb);
 
       m_vertexBodies.add(fb);

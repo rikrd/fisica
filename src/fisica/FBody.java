@@ -50,6 +50,8 @@ public abstract class FBody extends FDrawable {
 
   protected boolean m_isSleeping = false;
   protected int m_groupIndex = 0;
+  protected int m_filterBits = 0x0001;
+  protected int m_categoryBits = 0xffff;
 
   protected Vec2 m_linearVelocity = new Vec2(0.0f, 0.0f);
   protected float m_angularVelocity = 0.0f;
@@ -64,8 +66,11 @@ public abstract class FBody extends FDrawable {
   protected boolean m_grabbable = true;
 
   protected void processBody(Body bd, ShapeDef sd){
-    sd.filter.groupIndex = m_groupIndex;
     bd.createShape(sd);
+  }
+
+  public int getGroupIndex() {
+    return m_groupIndex;
   }
 
   protected void addToWorld(FWorld world) {
@@ -77,6 +82,9 @@ public abstract class FBody extends FDrawable {
 
     ShapeDef sd = getShapeDef();
     sd.isSensor = m_sensor;
+    sd.filter.groupIndex = m_groupIndex;
+    sd.filter.maskBits = m_filterBits;
+    sd.filter.categoryBits = m_categoryBits;
     processBody(m_body, sd);
 
     m_body.m_userData = this;
@@ -136,13 +144,21 @@ public abstract class FBody extends FDrawable {
   }
 
   /**
-   * THE DOC FOR THIS METHOD IS NOT CORRECT.  PLEASE DO NOT USE THIS METHOD YET.  Control the group to which this body belongs.  Groups allow to select the bodies that may collide together or with others.  If two bodies belong to the same group and the group index is a positive number, then they will collide with each other and not with bodies of other groups.  If the group index is negative then they will not collide with each other but they will collide with all the bodies of the other groups.
+   * Control the group to which this body belongs.  Groups allow to select the bodies that may collide together or with others.  If the group index is negative then they will not collide with each other but they will collide with all the bodies of the other groups.
    *
    * @param index  the index of the group
    *
    */
   public void setGroupIndex(int index) {
     m_groupIndex = index;
+  }
+
+  public void setFilterBits(int mask) {
+    m_filterBits = mask;
+  }
+
+  public void setCategoryBits(int mask) {
+    m_categoryBits = mask;
   }
 
   /**

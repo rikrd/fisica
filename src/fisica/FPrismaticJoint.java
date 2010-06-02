@@ -40,7 +40,7 @@ public class FPrismaticJoint extends FJoint {
   protected Vec2 m_anchor;
   protected Vec2 m_axis;
 
-  protected Vec2 m_localAxis1 = new Vec2();
+  protected Vec2 m_localAxis1 = new Vec2(0, 1);
 
   protected float m_force;
   protected float m_torque;
@@ -110,7 +110,8 @@ public class FPrismaticJoint extends FJoint {
   protected void updateLocalAxis(){
     // TODO: find out how to calculate this on our own
     if (m_body1.m_body != null) {
-      m_body1.m_body.getLocalVectorToOut(m_axis, m_localAxis1);
+      Vec2 axis = new Vec2(m_axis);
+      m_body1.m_body.getLocalVectorToOut(axis, m_localAxis1);
     }
   }
 
@@ -127,6 +128,7 @@ public class FPrismaticJoint extends FJoint {
     md.enableLimit = m_enableLimit;
     md.motorSpeed = m_motorSpeed;
     md.maxMotorForce = m_maxMotorForce;
+    updateLocalAnchors();
     md.localAxis1 = m_localAxis1;
     m_body1.m_body.wakeUp();
     m_body2.m_body.wakeUp();
@@ -149,7 +151,7 @@ public class FPrismaticJoint extends FJoint {
     m_anchor = Fisica.screenToWorld(body2.getX(), body2.getY());
     updateLocalAnchors();
 
-    m_axis = new Vec2(0f, 0f);
+    m_axis = new Vec2(0f, 1f);
     updateLocalAxis();
 
     m_referenceAngle = m_body2.getRotation() - m_body1.getRotation();

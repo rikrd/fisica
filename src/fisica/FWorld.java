@@ -670,7 +670,9 @@ public class FWorld extends World {
 
       for (Body b = getBodyList(); b != null; b = b.m_next) {
 	  FBody fb = (FBody)(b.m_userData);
-	  result.add(fb);
+          if (fb != null) {
+            result.add(fb);
+          }
       }
       
       return result;

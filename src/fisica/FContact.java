@@ -98,7 +98,7 @@ public class FContact {
     m_body1 = (FBody)contactPoint.shape1.getBody().getUserData();
     m_body2 = (FBody)contactPoint.shape2.getBody().getUserData();
 
-    m_id = new FContactID(new ContactID(contactPoint.id));
+    m_id = new FContactID(new ContactID(contactPoint.id), m_body1, m_body2);
   }
 
   /**

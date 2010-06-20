@@ -119,13 +119,13 @@ public class FWorld extends World {
   private Vec2 m_small = new Vec2(0.001f, 0.001f);
   private AABB m_aabb = new AABB();
 
-  protected void addBody(FBody body) {
+  public void addBody(FBody body) {
       if (body == null) { return; }
 
       body.addToWorld(this);    
   }
 
-  protected void removeBody(FBody body) {
+  public void removeBody(FBody body) {
       if (body == null) { return; }
       
       if (body == m_mouseJoint.getGrabbedBody()) {
@@ -136,13 +136,13 @@ public class FWorld extends World {
       body.removeFromWorld();  
   }
 
-  protected void addJoint(FJoint joint) {
+  public void addJoint(FJoint joint) {
       if (joint == null) { return; }
 
       joint.addToWorld(this);
   }
 
-  protected void removeJoint(FJoint joint) {
+  public void removeJoint(FJoint joint) {
       if (joint == null) { return; }
 
       joint.removeFromWorld();
@@ -159,7 +159,7 @@ public class FWorld extends World {
     public void add(ContactPoint point) {
       FContact contact = new FContact(point);
       m_world.m_contacts.put(contact.getId(), contact);
-
+      
       if (m_world.m_contactStartedMethod == null) {
         return;
       }

@@ -43,7 +43,14 @@ void draw() {
   
   world.draw();
   world.step();
-
+  
+  strokeWeight(1);
+  stroke(255);
+  ArrayList contacts = obstacle.getContacts();
+  for (int i=0; i<contacts.size(); i++) {
+    FContact c = (FContact)contacts.get(i);
+    line(c.getBody1().getX(), c.getBody1().getY(), c.getBody2().getX(), c.getBody2().getY());
+  }
 }
 
 void contactStarted(FContact c) {
@@ -75,6 +82,7 @@ void contactPersisted(FContact c) {
   
   ball.setFill(30, 120, 200);
 
+  noStroke();
   fill(255, 220, 0);
   ellipse(c.getX(), c.getY(), 10, 10);
 }

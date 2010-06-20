@@ -14,7 +14,7 @@ void setup(){
   textFont(font, 24);
 
   world = new FWorld();
-  world.setEdges(this, color(200, 210, 120));
+  world.setEdges(this, color(120));
   world.remove(world.top);
   world.setGravity(0, 500);
 
@@ -28,7 +28,7 @@ void setup(){
 }
 
 void draw() {
-  background(200, 210, 120);
+  background(120);
 
   world.step();
   world.draw(this);

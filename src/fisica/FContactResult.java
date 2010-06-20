@@ -84,7 +84,7 @@ public class FContactResult {
     m_normalImpulse = contactResult.normalImpulse;
     m_tangentImpulse = contactResult.tangentImpulse;
 
-    m_id = new FContactID(new ContactID(contactResult.id));
+    m_id = new FContactID(new ContactID(contactResult.id), m_body1, m_body2);
   }
 
   /**

@@ -85,9 +85,9 @@ public class FRevoluteJoint extends FJoint {
    */
   protected float m_maxMotorTorque = 0.0f;
 
-  protected void updateLocalAnchors(){
-    m_localAnchor1 = Fisica.screenToWorld(getAnchorX() - m_body1.getX(), getAnchorY() - m_body1.getY());
-    m_localAnchor2 = Fisica.screenToWorld(getAnchorX() - m_body2.getX(), getAnchorY() - m_body2.getY());
+  protected void updateLocalAnchors() {
+    m_localAnchor1 = m_body1.getLocalWorldPoint(Fisica.screenToWorld(getAnchorX(), getAnchorY())); //Fisica.screenToWorld(getAnchorX() - m_body1.getX(), getAnchorY() - m_body1.getY());
+    m_localAnchor2 = m_body2.getLocalWorldPoint(Fisica.screenToWorld(getAnchorX(), getAnchorY())); //Fisica.screenToWorld(getAnchorX() - m_body2.getX(), getAnchorY() - m_body2.getY());
   }
 
   protected JointDef getJointDef(FWorld world) {
@@ -247,7 +247,9 @@ public class FRevoluteJoint extends FJoint {
     return Fisica.worldToScreen(m_anchor.y);
   }
 
-
+  public void setReferenceAngle(float ang) {
+    m_referenceAngle = ang;
+  }
 
   public void draw(PGraphics applet){
     preDraw(applet);

@@ -728,4 +728,16 @@ public abstract class FBody extends FDrawable {
   public boolean isTouchingBody(FBody b){
     return getTouching().contains(b);
   }
+
+  protected Vec2 getLocalWorldPoint(Vec2 p) {
+    if (m_body != null) {
+      Vec2 v = m_body.getLocalPoint(p);
+      return v;
+    }
+
+    XForm xf = new XForm();
+    xf.position.set(Fisica.screenToWorld(getX(), getY()));
+    xf.R.set(getRotation());
+    return XForm.mulTrans(xf, p);
+  }
 }

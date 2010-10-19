@@ -1,3 +1,19 @@
+/**
+ *  Winged Star</br></br>
+ *
+ *  by Ricard Marxer</br></br>
+ *
+ *  It shows how to create bodies from SVG files.
+ *  The used SVG file must contain two elements.
+ *  One element with the id 'object'
+ *  which will be used to draw the body.
+ *  Another element must have the id 'outline'
+ *  and it will be used as the contour
+ *  of the body.</br></br>
+ *
+ *  This example require the library <a href="http://www.ricardmarxer.com/geomerative">Geomerative</a>.
+ */
+
 import fisica.*;
 import geomerative.*;
 

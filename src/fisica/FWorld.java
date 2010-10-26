@@ -290,13 +290,33 @@ public class FWorld extends World {
   }
 
   /**
-   * Constructs the world where all the bodies live in.
+   * Constructs the world where all the bodies live in.  We usually want to build the world larger than the actual screen,
+   * because when bodies exit the world they will appear stuck since they do not get update anymore.  By default the world's
+   * width and height are three times larger than those of the Processing canvas.
+   *
+   * {@code
+   FWorld world;
+   
+   void setup() {
+     size(200, 200);
+
+     Fisica.init(this);
+     world = new FWorld(-width, -height, 2*width, 2*height);
+   }
+   *}
+   *
+   * @usage World
+   * @param topLeftX  the horizontal coordinate of the top left corner of the world
+   * @param topLeftY  the vertical coordinate of the top left corner of the world
+   * @param bottomRightX  the horizontal coordinate of the bottom right corner of the world
+   * @param bottomRightY  the vertical coordinate of the bottom right corner of the world
+   * @see FBody
    */
-  public FWorld() {
-    super(new AABB(Fisica.screenToWorld(new Vec2(-Fisica.parent().width,
-                                                 -Fisica.parent().height)),
-                   Fisica.screenToWorld(new Vec2(2*Fisica.parent().width,
-                                                 2*Fisica.parent().height))),
+  public FWorld(float topLeftX, float topLeftY, float bottomRightX, float bottomRightY) {
+    super(new AABB(Fisica.screenToWorld(new Vec2(topLeftX,
+                                                 topLeftY)),
+                   Fisica.screenToWorld(new Vec2(bottomRightX,
+                                                 bottomRightY))),
           Fisica.screenToWorld(new Vec2(0.0f, 10.0f)),                  // gravity vertical downwards 10 m/s^2
           true);                                   // allow sleeping bodies
 
@@ -353,6 +373,10 @@ public class FWorld extends World {
     m_mouseJoint.setDrawable(false);
 
     setGravity(0, 200);
+  }
+
+  public FWorld() {
+    this(-Fisica.parent().width, -Fisica.parent().height, 2*Fisica.parent().width, 2*Fisica.parent().height);
   }
 
   /**

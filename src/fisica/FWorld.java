@@ -103,11 +103,16 @@ public class FWorld extends World {
    */
   public FBox bottom;
 
+  protected float m_topLeftX;
+  protected float m_topLeftY;
+  protected float m_bottomRightX;
+  protected float m_bottomRightY;
+
   protected float m_edgesFriction = 0.1f;
   protected float m_edgesRestitution = 0.1f;
   protected boolean m_grabbable = true;
-    protected float m_grabPositionX = 0.0f;
-    protected float m_grabPositionY = 0.0f;
+  protected float m_grabPositionX = 0.0f;
+  protected float m_grabPositionY = 0.0f;
   protected int m_mouseButton = MouseEvent.BUTTON1;
   protected HashMap m_contacts;
   protected ArrayList m_contactResults;
@@ -320,7 +325,11 @@ public class FWorld extends World {
           Fisica.screenToWorld(new Vec2(0.0f, 10.0f)),                  // gravity vertical downwards 10 m/s^2
           true);                                   // allow sleeping bodies
 
-    
+    m_topLeftX = topLeftX;
+    m_topLeftY = topLeftY;
+    m_bottomRightX = bottomRightX;
+    m_bottomRightY = bottomRightY;
+
     super.setWarmStarting( true );
     super.setPositionCorrection( true );
     super.setContinuousPhysics( true );
@@ -507,40 +516,49 @@ public class FWorld extends World {
   }
 
   /**
-   * Add edges to the world. This will create the bodies for {@link #left}, {@link #right}, {@link #bottom} and {@link #top}.
+   * Add edges of given dimensions to the world. This will create the bodies for {@link #left}, {@link #right}, {@link #bottom} and {@link #top}.
    *
-   * @param applet  applet from where to get the dimensions for the edges
+   * @param topLeftX  the horizontal coordinate of the top left corner of the edges
+   * @param topLeftY  the vertical coordinate of the top left corner of the edges
+   * @param bottomRightX  the horizontal coordinate of the bottom right corner of the edges
+   * @param bottomRightY  the vertical coordinate of the bottom right corner of the edges
    * @param color  the color of the edges.  This color must be passed using Processing's color() function
    */
-  public void setEdges(PApplet applet, int color) {
-    left = new FBox(20, applet.height);
+  public void setEdges(float topLeftX, float topLeftY, float bottomRightX, float bottomRightY, int color) {
+    float height = Math.abs(bottomRightY - topLeftY);
+    float width = Math.abs(bottomRightX - topLeftX);
+
+    float ymid = (topLeftY + bottomRightY)/2.0f;
+    float xmid = (topLeftX + bottomRightX)/2.0f;
+
+    left = new FBox(20, height);
     left.setStaticBody(true);
     left.setGrabbable(false);
     left.setFillColor(color);
     left.setStrokeColor(color);
-    left.setPosition(-5, applet.height/2);
+    left.setPosition(topLeftX-5, ymid);
     addBody(left);
 
-    right = new FBox(20, applet.height);
+    right = new FBox(20, height);
     right.setStaticBody(true);
     right.setGrabbable(false);
-    right.setPosition(applet.width+5, applet.height/2);
+    right.setPosition(bottomRightX+5, ymid);
     right.setFillColor(color);
     right.setStrokeColor(color);
     addBody(right);
 
-    top = new FBox(applet.width, 20);
+    top = new FBox(width, 20);
     top.setStaticBody(true);
     top.setGrabbable(false);
-    top.setPosition(applet.width/2, -5);
+    top.setPosition(xmid, bottomRightY-5);
     top.setFillColor(color);
     top.setStrokeColor(color);
     addBody(top);
 
-    bottom = new FBox(applet.width, 20);
+    bottom = new FBox(width, 20);
     bottom.setStaticBody(true);
     bottom.setGrabbable(false);
-    bottom.setPosition(applet.width/2, applet.height+5);
+    bottom.setPosition(xmid, topLeftY+5);
     bottom.setFillColor(color);
     bottom.setStrokeColor(color);
     addBody(bottom);
@@ -550,7 +568,30 @@ public class FWorld extends World {
   }
 
   /**
-   * Add black edges to the world. This will create the bodies for {@link #left}, {@link #right}, {@link #bottom} and {@link #top}.
+   * Add black edges of given dimensions to the world. This will create the bodies for {@link #left}, {@link #right}, {@link #bottom} and {@link #top}.
+   *
+   * @param topLeftX  the horizontal coordinate of the top left corner of the edges
+   * @param topLeftY  the vertical coordinate of the top left corner of the edges
+   * @param bottomRightX  the horizontal coordinate of the bottom right corner of the edges
+   * @param bottomRightY  the vertical coordinate of the bottom right corner of the edges
+   * @param color  the color of the edges.  This color must be passed using Processing's color() function
+   */  
+  public void setEdges(float topLeftX, float topLeftY, float bottomRightX, float bottomRightY) {
+    setEdges(topLeftX, topLeftY, bottomRightX, bottomRightY, Fisica.parent().color(0));
+  }
+
+  /**
+   * Add edges of given applet's dimensions to the world. This will create the bodies for {@link #left}, {@link #right}, {@link #bottom} and {@link #top}.
+   *
+   * @param applet  applet from where to get the dimensions for the edges
+   * @param color  the color of the edges.  This color must be passed using Processing's color() function
+   */
+  public void setEdges(PApplet applet, int color) {
+    setEdges(0, 0, applet.width, applet.height, color);
+  }
+
+  /**
+   * Add edges of Processing's canvas dimensions to the world. This will create the bodies for {@link #left}, {@link #right}, {@link #bottom} and {@link #top}.
    *
    * @param color  the color of the edges.  This color must be passed using Processing's color() function
    */
@@ -559,7 +600,7 @@ public class FWorld extends World {
   }
 
   /**
-   * Add edges black to the world. This will create the bodies for {@link #left}, {@link #right}, {@link #bottom} and {@link #top}.
+   * Add black edges of Processing's canvas dimensions to the world. This will create the bodies for {@link #left}, {@link #right}, {@link #bottom} and {@link #top}.
    */
   public void setEdges() {
     setEdges(Fisica.parent(), Fisica.parent().color(0));

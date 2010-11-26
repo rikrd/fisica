@@ -542,25 +542,25 @@ public class FWorld extends World {
     right = new FBox(20, height);
     right.setStaticBody(true);
     right.setGrabbable(false);
-    right.setPosition(bottomRightX+5, ymid);
     right.setFillColor(color);
     right.setStrokeColor(color);
+    right.setPosition(bottomRightX+5, ymid);
     addBody(right);
 
     top = new FBox(width, 20);
     top.setStaticBody(true);
     top.setGrabbable(false);
-    top.setPosition(xmid, bottomRightY-5);
     top.setFillColor(color);
     top.setStrokeColor(color);
+    top.setPosition(xmid, topLeftY-5);
     addBody(top);
 
     bottom = new FBox(width, 20);
     bottom.setStaticBody(true);
     bottom.setGrabbable(false);
-    bottom.setPosition(xmid, topLeftY+5);
     bottom.setFillColor(color);
     bottom.setStrokeColor(color);
+    bottom.setPosition(xmid, bottomRightY+5);
     addBody(bottom);
 
     setEdgesFriction(m_edgesFriction);

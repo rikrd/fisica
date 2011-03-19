@@ -1,10 +1,12 @@
 /**
- *  Falling letters
+ *  Falling letters <br/><br/>
  *
- *  by Ricard Marxer
+ *  by Ricard Marxer <br/><br/>
  *
- *  This example shows how the use Geomerative to access
- *  the contours of letters and create them as physical objects.
+ *  This example shows how the use <a href="http://www.ricardmarxer.com/geomerative">Geomerative</a> to access
+ *  the contours of letters and create them as physical objects.<br/><br/>
+ *
+ *  <b>Click on the applet and type!</b>
  */
 
 import fisica.*;

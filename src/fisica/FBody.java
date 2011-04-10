@@ -682,6 +682,10 @@ public abstract class FBody extends FDrawable {
    */
   public ArrayList getTouching() {
     ArrayList result = new ArrayList();
+    
+    if (m_world == null) {
+      return result;
+    }
 
     Collection contacts = m_world.m_contacts.values();
     Iterator iter = contacts.iterator();

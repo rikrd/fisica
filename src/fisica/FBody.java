@@ -27,6 +27,7 @@ import org.jbox2d.common.*;
 import org.jbox2d.collision.*;
 import org.jbox2d.collision.shapes.*;
 import org.jbox2d.dynamics.*;
+import org.jbox2d.dynamics.joints.*;
 
 import processing.core.*;
 
@@ -721,6 +722,45 @@ public abstract class FBody extends FDrawable {
     }
 
     return result;
+  }
+
+  /**
+   * Returns a list with all the joints with a connection to the body
+   *
+   * @return    an ArrayList (of FJoint) connected to the body
+   */
+  public ArrayList getJoints() {
+    ArrayList result = new ArrayList();
+      
+    if ( m_body != null ) {
+      for (JointEdge jn = m_body.getJointList(); jn != null; jn = jn.next) {
+        FJoint j = (FJoint)(jn.joint.m_userData);
+        if (j != null) {
+          result.add(j);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * Returns true if the body is joint to the body passed as argument
+   *
+   * @param other  the other body
+   * @return     if {@code true} the body is connected to other
+   */
+  public boolean isConnected(FBody other) {
+    if ( m_body != null ) {
+      for (JointEdge jn = m_body.getJointList(); jn != null; jn = jn.next) {
+        FBody b = (FBody)(jn.other.m_userData);
+        if (jn.other.m_userData == other) {
+          return (jn.joint.m_collideConnected == false);
+        }
+      }
+    }
+
+    return false;
   }
 
   /**

@@ -61,6 +61,8 @@ public abstract class FBody extends FDrawable {
   protected Vec2 m_position = new Vec2(0.0f, 0.0f);
   protected float m_angle = 0.0f;
 
+  protected String m_name;
+
   protected Body m_body;
   protected FWorld m_world;
 
@@ -276,7 +278,7 @@ public abstract class FBody extends FDrawable {
       return Fisica.worldToScreen(m_body.getLinearVelocity()).x;
     }
 
-    return m_linearVelocity.x;
+    return Fisica.worldToScreen(m_linearVelocity).x;
   }
 
   /**
@@ -290,7 +292,7 @@ public abstract class FBody extends FDrawable {
       return Fisica.worldToScreen(m_body.getLinearVelocity()).y;
     }
 
-    return m_linearVelocity.y;
+    return Fisica.worldToScreen(m_linearVelocity).y;
   }
 
   /**
@@ -539,6 +541,17 @@ public abstract class FBody extends FDrawable {
     updateMass();
   }
 
+  /**
+   * Get the density of the body.  The density determines the total mass of the body and thus it's behavior with respect to collisions, bounces, inertia, joints,...
+   *
+   * Note that a density of 0.0 corresponds to a mass of 0.0 independently of the area and the body will be considered static.
+   *
+   * @return density   the density of the body
+   */
+  public float getDensity( ){
+    return m_density;
+  }
+
   protected void updateMass() {
     if (m_body == null) {
       return;
@@ -600,6 +613,19 @@ public abstract class FBody extends FDrawable {
     m_static = value;
 
     updateMass();
+  }
+
+  /**
+   * Returns the mass of the body.  Static bodies or bodies not added to the world return 0.
+   *
+   * @return   the mass of the body or 0 if static
+   */
+  public float getMass(){
+    if (m_body != null) {
+      return m_body.getMass();
+    }
+
+    return 0.0f;
   }
 
   /**

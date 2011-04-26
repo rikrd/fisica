@@ -114,6 +114,22 @@ public abstract class FBody extends FDrawable {
 
   }
 
+  protected void updateStateFromWorld() {
+    // save the properties in case we must add the body again
+    m_linearVelocity = m_body.getLinearVelocity();
+    m_angularVelocity = m_body.getAngularVelocity();
+    m_position = m_body.getMemberXForm().position;
+    m_angle = m_body.getAngle();    
+  }
+
+  public void recrateInWorld() {
+    if (m_body == null) return;
+    
+    this.updateStateFromWorld();
+    m_world.remove(this);
+    m_world.add(this);
+  }
+
   protected void removeFromWorld() {
     if (m_body == null) return;
 
@@ -154,14 +170,20 @@ public abstract class FBody extends FDrawable {
    */
   public void setGroupIndex(int index) {
     m_groupIndex = index;
+
+    this.recrateInWorld();
   }
 
   public void setFilterBits(int mask) {
     m_filterBits = mask;
+
+    this.recrateInWorld();
   }
 
   public void setCategoryBits(int mask) {
     m_categoryBits = mask;
+
+    this.recrateInWorld();
   }
 
   /**
@@ -527,6 +549,24 @@ public abstract class FBody extends FDrawable {
     }
 
     m_linearDamping = damping;
+  }
+
+  /**
+   * Set the name of the body.
+   *
+   * @param name   the name of the body
+   */
+  public void setName( String name ){
+    m_name = name;
+  }
+
+  /**
+   * Get the name of the body.
+   *
+   * @return name    the name of the body
+   */
+  public String getName( ){
+    return m_name;
   }
 
   /**

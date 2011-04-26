@@ -78,6 +78,35 @@ public class FLine extends FBody {
     m_end = Fisica.screenToWorld(x2, y2);
   }
 
+  /**
+   * Sets the start point of the line.  
+   * Under the hood the body is removed and readded to the world.
+   *
+   * @usage Bodies
+   * @param x  horizontal position of the first point of the line
+   * @param y  vertical position of the first point of the line
+   */
+  public void setStart(float x, float y) {
+    m_start = Fisica.screenToWorld(x, y);
+    
+    this.recreateInWorld();
+  }
+
+  /**
+   * Sets the end point of the line.  
+   * Under the hood the body is removed and readded to the world.
+   *
+   * @usage Bodies
+   * @param x  horizontal position of the first point of the line
+   * @param y  vertical position of the first point of the line
+   */
+  public void setEnd(float x, float y) {
+    m_end = Fisica.screenToWorld(x, y);
+    
+    this.recreateInWorld();
+  }
+
+
   public void draw(PGraphics applet) {
     preDraw(applet);
 

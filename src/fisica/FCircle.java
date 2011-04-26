@@ -72,8 +72,20 @@ public class FCircle extends FBody {
    * @return the size of the circle
    */
   public float getSize(){
-    // only for FBox
     return Fisica.worldToScreen(m_size);
+  }
+
+  /**
+   * Sets the size of the circle.
+   * Under the hood the body is removed and readded to the world.
+   *
+   * @usage Bodies
+   * @param size the size of the circle
+   */
+  public void setSize(float size){
+    m_size = Fisica.screenToWorld(size);
+
+    this.recreateInWorld();
   }
 
   public void draw(PGraphics applet) {

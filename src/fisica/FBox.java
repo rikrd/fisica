@@ -95,28 +95,30 @@ public class FBox extends FBody {
 
   /**
    * Sets the height of the rectangle.  
-   * The body has to be removed and readded to the world for this method to take effect.
+   * Under the hood the body is removed and readded to the world.
    *
    * @usage Bodies
    * @see #getWidth()
    * @return the height of the rectangle
    */
   public void setHeight(float height){
-    // only for FBox
-      m_height = Fisica.screenToWorld(height);
+    m_height = Fisica.screenToWorld(height);
+    
+    this.recreateInWorld();
   }
   
   /**
    * Sets the width of the rectangle.  
-   * The body has to be removed and readded to the world for this method to take effect.
+   * Under the hood the body is removed and readded to the world.
    *
    * @usage Bodies
    * @see #getWidth()
    * @return the width of the rectangle
    */
   public void setWidth(float width){
-    // only for FBox
-      m_width = Fisica.screenToWorld(width);
+    m_width = Fisica.screenToWorld(width);
+
+    this.recreateInWorld();
   }
 
   public void draw(PGraphics applet) {

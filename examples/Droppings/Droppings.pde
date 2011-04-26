@@ -51,6 +51,8 @@ void draw() {
 void mousePressed() {
   caja = new FBox(4, 4);
   caja.setStaticBody(true);
+  caja.setStroke(255);
+  caja.setFill(255);
   caja.setRestitution(0.9);
   mundo.add(caja);
   
@@ -63,19 +65,17 @@ void mouseDragged() {
     return;
   }
   
-  // Must remove from world and readd to change the size
-  mundo.remove(caja);
   float ang = atan2(y - mouseY, x - mouseX);
   caja.setRotation(ang);
   caja.setPosition(x+(mouseX-x)/2.0, y+(mouseY-y)/2.0);
   caja.setWidth(dist(mouseX, mouseY, x, y));
-  mundo.add(caja);
   
 }
 
 void contactStarted(FContact contacto) {
   FBody cuerpo1 = contacto.getBody1();
   cuerpo1.setFill(255, 0, 0);
+  cuerpo1.setStroke(255, 0, 0);
   
   noFill();
   stroke(255);
@@ -85,6 +85,7 @@ void contactStarted(FContact contacto) {
 void contactEnded(FContact contacto) {
   FBody cuerpo1 = contacto.getBody1();
   cuerpo1.setFill(255);
+  cuerpo1.setStroke(255);
 }
 
 void keyPressed() {

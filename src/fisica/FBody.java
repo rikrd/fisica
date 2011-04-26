@@ -120,9 +120,12 @@ public abstract class FBody extends FDrawable {
     m_angularVelocity = m_body.getAngularVelocity();
     m_position = m_body.getMemberXForm().position;
     m_angle = m_body.getAngle();    
+
+    m_force = m_body.m_force;
+    m_torque = m_body.m_torque;
   }
 
-  public void recrateInWorld() {
+  public void recreateInWorld() {
     if (m_body == null) return;
     
     this.updateStateFromWorld();
@@ -171,19 +174,19 @@ public abstract class FBody extends FDrawable {
   public void setGroupIndex(int index) {
     m_groupIndex = index;
 
-    this.recrateInWorld();
+    this.recreateInWorld();
   }
 
   public void setFilterBits(int mask) {
     m_filterBits = mask;
 
-    this.recrateInWorld();
+    this.recreateInWorld();
   }
 
   public void setCategoryBits(int mask) {
     m_categoryBits = mask;
 
-    this.recrateInWorld();
+    this.recreateInWorld();
   }
 
   /**

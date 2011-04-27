@@ -109,6 +109,7 @@ public class FBlob extends FBody {
       FBody fb = new FCircle(getVertexSize());
       fb.setPosition(p.x, p.y);
       fb.setDrawable(false);
+      fb.setParent(this);
       fb.setDensity(m_density);
       fb.setRestitution(m_restitution);
       fb.setFriction(m_friction);

@@ -66,6 +66,8 @@ public abstract class FBody extends FDrawable {
   protected Body m_body;
   protected FWorld m_world;
 
+  protected FBody m_parent;
+
   protected boolean m_grabbable = true;
 
   protected void processBody(Body bd, ShapeDef sd){
@@ -188,6 +190,15 @@ public abstract class FBody extends FDrawable {
 
     this.recreateInWorld();
   }
+
+  public void setParent(FBody b) {
+    m_parent = b;
+  }
+
+  public FBody getParent() {
+    return m_parent;
+  }
+
 
   /**
    * Control if this body can be grabbed by the mouse, when clicked on.  This property only has effect if the world is grabbable. If a body is grabbable, then it can be dragged around by the mouse.

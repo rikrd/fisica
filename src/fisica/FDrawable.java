@@ -175,6 +175,20 @@ abstract class FDrawable {
   }
 
   /**
+   * Returns the fill color of the object.
+   *
+   * @return a Processing color type. e.g.  {@code myBody.setFillColor(color(20,100,30,90));}
+   * @see #setNoFill()
+   * @see #setFill(float)
+   * @see #setFill(float,float)
+   * @see #setFill(float,float,float)
+   * @see #setFill(float,float,float,float)
+   */
+  public int getFillColor() {
+    return m_fillColor;
+  }
+
+  /**
    * Set the fill color of the object.  This method must be used in conjunction with Processing's color().  In most cases users will find it more convenient to use the versions of {@link #setFill(float)}, {@link #setFill(float,float)}, {@link #setFill(float,float,float)} or {@link #setFill(float,float,float,float)}
    *
    * @param col  a Processing color type. e.g.  {@code myBody.setFillColor(color(20,100,30,90));}

@@ -220,6 +220,15 @@ public class FBlob extends FBody {
   }
 
   /**
+   * Returns vertices of the blob.
+   *
+   * @return list of vertex bodies
+   */
+  public ArrayList getVertexBodies() {
+    return m_vertexBodies;
+  }       
+
+  /**
    * Sets the frequency of the springs used to maintain the volume defined by the vertices constant.
    *
    * @param frequency  the frequency of the springs of the constant volume joint

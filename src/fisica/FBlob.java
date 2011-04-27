@@ -96,7 +96,7 @@ public class FBlob extends FBody {
 
   protected void addToWorld(FWorld world) {
     // Create the constant volume joint
-    FConstantVolumeJoint m_joint = new FConstantVolumeJoint();
+    m_joint = new FConstantVolumeJoint();
     m_joint.setFrequency(m_frequency);
     m_joint.setDamping(m_damping);
     m_joint.updateStyle(this);

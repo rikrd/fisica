@@ -103,22 +103,24 @@ public class FBlob extends FBody {
 
     // Create bodies from the vertices and add them to the
     // constant volume joint that we just created
-    m_vertexBodies = new ArrayList();
     for (int i=0; i<m_vertices.size(); i++) {
       Vec2 p = Fisica.worldToScreen((Vec2)m_vertices.get(i));
       FBody fb = new FCircle(getVertexSize());
       fb.setPosition(p.x, p.y);
-      fb.setDrawable(false);
-      fb.setParent(this);
       fb.setDensity(m_density);
       fb.setRestitution(m_restitution);
       fb.setFriction(m_friction);
       fb.setGroupIndex(m_groupIndex);
       fb.setFilterBits(m_filterBits);
       fb.setCategoryBits(m_categoryBits);
-      world.add(fb);
-
       m_vertexBodies.add(fb);
+    }
+
+    for (int i=0; i<m_vertexBodies.size(); i++) {
+      FBody fb = (FBody)m_vertexBodies.get(i);
+      fb.setDrawable(false);
+      fb.setParent(this);
+      world.add(fb);
 
       Vec2 f = Fisica.worldToScreen(m_force);
       fb.addForce(f.x, f.y);
@@ -130,14 +132,23 @@ public class FBlob extends FBody {
     world.add(m_joint);
   }
 
-  protected void removeFromWorld(FWorld world) {
+  protected void removeFromWorld() {
     // Remove the constant volume joint
     m_joint.removeFromWorld();
 
     // Remove the vertex bodies
     for (int i=0; i<m_vertexBodies.size(); i++) {
-      ((FBody)m_vertexBodies.get(i)).removeFromWorld();
+      ((FBody)(m_vertexBodies.get(i))).removeFromWorld();
     }
+  }
+
+  /**
+   * Adds a vertex body to the initial shape of the blob.  This method must be called before adding the body to the world.
+   *
+   * @param b  b the body to be added
+   */
+  public void addVertexBody(FBody b){
+    m_vertexBodies.add(b);
   }
 
   /**

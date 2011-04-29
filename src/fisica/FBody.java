@@ -116,7 +116,26 @@ public abstract class FBody extends FDrawable {
 
   }
 
-  protected void updateStateFromWorld() {
+  public void setState(FBody b) {
+    if (b == null || b.m_body == null) {
+      return;
+    }
+
+    // save the properties in case we must add the body again
+    m_linearVelocity = b.m_body.getLinearVelocity();
+    m_angularVelocity = b.m_body.getAngularVelocity();
+    m_position = b.m_body.getMemberXForm().position;
+    m_angle = b.m_body.getAngle();    
+
+    m_force = b.m_body.m_force;
+    m_torque = b.m_body.m_torque;
+  }  
+
+  public void updateStateFromWorld() {
+    if (m_body == null) {
+      return;
+    }
+
     // save the properties in case we must add the body again
     m_linearVelocity = m_body.getLinearVelocity();
     m_angularVelocity = m_body.getAngularVelocity();

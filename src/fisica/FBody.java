@@ -131,7 +131,7 @@ public abstract class FBody extends FDrawable {
     m_torque = b.m_body.m_torque;
   }  
 
-  public void updateStateFromWorld() {
+  public void setStateFromWorld() {
     if (m_body == null) {
       return;
     }
@@ -149,7 +149,7 @@ public abstract class FBody extends FDrawable {
   public void recreateInWorld() {
     if (m_body == null) return;
     
-    this.updateStateFromWorld();
+    this.setStateFromWorld();
     m_world.remove(this);
     m_world.add(this);
   }

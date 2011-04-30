@@ -113,6 +113,7 @@ public class FBlob extends FBody {
       fb.setGroupIndex(m_groupIndex);
       fb.setFilterBits(m_filterBits);
       fb.setCategoryBits(m_categoryBits);
+      fb.setState(this);
       m_vertexBodies.add(fb);
     }
 
@@ -120,6 +121,7 @@ public class FBlob extends FBody {
       FBody fb = (FBody)m_vertexBodies.get(i);
       fb.setDrawable(false);
       fb.setParent(this);
+      fb.setRotatable(false);
       world.add(fb);
 
       Vec2 f = Fisica.worldToScreen(m_force);
@@ -129,6 +131,7 @@ public class FBlob extends FBody {
       m_joint.addBody(fb);
     }
 
+    m_joint.setCollideConnected(false);
     world.add(m_joint);
   }
 

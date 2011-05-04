@@ -246,6 +246,32 @@ public abstract class FBody extends FDrawable {
   }
 
   /**
+   * Get the x coordinate of the force applied to the center of the body.
+   *
+   * @see #addForce(float,float)
+   * @see #getForceY()
+   *
+   * @return the x coordinate of the force
+   *
+   */
+  public float getForceX(){
+    return Fisica.worldToScreen(m_force).x;
+  }
+
+  /**
+   * Get the y coordinate of the force applied to the center of the body.
+   *
+   * @see #addForce(float,float)
+   * @see #getForceX()
+   *
+   * @return the y coordinate of the force
+   *
+   */
+  public float getForceY(){
+    return Fisica.worldToScreen(m_force).y;
+  }
+
+  /**
    * Add a rotation force (a torque) to the body.
    *
    * @see #addForce(float,float)

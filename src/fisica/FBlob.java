@@ -165,6 +165,26 @@ public class FBlob extends FBody {
   }
 
   /**
+   * Gets the x coordinate of the ith vertex of the initial shape of the blob.
+   *
+   * @param i  index of the vertex to retrieve
+   * @return  the x coordinate of the vertex to retrieve
+   */
+  public float getVertexX(int i){
+    return Fisica.worldToScreen((Vec2)m_vertices.get(i)).x;
+  }
+
+  /**
+   * Gets the y coordinate of the ith vertex of the initial shape of the blob.
+   *
+   * @param i  index of the vertex to retrieve
+   * @return  the y coordinate of the vertex to retrieve
+   */
+  public float getVertexY(int i){
+    return Fisica.worldToScreen((Vec2)m_vertices.get(i)).y;
+  }
+
+  /**
    * Sets the initial shape of the blob to a circle.  This method removes all the previous vertices tha may have been added by the use of the {@link #vertex(float,float) vertex}.  This method must be called before adding the body to the world.
    *
    * @param x  x coordinate of the position of the circle

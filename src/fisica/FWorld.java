@@ -119,6 +119,8 @@ public class FWorld extends World {
 
   protected LinkedList m_actions;
 
+  protected ArrayList m_fbodies = new ArrayList();
+
   protected FMouseJoint m_mouseJoint = new FMouseJoint((FBody)null, 0.0f, 0.0f);
 
   private Vec2 m_small = new Vec2(0.001f, 0.001f);
@@ -127,7 +129,8 @@ public class FWorld extends World {
   public void addBody(FBody body) {
       if (body == null) { return; }
 
-      body.addToWorld(this);    
+      m_fbodies.add(body);
+      body.addToWorld(this);
   }
 
   public void removeBody(FBody body) {
@@ -138,6 +141,7 @@ public class FWorld extends World {
         m_mouseJoint.releaseGrabbedBody();
       }
 
+      m_fbodies.remove(body);
       body.removeFromWorld();  
   }
 
@@ -434,8 +438,15 @@ public class FWorld extends World {
       ((FWorldAction)m_actions.poll()).apply(this);
     }
 
+    /*
     for (Body b = getBodyList(); b != null; b = b.m_next) {
       FBody fb = (FBody)(b.m_userData);
+      if (fb != null && fb.isDrawable()) fb.draw(applet);
+    }
+    */
+
+    for (int i=0; i<m_fbodies.size(); i++) {
+      FBody fb = (FBody)m_fbodies.get(i);
       if (fb != null && fb.isDrawable()) fb.draw(applet);
     }
     

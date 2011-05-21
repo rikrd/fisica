@@ -120,7 +120,7 @@ public class Fisica implements PConstants{
     return m_initialized;
   }
 
-  protected static PApplet parent(){
+  public static PApplet parent(){
     if(m_parent == null){
       throw new LibraryNotInitializedException();
     }

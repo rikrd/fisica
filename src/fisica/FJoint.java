@@ -49,7 +49,7 @@ public abstract class FJoint extends FDrawable {
     m_joint = world.createJoint(jd);
   }
 
-  protected void addToWorld(FWorld world) {
+  public void addToWorld(FWorld world) {
     m_world = world;
 
     JointDef jd = getJointDef(world);
@@ -60,7 +60,7 @@ public abstract class FJoint extends FDrawable {
 
   }
 
-  protected void removeFromWorld() {
+  public void removeFromWorld() {
     if (m_joint == null) return;
 
     m_world.destroyJoint(this.m_joint);

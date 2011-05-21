@@ -94,7 +94,7 @@ public class FBlob extends FBody {
     m_vertexBodies = new ArrayList();
   }
 
-  protected void addToWorld(FWorld world) {
+  public void addToWorld(FWorld world) {
     // Create the constant volume joint
     m_joint = new FConstantVolumeJoint();
     m_joint.setFrequency(m_frequency);
@@ -135,7 +135,7 @@ public class FBlob extends FBody {
     world.add(m_joint);
   }
 
-  protected void removeFromWorld() {
+  public void removeFromWorld() {
     // Remove the constant volume joint
     m_joint.removeFromWorld();
 

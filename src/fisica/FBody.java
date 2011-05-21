@@ -78,7 +78,7 @@ public abstract class FBody extends FDrawable {
     return m_groupIndex;
   }
 
-  protected void addToWorld(FWorld world) {
+  public void addToWorld(FWorld world) {
     BodyDef bd = new BodyDef();
     bd.isBullet = m_bullet;
 
@@ -154,7 +154,7 @@ public abstract class FBody extends FDrawable {
     m_world.add(this);
   }
 
-  protected void removeFromWorld() {
+  public void removeFromWorld() {
     if (m_body == null) return;
 
     m_world.destroyBody(this.m_body);

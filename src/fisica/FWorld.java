@@ -814,5 +814,50 @@ public class FWorld extends World {
 
     return result;
   }
+  
+  public int raycast(float x1, float y1, float x2, float y2, FBody[] bodies, int maxCount, boolean solidShapes) {
+    Segment segment = new Segment();
+    segment.p1.set(Fisica.screenToWorld(x1, y1));
+    segment.p2.set(Fisica.screenToWorld(x2, y2));
+
+    Object[] results = new Object[maxCount];
+    Shape[] shapes = new Shape[maxCount];
+
+    int count = this.raycast(segment, shapes, maxCount, solidShapes, null);
+
+    for (int i = 0; i < count; ++i) {
+      Shape shape = (Shape)shapes[i];
+      Body shapeBody = shape.getBody();
+      results[i] = (FBody)(shapeBody.getUserData());
+    }
+    
+    return count;
+  }
+
+  public FBody raycastOne(float x1, float y1, float x2, float y2, FRaycastResult result, boolean solidShapes) {
+    Segment segment = new Segment();
+    segment.p1.set(Fisica.screenToWorld(x1, y1));
+    segment.p2.set(Fisica.screenToWorld(x2, y2));
+
+    int maxCount = 1;
+    Shape[] shapes = new Shape[maxCount];
+
+    int count = raycast(segment, shapes, maxCount, solidShapes, null);
+
+    if(count==0)
+      return null;
+
+    assert(count==1);
+
+    RaycastResult temp = new RaycastResult();
+
+    //Redundantly do TestSegment a second time, as the previous one's results are inaccessible
+    shapes[0].testSegment(shapes[0].getBody().getMemberXForm(), temp, segment, 1.0f);
+
+    result.set(x1, y1, x2, y2, temp);
+
+    //We already know it returns true
+    return (FBody)(shapes[0].getBody().getUserData());
+  }
 
 }

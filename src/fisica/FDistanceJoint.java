@@ -46,6 +46,11 @@ public class FDistanceJoint extends FJoint {
   protected JointDef getJointDef(FWorld world) {
 
     DistanceJointDef md = new DistanceJointDef();
+    if (m_body1 == null || m_body1.m_body == null
+        || m_body2 == null || m_body2.m_body == null) {
+      // TODO: in debug mode it should say something;
+      return null;
+    }
     md.body1 = m_body1.m_body;
     md.body2 = m_body2.m_body;
     md.localAnchor1 = m_anchor1.clone();

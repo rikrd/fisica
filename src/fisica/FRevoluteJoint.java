@@ -103,8 +103,14 @@ public class FRevoluteJoint extends FJoint {
     md.enableLimit = m_enableLimit;
     md.motorSpeed = m_motorSpeed;
     md.maxMotorTorque = m_maxMotorTorque;
-    m_body1.m_body.wakeUp();
-    m_body2.m_body.wakeUp();
+    
+    if (m_body1.m_body != null) {
+      m_body1.m_body.wakeUp();
+    }
+    
+    if (m_body2.m_body != null) {
+      m_body2.m_body.wakeUp();
+    }
 
     return md;
   }

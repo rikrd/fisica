@@ -74,6 +74,22 @@ public abstract class FBody extends FDrawable {
     bd.createShape(sd);
   }
 
+  /**
+   * WARNING: This method is internal only and may change someday.  If you are using this method please contact the developper since there should be a better way or we may add something to the library.
+   *
+   * @return the internal JBox2D body
+   *
+   */
+  public Body getBox2dBody() {
+    return m_body;
+  }
+
+  /**
+   * Get the group to which this body belongs.  Groups allow to select the bodies that may collide together or with others.  If the group index is negative then they will not collide with each other but they will collide with all the bodies of the other groups.
+   *
+   * @return the index of the group
+   *
+   */
   public int getGroupIndex() {
     return m_groupIndex;
   }

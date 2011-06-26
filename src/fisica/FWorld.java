@@ -423,6 +423,12 @@ public class FWorld extends World {
     }
   }
 
+  public void processActions() {
+    while (m_actions.size()>0) {
+      ((FWorldAction)m_actions.poll()).apply(this);
+    }
+  }
+
   /**
    * Draws all the bodies in the world.  This method is often called in the draw method of the applet.
    *
@@ -434,10 +440,7 @@ public class FWorld extends World {
   }
 
   public void draw( PGraphics applet ) {
-    while (m_actions.size()>0) {
-      ((FWorldAction)m_actions.poll()).apply(this);
-    }
-
+    processActions();
     /*
     for (Body b = getBodyList(); b != null; b = b.m_next) {
       FBody fb = (FBody)(b.m_userData);
@@ -700,9 +703,7 @@ public class FWorld extends World {
    * @param iterationCount   the number of iterations for the world simulation step
    */
   public void step( float dt, int iterationCount) {
-    while (m_actions.size()>0) {
-      ((FWorldAction)m_actions.poll()).apply(this);
-    }
+    processActions();
     
     //m_contacts.clear();
     m_contactResults.clear();

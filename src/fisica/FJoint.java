@@ -64,7 +64,9 @@ public abstract class FJoint extends FDrawable {
     if (m_joint == null) return;
 
     m_world.destroyJoint(this.m_joint);
+    
     m_joint = null;
+    m_world = null;
   }
 
   protected JointDef getJointDef(FWorld world) {

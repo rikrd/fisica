@@ -122,6 +122,9 @@
         <include name="README"/>
       </fileset>
     </copy>
+    <copy tofile="${dist}/library.proeperties">
+      <fileset file="web/fisica.properties"/>
+    </copy>
 
 
     <!-- create the java reference of the library -->
@@ -210,6 +213,11 @@
 		   flags="g" />
 
     <replaceregexp file="${dist}/web/index.html"
+                   match="##versionName##"
+                   replace="${versionName}"
+                   flags="g" />
+                   
+    <replaceregexp file="${dist}/web/index.html"
 		   match="##yourLink##"
   		   replace="${yourLink}"
 		   flags="g" />
@@ -256,6 +264,16 @@
   	  	   replace="${source:repository}"
   	  	   flags="g" />
 
+
+    <replaceregexp file="${dist}/web/library.properties"
+                   match="##versionName##"
+                   replace="${versionName}"
+                   flags="g" />
+                   
+    <replaceregexp file="${dist}/web/library.properties"
+                   match="##versionName##"
+                   replace="${versionName}"
+                   flags="g" />
 
     <echo>---------------------</echo>
     <antcall target="processExamples" />

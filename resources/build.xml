@@ -64,7 +64,7 @@
   <property name="bin" location="bin"/>
   <property name="reference" location="reference"/>
   <property name="dist" location="distribution"/>
-  <property name="zipName" value="${libraryName}-${versionNumber}"/>
+  <property name="zipName" value="${libraryName}"/>
 
 
 
@@ -122,9 +122,12 @@
         <include name="README"/>
       </fileset>
     </copy>
-    <copy tofile="${dist}/library.proeperties">
-      <fileset file="web/fisica.properties"/>
-    </copy>
+    <copy tofile="${dist}/library.properties" file="library.properties"/>
+    
+    <replaceregexp file="${dist}/library.properties"
+                   match="##versionNumber##"
+                   replace="${versionNumber}"
+                   flags="g" />
 
 
     <!-- create the java reference of the library -->
@@ -190,6 +193,9 @@
       <fileset dir="web" />
     </copy>
 
+    <copy tofile="${dist}/web/download/${zipName}.txt" file="${dist}/library.properties" />
+    <delete file="${dist}/library.properties" />
+
     <!--
   	format the index.html file.
   	regular expressions are used to parse the web index.html file.
@@ -211,11 +217,6 @@
 		   match="##versionNumber##"
 		   replace="${versionNumber}"
 		   flags="g" />
-
-    <replaceregexp file="${dist}/web/index.html"
-                   match="##versionName##"
-                   replace="${versionName}"
-                   flags="g" />
                    
     <replaceregexp file="${dist}/web/index.html"
 		   match="##yourLink##"
@@ -263,17 +264,7 @@
   		   match="##source:repository##"
   	  	   replace="${source:repository}"
   	  	   flags="g" />
-
-
-    <replaceregexp file="${dist}/web/library.properties"
-                   match="##versionName##"
-                   replace="${versionName}"
-                   flags="g" />
                    
-    <replaceregexp file="${dist}/web/library.properties"
-                   match="##versionName##"
-                   replace="${versionName}"
-                   flags="g" />
 
     <echo>---------------------</echo>
     <antcall target="processExamples" />

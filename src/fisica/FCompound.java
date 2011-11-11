@@ -16,32 +16,31 @@ public class FCompound extends FBody {
   public FCompound(){
     super();
     
-    m_shapes = new ArrayList<FBody>();
+    m_shapes = new ArrayList();
   }
 
-  public void processBody(Body bd, ShapeDef sd){
+  public ArrayList getShapeDefs() {
+    ArrayList result = new ArrayList();
     for (int i=0; i<m_shapes.size(); i++) {
-      
-      bd.createShape(m_shapes.at(i).getShapeDef());
+      ShapeDef sd = (ShapeDef)(((FBody)m_shapes.get(i)).getProcessedShapeDef());
+      result.add(sd);
     }
+    return result;
   }
 
   public void addBody(FBody body) {
     m_shapes.add(body);
   }
     
-  public void draw(PApplet applet) {
+  public void draw(PGraphics applet) {
     preDraw(applet);
 
     if (m_image != null ) {
       drawImage(applet);
     } else {
-      applet.beginShape();
-      for(int i = 0; i<m_vertices.size(); i++){
-        Vec2 v = Fisica.worldToScreen((Vec2)m_vertices.get(i));
-        applet.vertex(v.x, v.y);
+      for(int i = 0; i<m_shapes.size(); i++){
+        ((FBody)m_shapes.get(i)).draw(applet);
       }
-      applet.endShape(PConstants.CLOSE);
     }
     
     postDraw(applet);

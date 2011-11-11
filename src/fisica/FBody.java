@@ -101,12 +101,18 @@ public abstract class FBody extends FDrawable {
     m_world = world;
     m_body = world.createBody(bd);
 
-    ShapeDef sd = getShapeDef();
-    sd.isSensor = m_sensor;
-    sd.filter.groupIndex = m_groupIndex;
-    sd.filter.maskBits = m_filterBits;
-    sd.filter.categoryBits = m_categoryBits;
-    processBody(m_body, sd);
+    ShapeDef sd = getProcessedShapeDef();
+    if (sd != null) {
+        processBody(m_body, sd);
+    }
+
+    ArrayList sds = getShapeDefs();
+    for (int i=0; i<sds.size(); i++) {
+        sd = (ShapeDef)(sds.get(i));
+        if (sd != null) {
+            processBody(m_body, sd);
+        }
+    }
 
     m_body.m_userData = this;
     m_body.setXForm(m_position, m_angle);
@@ -180,7 +186,22 @@ public abstract class FBody extends FDrawable {
   }
 
   protected ShapeDef getShapeDef() {
-    return new ShapeDef();
+    return null;
+  }
+
+  protected ShapeDef getProcessedShapeDef() {
+    ShapeDef sd = getShapeDef();
+    if (sd != null) {
+        sd.isSensor = m_sensor;
+        sd.filter.groupIndex = m_groupIndex;
+        sd.filter.maskBits = m_filterBits;
+        sd.filter.categoryBits = m_categoryBits;
+    }
+    return sd;
+  }
+
+  protected ArrayList getShapeDefs() {
+    return new ArrayList();
   }
 
   protected void preDraw(PGraphics applet) {

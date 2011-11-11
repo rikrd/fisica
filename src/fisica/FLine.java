@@ -1,3 +1,22 @@
+/*
+  Part of the Fisica library - http://www.ricardmarxer.com/fisica
+
+  Copyright (c) 2009 - 2010 Ricard Marxer
+
+  Fisica is free software: you can redistribute it and/or modify
+  it under the terms of the GNU Lesser General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU Lesser General Public License for more details.
+  
+  You should have received a copy of the GNU Lesser General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package fisica;
 
 import org.jbox2d.common.*;
@@ -9,20 +28,29 @@ import processing.core.*;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a line body that can be added to a world.
+ *
+ * <pre>
+ * {@code
+ * FLine myLine = new FLine(40, 20, 100, 40);
+ * world.add(myLine);
+ * }
+ * </pre>
+ *
+ * @usage Bodies
+ * @see FBox
+ * @see FCircle
+ * @see FBlob
+ * @see FPoly
+ */
 public class FLine extends FBody {
-  Vec2 m_start;
-  Vec2 m_end;
+  protected Vec2 m_start;
+  protected Vec2 m_end;
 
-  public FLine(float x1, float y1, float x2, float y2){
-    super();
-    
-    m_start = Fisica.screenToWorld(x1, y1);
-    m_end = Fisica.screenToWorld(x2, y2);
-  }
-
-  public ShapeDef getShapeDef() {
+  protected ShapeDef getShapeDef() {
     EdgeChainDef pd = new EdgeChainDef();
-    
+
     pd.addVertex(m_start);
     pd.addVertex(m_end);
 
@@ -34,8 +62,52 @@ public class FLine extends FBody {
     pd.isSensor = m_sensor;
     return pd;
   }
+
+  /**
+   * Constructs a line body that can be added to a world.
+   *
+   * @param x1  horizontal position of the first point of the line
+   * @param y1  vertical position of the first point of the line
+   * @param x2  horizontal position of the second point of the line
+   * @param y2  vertical position of the second point of the line
+   */
+  public FLine(float x1, float y1, float x2, float y2){
+    super();
+
+    m_start = Fisica.screenToWorld(x1, y1);
+    m_end = Fisica.screenToWorld(x2, y2);
+  }
+
+  /**
+   * Sets the start point of the line.  
+   * Under the hood the body is removed and readded to the world.
+   *
+   * @usage Bodies
+   * @param x  horizontal position of the first point of the line
+   * @param y  vertical position of the first point of the line
+   */
+  public void setStart(float x, float y) {
+    m_start = Fisica.screenToWorld(x, y);
     
-  public void draw(PApplet applet) {
+    this.recreateInWorld();
+  }
+
+  /**
+   * Sets the end point of the line.  
+   * Under the hood the body is removed and readded to the world.
+   *
+   * @usage Bodies
+   * @param x  horizontal position of the first point of the line
+   * @param y  vertical position of the first point of the line
+   */
+  public void setEnd(float x, float y) {
+    m_end = Fisica.screenToWorld(x, y);
+    
+    this.recreateInWorld();
+  }
+
+
+  public void draw(PGraphics applet) {
     preDraw(applet);
 
     if (m_image != null ) {
@@ -45,8 +117,8 @@ public class FLine extends FBody {
       Vec2 tempEnd = Fisica.worldToScreen(m_end);
       applet.line(tempStart.x, tempStart.y, tempEnd.x, tempEnd.y);
     }
-    
+
     postDraw(applet);
   }
-  
+
 }

@@ -1,0 +1,339 @@
+<project name="fisica" default="build" basedir="../">
+
+  <property environment="env"/>
+
+  <property file="resources/building.properties"/>
+  <property name="tested:platform"  value="GNU/Linux" />
+
+  <!-- #### (12) the processing version this library has been tested with. edit value. #### -->
+  <property name="tested:processingVersion"  value="1.0.9" />
+
+  <!-- #### (13) does the library depend on any other library, dll, jnilib, etc. edit value. #### -->
+  <property name="tested:dependencies"  value="JBox2D" />
+
+  <!-- #### (14) where can the source code be found? edit value. #### -->
+  <property name="source:host"  value="gitorious" />
+  <property name="source:url"  value="http://www.gitorious.com/fisica" />
+  <property name="source:repository"  value="git://gitorious.org/fisica/fisica.git" />
+
+  <description>
+    Fisica. ant build file.
+  </description>
+  <path id="library-classpath">
+    <fileset dir="${libraryClasspath}" >
+      <!-- #### (3) add the jar files that are required for compiling. edit name.
+	   for more include files. duplicate <include name="" /> #### -->
+      <include name="core.jar"/>
+      <include name="${jBox2d}"/>
+    </fileset>
+  </path>
+
+  <property name="processing" location="${env.PROCESSING_PATH}"/>
+  
+  <property name="exportApplet" location="./resources/exportApplet"/>
+  <property name="exportAppletPreferences" location="./resources/preferences.txt"/>
+  
+
+
+
+
+
+
+
+
+
+
+  <!-- no changes or adjustments required below -->
+
+
+
+
+
+
+
+
+
+
+  <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+    <classpath>
+      <pathelement location="./resources/code/ant-contrib-1.0b3.jar"/>
+    </classpath>
+  </taskdef>
+  <property name="jarFile" value="${libraryName}.jar"/>
+  <property name="src" location="src"/>
+  <property name="bin" location="bin"/>
+  <property name="reference" location="reference"/>
+  <property name="dist" location="distribution"/>
+  <property name="zipName" value="${libraryName}"/>
+
+
+
+  <target name="init">
+    <echo>Properties initialized.
+      src path			${src}
+      bin path 			${bin}
+      libraryClasspath		${libraryClasspath}
+      processing Libraries	${processing}
+      java version		${javaVersion}
+      java target		${javaTarget}
+    </echo>
+    <echo>building library ...</echo>
+    <!-- Create the time stamp -->
+    <tstamp>
+      <format property="date" pattern="MM/dd/yyyy" offset="0" unit="hour"/>
+    </tstamp>
+    <mkdir dir="${dist}"/>
+  </target>
+
+  <!-- compile the library -->
+  <target name="compile" depends="init" description="compile the source" >
+    <javac srcdir="${src}" destdir="${bin}" source="${javaVersion}" target="${javaTarget}">
+      <classpath>
+	<path refid="library-classpath"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <!-- build the distribution of the library -->
+  <target name="build" depends="compile" description="generate the distribution" >
+    <!-- delete the previous content of the ${dist} folder -->
+    <delete dir="${dist}" />
+
+    <!-- build the structure for ${dist} -->
+    <mkdir dir="${dist}" />
+    <mkdir dir="${dist}/library" />
+    <mkdir dir="${dist}/examples" />
+    <mkdir dir="${dist}/reference" />
+    <mkdir dir="${dist}/src" />
+    <jar jarfile="${dist}/library/${jarFile}" basedir="${bin}"/>
+    <copy todir="${dist}/library">
+      <fileset file="libs/${jBox2d}"/>
+    </copy>
+    <copy todir="${dist}/examples">
+      <fileset dir="examples"/>
+    </copy>
+    <copy todir="${dist}/src">
+      <fileset dir="src"/>
+    </copy>
+    <copy todir="${dist}">
+      <fileset dir="." >
+        <include name="COPYING"/>
+        <include name="COPYING.LESSER"/>
+        <include name="README"/>
+      </fileset>
+    </copy>
+    <copy tofile="${dist}/library.properties" file="library.properties"/>
+    
+    <replaceregexp file="${dist}/library.properties"
+                   match="##versionNumber##"
+                   replace="${versionNumber}"
+                   flags="g" />
+
+
+    <!-- create the java reference of the library -->
+    <mkdir dir="${reference}" />
+    <javadoc bottom="processing library ${libraryName} by ${author}. ${copyright}"
+ 	     destdir="${reference}"
+ 	     verbose="false"
+ 	     stylesheetfile="resources/stylesheet.css"
+ 	     doctitle="Javadocs: ${libraryName}"
+ 	     public="true" version="false"
+ 	     windowtitle="Javadocs: ${libraryName}">
+      <classpath>
+	<path refid="library-classpath"/>
+      </classpath>
+
+      <tag name="invisible" scope="all" enabled="false"/>
+      <tag name="related" scope="all" enabled="false"/>
+      <tag name="extended" scope="all" enabled="false"/>
+      <tag name="usage" scope="all" enabled="false"/>
+
+      <taglet name="ExampleTaglet" path="resources/code" />
+      <fileset dir="${src}" defaultexcludes="yes">
+ 	<!-- #### (9) add packages to be added to reference. #### -->
+	<include name="**/*"/>
+      </fileset>
+    </javadoc>
+
+    <copy todir="${dist}/reference">
+      <fileset dir="${reference}" />
+    </copy>
+
+    <!-- copy the jar file to processing's libraries -->
+    <mkdir dir="${librariesPath}/${libraryName}" />
+    <copy todir="${librariesPath}/${libraryName}">
+      <fileset dir="${dist}"/>
+    </copy>
+
+    <!-- zip the distribution of the library -->
+    <zip destfile="${dist}/${zipName}.zip"
+  	 excludes="**/_DS.Store"
+	 >
+      <zipfileset dir="${dist}" prefix="${libraryName}"/>
+    </zip>
+
+    <!-- <rename src="${dist}/${libraryName}.zip" dest="${dist}/${libraryName}_${versionNumber}.zip" /> -->
+
+    <!-- organize the ${dist} folder -->
+    <mkdir dir="${dist}/web" />
+    <move todir="${dist}/web/reference">
+      <fileset dir="${dist}/reference" />
+    </move>
+
+    <move todir="${dist}/web/examples">
+      <fileset dir="${dist}/examples" />
+    </move>
+
+    <delete dir="${dist}/library" />
+    <delete file="${dist}/README" />
+    <delete file="${dist}/COPYING" />
+    <delete file="${dist}/COPYING.LESSER" />
+
+    <copy todir="${dist}/web">
+      <fileset dir="web" />
+    </copy>
+
+    <copy tofile="${dist}/web/download/${zipName}.txt" file="${dist}/library.properties" />
+    <delete file="${dist}/library.properties" />
+
+    <!--
+  	format the index.html file.
+  	regular expressions are used to parse the web index.html file.
+  	key words starting and ending with ## are replaced by values
+  	defined earlier in the beginning of this build file.
+      -->
+
+    <replaceregexp file="${dist}/web/index.html"
+  	           match="##yourLibrary##"
+  	           replace="${libraryName}"
+  	           flags="g" />
+
+    <replaceregexp file="${dist}/web/index.html"
+		   match="##author##"
+		   replace="${author}"
+		   flags="g" />
+
+    <replaceregexp file="${dist}/web/index.html"
+		   match="##versionNumber##"
+		   replace="${versionNumber}"
+		   flags="g" />
+                   
+    <replaceregexp file="${dist}/web/index.html"
+		   match="##yourLink##"
+  		   replace="${yourLink}"
+		   flags="g" />
+
+    <replaceregexp file="${dist}/web/index.html"
+  		   match="##date##"
+  	  	   replace="${date}"
+  	  	   flags="g" />
+
+    <replaceregexp file="${dist}/web/index.html"
+  		   match="##keywords##"
+  	  	   replace="${keywords}"
+  	  	   flags="g" />
+
+    <replaceregexp file="${dist}/web/index.html"
+  	           match="##zipName##"
+  	           replace="${zipName}"
+  	           flags="g" />
+
+
+
+    <replaceregexp file="${dist}/web/index.html"
+  		   match="##tested:platform##"
+  	  	   replace="${tested:platform}"
+  	  	   flags="g" />
+    <replaceregexp file="${dist}/web/index.html"
+  		   match="##tested:processingVersion##"
+  	  	   replace="${tested:processingVersion}"
+  	  	   flags="g" />
+    <replaceregexp file="${dist}/web/index.html"
+  		   match="##tested:dependencies##"
+  	  	   replace="${tested:dependencies}"
+  	  	   flags="g" />
+    <replaceregexp file="${dist}/web/index.html"
+  		   match="##source:host##"
+  	  	   replace="${source:host}"
+  	  	   flags="g" />
+    <replaceregexp file="${dist}/web/index.html"
+  		   match="##source:url##"
+  	  	   replace="${source:url}"
+  	  	   flags="g" />
+    <replaceregexp file="${dist}/web/index.html"
+  		   match="##source:repository##"
+  	  	   replace="${source:repository}"
+  	  	   flags="g" />
+                   
+
+    <echo>---------------------</echo>
+    <antcall target="processExamples" />
+    <echo>---------------------</echo>
+    <antcall target="exportAllExamples" />
+
+    <replaceregexp file="${dist}/web/index.html"
+  	  	   match="##examples##"
+  	  	   replace=""
+  	  	   flags="g" />
+
+
+    <!-- finish organizating library's distribution -->
+    <mkdir dir="${dist}/web/download" />
+    <copy file="${dist}/${zipName}.zip" todir="${dist}/web/download" />
+
+    <copy todir="${librariesPath}/${libraryName}/reference">
+      <fileset dir="${reference}" />
+    </copy>
+
+    <!-- done, finished. -->
+    <echo>done, finished.</echo>
+  </target>
+
+
+
+  <!-- parsing the examples folder -->
+  <target name="processExamples">
+    <dirset id="examples.contents" dir="examples" excludes="*/*"/>
+    <property name="examples.list" refid="examples.contents"/>
+    <foreach list="${examples.list}" target="addExamples" param="exampleDir" delimiter=";">
+    </foreach>
+  </target>
+
+  <target name="exportAllExamples">
+    <dirset id="examples.contents" dir="examples" excludes="*/*"/>
+    <property name="examples.list" refid="examples.contents"/>
+    <foreach list="${examples.list}" target="exportExample" param="exampleDir" delimiter=";">
+    </foreach>
+  </target>
+
+
+  <target name="exportExample">
+    <property name="exampleDirAbs" location="examples/${exampleDir}"/>
+    <exec executable="${exportApplet}">
+      <arg value="${exampleDirAbs}"/>
+      <arg value="${dist}/web/examples/${exampleDir}/applet"/>
+      <arg value="${exportAppletPreferences}"/>
+    </exec>
+  </target>
+
+  <target name="addExamples">
+    <replaceregexp file="${dist}/web/index.html"
+	  	   match="(##examples##)"
+	  	   replace="&lt;div class=&quot;img&quot;&gt;
+                            &lt;a target=&quot;_blank&quot; href=&quot;examples/${exampleDir}/applet/index.html&quot;&gt;
+                            &lt;img src=&quot;examples/${exampleDir}/screenshot.png&quot; alt=&quot;${exampleDir}&quot; /&gt;
+                            &lt;/a&gt;
+                            &lt;/div&gt;
+                            &lt;/li&gt; \1"
+	  	   flags="g" />
+  </target>
+  <!--
+  <target name="addExamples">
+    <replaceregexp file="${dist}/web/index.html"
+	  	   match="(##examples##)"
+	  	   replace="&lt;li&gt;&lt;a href=&quot;examples/${exampleDir}/${exampleDir}.pde&quot;&gt;${exampleDir}&lt;/a&gt;&lt;/li&gt; \1"
+	  	   flags="g" />
+  </target>
+  -->
+</project>
+

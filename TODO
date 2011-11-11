@@ -1,9 +1,13 @@
-+ Check which properties can and which cannot be changed once added to the world
+TODO:
++ Add getJoints() on FBody
++ Check which properties can and which cannot be changed once added to the world (make it transparent to the user)
 + Add a getStaticBody()/getDynamicBody() to Revolute and Prismatic joints
   - Make GearJoint use the getDynamicBody()
 + Revolute and Prismatic (and maybe others) joints can both inherit from a BiBodyJoint
-+ Use the ViewportTransform provided by jBox2D
 + Optimize by avoid creation of extra Vec2 instances
+
+DONE:
++ Use the ViewportTransform provided by jBox2D
 + Fix the tracking of Contacts
   - Keep copies of the contacts in the World
   - Handle contactresult

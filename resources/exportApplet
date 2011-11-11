@@ -1,0 +1,6 @@
+PROCESSING_PATH=/home/rmarxer/dev/processing/build/linux/work
+cp ./resources/applet.html $PROCESSING_PATH/lib/export
+cd $PROCESSING_PATH
+echo $1
+java -classpath /usr/lib/jvm/java-6-sun/jre/bin/../../jre/lib/rt.jar:/usr/lib/jvm/java-6-sun/jre/bin/../../lib/tools.jar:$PROCESSING_PATH/lib/antlr.jar:$PROCESSING_PATH/lib/core.jar:$PROCESSING_PATH/lib/ecj.jar:$PROCESSING_PATH/lib/jna.jar:$PROCESSING_PATH/lib/pde.jar processing.app.Commander --sketch=$1 --export-applet --output=$2 --preferences=$3
+cd -

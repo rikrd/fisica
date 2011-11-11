@@ -1,3 +1,22 @@
+/*
+  Part of the Fisica library - http://www.ricardmarxer.com/fisica
+
+  Copyright (c) 2009 - 2010 Ricard Marxer
+
+  Fisica is free software: you can redistribute it and/or modify
+  it under the terms of the GNU Lesser General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU Lesser General Public License for more details.
+  
+  You should have received a copy of the GNU Lesser General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package fisica;
 
 import org.jbox2d.common.*;
@@ -10,16 +29,55 @@ import processing.core.*;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a polygonal body that can be added to a world.
+ * Polygons can be created by adding vertices using the {@link #vertex(float,float) vertex} method in a similar way to {@link FPoly FPoly}:
+ * <pre>
+ * {@code
+ * FPoly myPoly = new FPoly();
+ * myBlob.vertex(40, 10);
+ * myBlob.vertex(50, 20);
+ * myBlob.vertex(60, 30);
+ * myBlob.vertex(60, 40);
+ * myBlob.vertex(50, 50);
+ * myBlob.vertex(40, 60);
+ * myBlob.vertex(30, 70);
+ * myBlob.vertex(20, 60);
+ * myBlob.vertex(10, 50);
+ * myBlob.vertex(10, 40);
+ * myBlob.vertex(20, 30);
+ * myBlob.vertex(30, 20);
+ * myBlob.vertex(40, 10);
+ * world.add(myPoly);
+ * }
+ * </pre>
+ *
+ * @usage Bodies
+ * @see FBox
+ * @see FCircle
+ * @see FBlob
+ * @see FLine
+ */
 public class FPoly extends FBody {
-  Polygon m_polygon;
-  ArrayList m_vertices;
+  protected Polygon m_polygon;
+  protected boolean m_closed;
+  protected ArrayList m_vertices;
   
+  /**
+   * Constructs a polygonal body that can be added to a world.  It creates an empty polygon, before adding the blob to the world use {@link #vertex(float,float) vertex} to define the shape of the polygon.
+   */
   public FPoly(){
     super();
-    
-    m_vertices = new ArrayList<Vec2>();
+    m_closed = false;
+    m_vertices = new ArrayList();
   }
 
+  /**
+   * Adds vertices to the shape of the poly.  This method must called before adding the body to the world.
+   *
+   * @param x  x coordinate of the vertex to be added
+   * @param y  y coordinate of the vertex to be added
+   */
   public void vertex(float x, float y){
     /*
     if (m_vertices.size() >= Settings.maxPolygonVertices ) {
@@ -29,13 +87,16 @@ public class FPoly extends FBody {
     m_vertices.add(Fisica.screenToWorld(x, y));
   }
 
-  public void processBody(Body bd, ShapeDef sd){
+  protected void processBody(Body bd, ShapeDef sd){
     Polygon.decomposeConvexAndAddTo(m_polygon, bd, (PolygonDef)sd);
   }
 
-  public ShapeDef getShapeDef() {
+  protected ShapeDef getShapeDef() {
     PolygonDef pd = new PolygonDef();
     
+    m_vertices.add(new Vec2((Vec2)m_vertices.get(m_vertices.size()-1)));
+    m_closed = true;
+
     Vec2[] vertices = new Vec2[m_vertices.size()];
     m_vertices.toArray(vertices);
     m_polygon = new Polygon(vertices);
@@ -47,7 +108,7 @@ public class FPoly extends FBody {
     return pd;
   }
     
-  public void draw(PApplet applet) {
+  public void draw(PGraphics applet) {
     preDraw(applet);
 
     if (m_image != null ) {
@@ -58,7 +119,11 @@ public class FPoly extends FBody {
         Vec2 v = Fisica.worldToScreen((Vec2)m_vertices.get(i));
         applet.vertex(v.x, v.y);
       }
-      applet.endShape(PConstants.CLOSE);
+      if (m_closed) {
+        applet.endShape(PConstants.CLOSE);
+      } else {
+        applet.endShape();
+      }
     }
     
     postDraw(applet);

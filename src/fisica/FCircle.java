@@ -54,6 +54,12 @@ public class FCircle extends FBody {
     return pd;
   }
 
+  protected ShapeDef getTransformedShapeDef() {
+    CircleDef pd = (CircleDef)getShapeDef();
+    pd.localPosition.set(m_position);
+    return pd;
+  }
+
   /**
    * Constructs a circular body that can be added to a world.
    *

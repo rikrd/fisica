@@ -189,6 +189,10 @@ public abstract class FBody extends FDrawable {
     return null;
   }
 
+  protected ShapeDef getTransformedShapeDef() {
+    return getShapeDef();
+  }
+
   protected ShapeDef getProcessedShapeDef() {
     ShapeDef sd = getShapeDef();
     if (sd != null) {

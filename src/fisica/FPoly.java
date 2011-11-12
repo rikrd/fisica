@@ -107,7 +107,22 @@ public class FPoly extends FBody {
     pd.isSensor = m_sensor;
     return pd;
   }
+  
+  protected ShapeDef getTransformedShapeDef() {
+    PolygonDef pd = (PolygonDef)getShapeDef();
+
+    XForm xf = new XForm();
+    xf.R.set(-m_angle);
+    xf.position = Mat22.mul(xf.R, m_position.negate());
     
+    for (int i=0; i<pd.vertices.size(); i++) {
+        Vec2 ver = (Vec2)pd.vertices.get(i);
+        XForm.mulTransToOut(xf, ver, ver);
+    }
+
+    return pd;
+  }
+
   public void draw(PGraphics applet) {
     preDraw(applet);
 

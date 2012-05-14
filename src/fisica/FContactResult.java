@@ -144,7 +144,7 @@ public class FContactResult {
   }
 
   /**
-   * Returns the normal component of the impulse of the contact.  This gives an idea of the strength of the collision that took place.
+   * Returns the normal component of the impulse of the contact.  This gives an idea of the strength of the collision that took place.  This represents the impulse necessary to avoid penetration of the bodies involved in the collision.  The impluse is simply the force multiplied by the timestep.  The result is returned in impulse units (kg * pixels / s).
    *
    * @return the normal component of the contact's impulse
    * @see #getTangentImpulse
@@ -154,7 +154,7 @@ public class FContactResult {
   }
 
   /**
-   * Returns the tangential component of the impulse of the contact.  This gives an idea of the strength of the friction between the bodies that took place.
+   * Returns the tangential component of the impulse of the contact.  This gives an idea of the strength of the friction between the bodies that took place.  The impluse is simply the force multiplied by the timestep.  The result is returned in impulse units (kg * pixels / s).
    *
    * @return the tangent component of the contact's impulse
    * @see #getNormalImpulse

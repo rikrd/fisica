@@ -246,6 +246,50 @@ public class FWorld extends World {
   private Method m_contactEndedMethod;
   private Method m_contactResultMethod;
 
+  
+  public void grabBody(float x, float y) {
+    if (m_mouseJoint.getGrabbedBody() != null) {
+        return;
+    }
+    
+      FBody body = this.getBody(x, y, true);
+      if ( body == null ) return;
+      if (!(body.m_grabbable)) return;
+
+
+      m_mouseJoint.setGrabbedBodyAndTarget(body, x, y);
+      m_mouseJoint.setFrequency(3.0f);
+      m_mouseJoint.setDamping(0.1f);
+      this.addJoint(m_mouseJoint);
+
+      m_grabPositionX = x - body.getX();
+      m_grabPositionY = y - body.getY();
+  }
+  
+  public void dragBody(float x, float y) {
+    if (m_mouseJoint.getGrabbedBody() == null) {
+        return;
+    }
+    
+    FBody body = m_mouseJoint.getGrabbedBody();
+    if (body.isStatic()) {
+        body.setPosition(x - m_grabPositionX, 
+                         y - m_grabPositionY);
+    } else {
+        m_mouseJoint.setTarget(x, y);
+    }
+
+  }
+  
+  public void releaseBody() {
+    if (m_mouseJoint.getGrabbedBody() != null) {
+        return;
+    }
+    
+    this.removeJoint(m_mouseJoint);
+    m_mouseJoint.releaseGrabbedBody();
+  }
+
   /**
    * This is an internal method to handle mouse interaction and should not be used.
    * @internal
@@ -255,45 +299,23 @@ public class FWorld extends World {
 
     // mousePressed
     if (event.getID() == event.MOUSE_PRESSED
-        && event.getButton() == m_mouseButton
-        && (m_mouseJoint.getGrabbedBody() == null)) {
-
-      FBody body = this.getBody(event.getX(), event.getY(), true);
-      if ( body == null ) return;
-      if (!(body.m_grabbable)) return;
-
-
-      m_mouseJoint.setGrabbedBodyAndTarget(body, event.getX(), event.getY());
-      m_mouseJoint.setFrequency(3.0f);
-      m_mouseJoint.setDamping(0.1f);
-      this.addJoint(m_mouseJoint);
-
-      m_grabPositionX = event.getX() - body.getX();
-      m_grabPositionY = event.getY() - body.getY();
+        && event.getButton() == m_mouseButton) {
       
+      grabBody(event.getX(), event.getY());
       // TODO: send a bodyGrabbed(FBody body) event
     }
 
     // mouseReleased
     if (event.getID() == event.MOUSE_RELEASED
-        && event.getButton() == m_mouseButton
-        && (m_mouseJoint.getGrabbedBody() != null)) {
-      this.removeJoint(m_mouseJoint);
-      m_mouseJoint.releaseGrabbedBody();
+        && event.getButton() == m_mouseButton) {
+        
+      releaseBody();
       // TODO: send a bodyReleased(FBody body) event
     }
 
     // mouseDragged
-    if (event.getID() == event.MOUSE_DRAGGED
-        && (m_mouseJoint.getGrabbedBody() != null)) {
-	
-	FBody body = m_mouseJoint.getGrabbedBody();
-	if (body.isStatic()) {
-	    body.setPosition(event.getX() - m_grabPositionX, 
-			     event.getY() - m_grabPositionY);
-	} else {
-	    m_mouseJoint.setTarget(event.getX(), event.getY());
-	}
+    if (event.getID() == event.MOUSE_DRAGGED) {
+      dragBody(event.getX(), event.getY());
       // TODO: send a bodyDragged(FBody body) event
     }
   }

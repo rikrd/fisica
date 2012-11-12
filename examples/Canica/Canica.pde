@@ -1,3 +1,12 @@
+/**
+*
+*  Wood image from http://j-owen.deviantart.com/art/Wood-Pack-1-88580807
+*                  http://zygat3r.deviantart.com/art/Dark-Wood-58266349
+*  Ball image from http://www.swithenbanks.co.uk/Solar_Photovoltaic_Fixings/12669/Schletter_Secufix_Steel_Ball_For_Socket_Head_M8.html
+*
+*/
+
+
 import ketai.sensors.*;
 import fisica.*;
 import android.view.WindowManager;
@@ -45,7 +54,7 @@ void setup() {
   w = new FWorld();
   w.setEdges();
 
-  bg = loadImage("woodbg.jpg");
+  bg = loadImage("woodbg.png");
   ball = loadImage("ball.png");
 
   next();
@@ -136,11 +145,11 @@ void draw() {
 }
 
 void printScore() {
-  fill(0, 255, 0);
+  fill(#0070FF);
   textAlign(RIGHT, TOP);
   text(""+winCount, width-200, 0, 200, 200);
 
-  fill(255, 0, 0);
+  fill(#FF9E00);
   textAlign(LEFT, TOP);
   text(""+loseCount, 0, 0, 200, 200);
 }

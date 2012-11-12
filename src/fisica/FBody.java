@@ -48,6 +48,7 @@ public abstract class FBody extends FDrawable {
   protected float m_linearDamping = 0.5f;
   protected float m_angularDamping = 0.5f;
   protected boolean m_rotatable = true;
+  protected boolean m_allowSleep = true;
 
   protected boolean m_isSleeping = false;
   protected int m_groupIndex = 0;
@@ -126,6 +127,12 @@ public abstract class FBody extends FDrawable {
       m_body.m_flags &= ~m_body.e_fixedRotationFlag;
     }else{
       m_body.m_flags |= m_body.e_fixedRotationFlag;
+    }
+    
+    if (m_allowSleep) {
+      m_body.m_flags |= m_body.e_allowSleepFlag;
+    }else{
+      m_body.m_flags &= ~m_body.e_allowSleepFlag;
     }
 
     m_body.setBullet(m_bullet);
@@ -565,18 +572,43 @@ public abstract class FBody extends FDrawable {
   }
 
   /**
-   * Indicates whether the body is in a resting state.
-   *
-   * The resting state of a body is reached when it has not moved or has not received any forces nor collisions for some time.
+   * Deprecated. Please use isSleeping().
    *
    * @return true if the body is resting
    */
   public boolean isResting(){
+    return isSleeping();
+  }
+  
+  /**
+   * Indicates whether the body is in a sleeping state.
+   *
+   * The sleeping state of a body is reached when it has not moved or has not received any forces nor collisions for some time.
+   *
+   * @return true if the body is sleeping
+   * @see #wakeUp()
+   * @see #setAllowSleeping(boolean)
+   */
+  public boolean isSleeping(){
     if (m_body != null) {
       return m_body.isSleeping();
     }
 
     return m_isSleeping;
+  }
+
+  /**
+   * Wake up the body from a sleeping state.
+   *
+   * @see #isSleeping()
+   * @see #setAllowSleeping(boolean)
+   */
+  public void wakeUp() {
+    if (m_body == null) {
+        return;
+    }
+    
+    m_body.wakeUp();
   }
 
   /**
@@ -843,6 +875,25 @@ public abstract class FBody extends FDrawable {
     m_rotatable = rotatable;
   }
 
+  /**
+   * Set whether the body can sleep.
+   *
+   * @param allowSleep if {@code true} the body will be able to sleep
+   */
+  public void setAllowSleeping( boolean allowSleep ){
+    if ( m_body != null ) {
+      // TODO: check this
+      if (allowSleep) {
+        m_body.m_flags |= m_body.e_allowSleepFlag;
+      }else{
+        m_body.m_flags &= ~m_body.e_allowSleepFlag;
+        m_body.wakeUp();
+      }
+    }
+
+    m_allowSleep = allowSleep;
+  }
+  
   /**
    * Return a list of bodies currently touching the body.
    *

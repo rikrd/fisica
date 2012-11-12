@@ -235,12 +235,29 @@ public class FContact {
   }
 
   /**
+   * Returns true if the contact contains the two bodies.
+   *
+   * @param n1 one of the bodies
+   * @param n2 another one of the bodies
+   * @return true if the contact bodies are the ones given by the parameters
+   */
+  public boolean contains(FBody n1, FBody n2) {
+    if (this.getBody1() == null || this.getBody2() == null) {
+        return false;
+    }
+    
+    return ((this.getBody1() == n1 && this.getBody2() == n2) ||
+        (this.getBody1() == n2 && this.getBody2() == n1));
+  }
+
+  
+  /**
    * Returns true if the contact contains the body.
    *
    * @return true if one of the contact bodies has the name given by the parameters
    * @see FBody#setName
    */
-  boolean testContact(String n1) {
+  public boolean contains(String n1) {
     if ((this.getBody1() != null) && (this.getBody1().getName() != null) && (this.getBody1().getName().equals(n1))) {
         return true;
     }
@@ -251,4 +268,22 @@ public class FContact {
     
     return false;
   }
+  
+  /**
+   * Returns true if the contact contains the body.
+   *
+   * @return true if one of the contact bodies has the name given by the parameters
+   */
+  public boolean contains(FBody n1) {
+    if ((this.getBody1() != null) && (this.getBody1() == n1)) {
+        return true;
+    }
+    
+    if ((this.getBody2() != null) && (this.getBody2() == n1)) {
+        return true;
+    }
+    
+    return false;
+  }
+
 }

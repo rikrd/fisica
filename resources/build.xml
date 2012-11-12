@@ -28,7 +28,7 @@
     </fileset>
   </path>
 
-  <property name="processing" location="${env.PROCESSING_PATH}"/>
+  <property name="processing" location="${env.PROCESSING2_PATH}"/>
   
   <property name="exportApplet" location="./resources/exportApplet"/>
   <property name="exportAppletPreferences" location="./resources/preferences.txt"/>

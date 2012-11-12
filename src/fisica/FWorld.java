@@ -282,7 +282,7 @@ public class FWorld extends World {
   }
   
   public void releaseBody() {
-    if (m_mouseJoint.getGrabbedBody() != null) {
+    if (m_mouseJoint.getGrabbedBody() == null) {
         return;
     }
     
@@ -296,7 +296,7 @@ public class FWorld extends World {
    * @exclude
    */
   public void mouseEvent(MouseEvent event){
-
+    Fisica.parent().println("FWorld recieved a MouseEvent");
     // mousePressed
     if (event.getID() == event.MOUSE_PRESSED
         && event.getButton() == m_mouseButton) {
@@ -315,6 +315,7 @@ public class FWorld extends World {
 
     // mouseDragged
     if (event.getID() == event.MOUSE_DRAGGED) {
+    
       dragBody(event.getX(), event.getY());
       // TODO: send a bodyDragged(FBody body) event
     }

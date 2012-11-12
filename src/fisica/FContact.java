@@ -212,4 +212,43 @@ public class FContact {
   public FContactID getId() {
     return m_id;
   }
+  
+  /**
+   * Returns true if the contact contains the two bodies.  If one of the bodies does not have a name this function returns false.
+   *
+   * @param n1 the name of one of the bodies
+   * @param n2 the name of another one of the bodies
+   * @return true if the contact bodies have the names given by the parameters
+   * @see FBody#setName
+   */
+  public boolean contains(String n1, String n2) {
+    if (this.getBody1() == null || this.getBody2() == null) {
+        return false;
+    }
+    
+    if (this.getBody1().getName() == null || this.getBody2().getName() == null) {
+        return false;
+    }
+    
+    return ((this.getBody1().getName().equals(n1) && this.getBody2().getName().equals(n2)) ||
+        (this.getBody1().getName().equals(n2) && this.getBody2().getName().equals(n1)));
+  }
+
+  /**
+   * Returns true if the contact contains the body.
+   *
+   * @return true if one of the contact bodies has the name given by the parameters
+   * @see FBody#setName
+   */
+  boolean testContact(String n1) {
+    if ((this.getBody1() != null) && (this.getBody1().getName() != null) && (this.getBody1().getName().equals(n1))) {
+        return true;
+    }
+    
+    if ((this.getBody2() != null) && (this.getBody2().getName() != null) && (this.getBody2().getName().equals(n1))) {
+        return true;
+    }
+    
+    return false;
+  }
 }

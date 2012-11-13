@@ -235,7 +235,7 @@ public class FDistanceJoint extends FJoint {
   public void drawDebug(PGraphics applet){
     preDrawDebug(applet);
     
-    int numSpins = (int)((m_length-20)/6);
+    int numSpins = ((int)((m_length-20)/6)/2)*2+1;
         
     if (numSpins <= 0) {
         applet.line(getAnchor1X(), getAnchor1Y(), getAnchor2X(), getAnchor2Y());
@@ -249,7 +249,7 @@ public class FDistanceJoint extends FJoint {
         applet.rotate(ang);
     
         if (m_length>0) {
-            applet.rect(dist/2, 0, m_length-20, 12);
+            applet.rect(dist/2, 0, m_length, 12);
         }
 
         applet.pushStyle();
@@ -262,7 +262,7 @@ public class FDistanceJoint extends FJoint {
         float x, y;
         for (int i=0; i<numSpins; i++) {
             x = Fisica.parent().map(i+1, 0, numSpins+1, 10, dist-10);
-            y = ((i % 2)*2-1)*5;
+            y = ((i % 2)*2-1)*4;
             applet.vertex(x, y);
         }
         

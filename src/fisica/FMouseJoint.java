@@ -222,4 +222,15 @@ public class FMouseJoint extends FJoint {
 
     postDraw(applet);
   }
+  
+  public void drawDebug(PGraphics applet){
+    preDrawDebug(applet);
+    
+    applet.line(getAnchorX(), getAnchorY(), getTargetX(), getTargetY());
+    applet.ellipse(getAnchorX(), getAnchorY(), 5, 5);
+    applet.ellipse(getTargetX(), getTargetY(), 10, 10);
+    
+    postDrawDebug(applet);
+  }
+
 }

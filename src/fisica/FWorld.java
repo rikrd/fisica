@@ -296,7 +296,6 @@ public class FWorld extends World {
    * @exclude
    */
   public void mouseEvent(MouseEvent event){
-    Fisica.parent().println("FWorld recieved a MouseEvent");
     // mousePressed
     if (event.getID() == event.MOUSE_PRESSED
         && event.getButton() == m_mouseButton) {
@@ -462,6 +461,10 @@ public class FWorld extends World {
     draw(applet.g);
   }
 
+  public void drawDebug( PApplet applet ) {
+    drawDebug(applet.g);
+  }
+
   public void draw( PGraphics applet ) {
     processActions();
     /*
@@ -481,6 +484,27 @@ public class FWorld extends World {
       if (fj != null && fj.isDrawable()) fj.draw(applet);
     }
   }
+  
+  public void drawDebug( PGraphics applet ) {
+    processActions();
+    /*
+    for (Body b = getBodyList(); b != null; b = b.m_next) {
+      FBody fb = (FBody)(b.m_userData);
+      if (fb != null && fb.isDrawable()) fb.draw(applet);
+    }
+    */
+
+    for (int i=0; i<m_fbodies.size(); i++) {
+      FBody fb = (FBody)m_fbodies.get(i);
+      if (fb != null) fb.drawDebug(applet);
+    }
+    
+    for (Joint j = getJointList(); j != null; j = j.m_next) {
+      FJoint fj = (FJoint)(j.m_userData);
+      if (fj != null) fj.drawDebug(applet);
+    }
+  }
+  
 
 
   /**
@@ -490,6 +514,10 @@ public class FWorld extends World {
    */
   public void draw() {
     draw(Fisica.parent());
+  }
+
+  public void drawDebug() {
+    drawDebug(Fisica.parent());
   }
 
   /**

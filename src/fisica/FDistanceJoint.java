@@ -231,4 +231,59 @@ public class FDistanceJoint extends FJoint {
     
     postDraw(applet);
   }
+  
+  public void drawDebug(PGraphics applet){
+    preDrawDebug(applet);
+    
+    int numSpins = (int)((m_length-20)/6);
+        
+    if (numSpins <= 0) {
+        applet.line(getAnchor1X(), getAnchor1Y(), getAnchor2X(), getAnchor2Y());
+    } else {
+        applet.pushMatrix();
+
+        applet.translate(getAnchor1X(), getAnchor1Y());
+        
+        float ang = Fisica.parent().atan2(getAnchor2Y()-getAnchor1Y(), getAnchor2X()-getAnchor1X());
+        float dist = Fisica.parent().dist(getAnchor1X(), getAnchor1Y(), getAnchor2X(), getAnchor2Y());
+        applet.rotate(ang);
+    
+        if (m_length>0) {
+            applet.rect(dist/2, 0, m_length-20, 12);
+        }
+
+        applet.pushStyle();
+        applet.noFill();
+
+        applet.beginShape();
+        applet.vertex(0, 0);
+        applet.vertex(10, 0);
+        
+        float x, y;
+        for (int i=0; i<numSpins; i++) {
+            x = Fisica.parent().map(i+1, 0, numSpins+1, 10, dist-10);
+            y = ((i % 2)*2-1)*5;
+            applet.vertex(x, y);
+        }
+        
+        x = Fisica.parent().map(numSpins+1, 0, numSpins+1, 10, dist-10);
+        applet.vertex(x, 0);
+        applet.vertex(dist, 0);
+        
+        applet.endShape();
+                
+        applet.popStyle();
+        applet.popMatrix();
+    }
+    
+    applet.pushStyle();
+    applet.noStroke();
+    
+    applet.ellipse(getAnchor1X(), getAnchor1Y(), 5, 5);
+    applet.ellipse(getAnchor2X(), getAnchor2Y(), 5, 5);
+    applet.popStyle();
+    
+    postDrawDebug(applet);
+  }
+
 }

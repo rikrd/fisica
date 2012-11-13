@@ -41,7 +41,7 @@ import org.jbox2d.common.*;
 public class Fisica implements PConstants{
   protected static class FViewport {
     float m_scale;
-
+    
     public FViewport(){
       m_scale = 1.0f;
     }
@@ -102,7 +102,7 @@ public class Fisica implements PConstants{
   public static float worldToScreen( float a ) {
     return m_viewport.getWorldToScreen(a);
   }
-
+  
   /**
    * Exception thrown when the library has not been initialized.  The method {@link Fisica#init(PApplet)} must be called before any use of the library.
    *

@@ -147,5 +147,14 @@ public class FBox extends FBody {
 
     postDraw(applet);
   }
+  
+  public void drawDebug(PGraphics applet) {
+    preDrawDebug(applet);
+
+    applet.rect(0, 0, getWidth(), getHeight());
+
+    postDrawDebug(applet);
+  }
+
 
 }

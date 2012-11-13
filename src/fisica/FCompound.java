@@ -46,4 +46,14 @@ public class FCompound extends FBody {
     postDraw(applet);
   }
   
+  public void drawDebug(PGraphics applet) {
+    preDrawDebug(applet);
+    
+    for(int i = 0; i<m_shapes.size(); i++){
+        ((FBody)m_shapes.get(i)).drawDebug(applet);
+    }
+      
+    postDrawDebug(applet);
+  }
+  
 }

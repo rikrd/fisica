@@ -230,6 +230,49 @@ public abstract class FBody extends FDrawable {
     applet.popStyle();
   }
 
+  protected void preDrawDebug(PGraphics applet) {
+    applet.pushStyle();
+    applet.pushMatrix();
+
+    applyMatrix(applet);
+    applet.ellipseMode(PConstants.CENTER);
+    applet.rectMode(PConstants.CENTER);
+    
+    applet.strokeWeight(1);
+    
+    if (isStatic()) {
+        applet.fill(0, 0, 200, 50);
+        applet.stroke(0, 0, 200, 150);
+    } else if (isSleeping()) {
+        applet.fill(200, 0, 0, 50);
+        applet.stroke(200, 0, 0, 150);            
+    } else {
+        applet.fill(0, 200, 0, 50);
+        applet.stroke(0, 200, 0, 150);    
+    }
+    
+    if (isSensor()) {
+        applet.noStroke();
+    }
+  }
+
+  protected void postDrawDebug(PGraphics applet) {
+    if (isStatic()) {
+        applet.fill(0, 0, 200, 150);
+    } else if (isSleeping()) {
+        applet.fill(200, 0, 0, 150);
+    } else {
+        applet.fill(0, 200, 0, 150);
+    }
+    applet.noStroke();
+    
+    applet.rect(0, 0, 3, 3);
+    
+    applet.popMatrix();
+    applet.popStyle();
+  }
+
+  
   protected void applyMatrix(PGraphics applet){
     applet.translate(getX(), getY());
     applet.rotate(getRotation());

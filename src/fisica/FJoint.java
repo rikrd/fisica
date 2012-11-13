@@ -87,6 +87,25 @@ public abstract class FJoint extends FDrawable {
     applet.popStyle();
   }
 
+  protected void preDrawDebug(PGraphics applet) {
+    applet.pushStyle();
+    applet.pushMatrix();
+
+    applet.ellipseMode(PConstants.CENTER);
+    applet.rectMode(PConstants.CENTER);
+    
+    applet.strokeWeight(1);
+    
+    applet.fill(80, 50);
+    applet.stroke(80, 150);
+  }
+
+  protected void postDrawDebug(PGraphics applet) {    
+    applet.popMatrix();
+    applet.popStyle();
+  }
+
+  
   /** 
    * Returns the first body attached to this joint. 
    * @return first of the bodies connected by this joint

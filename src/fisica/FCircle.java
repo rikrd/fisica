@@ -101,10 +101,19 @@ public class FCircle extends FBody {
       drawImage(applet);
     } else {
       applet.ellipse(0, 0, getSize(), getSize());
-      applet.line(0, 0, getSize()/2, 0);
     }
 
     postDraw(applet);
   }
+  
+  public void drawDebug(PGraphics applet) {
+    preDrawDebug(applet);
+        
+    applet.ellipse(0, 0, getSize(), getSize());
+    applet.line(0, 0, getSize()/2, 0);
+
+    postDrawDebug(applet);
+  }
+
 
 }

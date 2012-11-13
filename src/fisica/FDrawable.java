@@ -108,11 +108,22 @@ abstract class FDrawable {
     // Don't draw anything, each subclass will draw itself
   }
 
+  public void drawDebug(PGraphics applet) {
+    // Don't draw anything, each subclass will draw itself
+  }
+
+  
   public void draw(PApplet applet) {
     // Don't draw anything, each subclass will draw itself
     draw(applet.g);
   }
 
+  public void drawDebug(PApplet applet) {
+    // Don't draw anything, each subclass will draw itself
+    drawDebug(applet.g);
+  }
+
+  
   /**
    * Attach an image to the object.
    * This method allows to draw an image onto the screen instead of calling the {@link #draw(PApplet)} method.

@@ -144,4 +144,23 @@ public class FPoly extends FBody {
     postDraw(applet);
   }
   
+  public void drawDebug(PGraphics applet) {
+    preDrawDebug(applet);
+        
+    applet.beginShape();
+    for(int i = 0; i<m_vertices.size(); i++){
+      Vec2 v = Fisica.worldToScreen((Vec2)m_vertices.get(i));
+      applet.vertex(v.x, v.y);
+    }
+      
+    if (m_closed) {
+      applet.endShape(PConstants.CLOSE);
+    } else {
+      applet.endShape();
+    }
+    
+    postDrawDebug(applet);
+  }
+
+  
 }

@@ -166,7 +166,8 @@ public class FPrismaticJoint extends FJoint {
    */
   public void setAxis(float x, float y) {
     // TODO: cannot change axis once it has been created
-    m_axis.set(x, y);
+    float d = Fisica.parent().dist(0, 0, x, y);
+    m_axis.set(x/d, y/d);
     updateLocalAxis();
   }
 
@@ -259,10 +260,36 @@ public class FPrismaticJoint extends FJoint {
   public void drawDebug(PGraphics applet){
     preDrawDebug(applet);
 
+    // Light drawing of guides and anchors
+    applet.pushStyle();
+    
     applet.line(getAnchorX(), getAnchorY(), getBody1().getX(), getBody1().getY());
     applet.line(getAnchorX(), getAnchorY(), getBody2().getX(), getBody2().getY());
-    applet.rect(getAnchorX(), getAnchorY(), 10, 10);
+    
+    applet.pushMatrix();
+    
+    applet.translate(getAnchorX(), getAnchorY());
+    applet.rotate(Fisica.parent().atan2(m_axis.y, m_axis.x));
+    applet.line(-100, 0, 100, 0);
 
+    applet.popStyle();
+
+    if (m_enableLimit) {
+        applet.rectMode(applet.CORNERS);
+        applet.rect(Fisica.worldToScreen(m_lowerTranslation), -4, Fisica.worldToScreen(m_upperTranslation), 4);
+    }
+    
+    applet.popMatrix();    
+
+
+    applet.pushStyle();
+    applet.noStroke();
+    applet.ellipse(getAnchorX(), getAnchorY(), 5, 5);
+    applet.ellipse(getBody1().getX(), getBody1().getY(), 5, 5);
+    applet.ellipse(getBody2().getX(), getBody2().getY(), 5, 5);
+    applet.popStyle();
+
+    
     postDrawDebug(applet);
   }
 }

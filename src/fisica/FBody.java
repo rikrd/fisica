@@ -240,30 +240,39 @@ public abstract class FBody extends FDrawable {
     
     applet.strokeWeight(1);
     
+    if (m_body != null) {
+        applet.fill(0, 200, 0, 50);
+        applet.stroke(0, 200, 0, 150);
+    }
+        
+    if (isSleeping()) {
+        applet.fill(200, 0, 0, 50);
+        applet.stroke(200, 0, 0, 150);            
+    }
+    
     if (isStatic()) {
         applet.fill(0, 0, 200, 50);
         applet.stroke(0, 0, 200, 150);
-    } else if (isSleeping()) {
-        applet.fill(200, 0, 0, 50);
-        applet.stroke(200, 0, 0, 150);            
-    } else {
-        applet.fill(0, 200, 0, 50);
-        applet.stroke(0, 200, 0, 150);    
-    }
-    
+    } 
+
     if (isSensor()) {
         applet.noStroke();
     }
   }
 
   protected void postDrawDebug(PGraphics applet) {
-    if (isStatic()) {
-        applet.fill(0, 0, 200, 150);
-    } else if (isSleeping()) {
-        applet.fill(200, 0, 0, 150);
-    } else {
+    if (m_body != null) {
         applet.fill(0, 200, 0, 150);
     }
+    
+    if (isSleeping()) {
+        applet.fill(200, 0, 0, 150);
+    }
+    
+    if (isStatic()) {
+        applet.fill(0, 0, 200, 150);
+    }
+    
     applet.noStroke();
     
     applet.rect(0, 0, 3, 3);

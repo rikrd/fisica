@@ -197,7 +197,7 @@ public class FBlob extends FBody {
     m_vertices.clear();
 
     for (int i=0; i<vertexCount; i++) {
-      float angle = Fisica.parent().map(i, 0, vertexCount-1, 0, Fisica.parent().TWO_PI);
+      float angle = Fisica.parent().map(i, 0, vertexCount, 0, Fisica.parent().TWO_PI);
       float vx = x + size/2 * Fisica.parent().sin(angle);
       float vy = y + size/2 * Fisica.parent().cos(angle);
 

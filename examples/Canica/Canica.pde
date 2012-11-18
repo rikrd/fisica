@@ -1,10 +1,15 @@
 /**
-*
-*  Wood image from http://j-owen.deviantart.com/art/Wood-Pack-1-88580807
-*                  http://zygat3r.deviantart.com/art/Dark-Wood-58266349
-*  Ball image from http://www.swithenbanks.co.uk/Solar_Photovoltaic_Fixings/12669/Schletter_Secufix_Steel_Ball_For_Socket_Head_M8.html
-*
-*/
+ *  Canica
+ *
+ *  by Ricard Marxer
+ *
+ *  This example shows how to create an Android app using Fisica.
+ *
+ *  Wood image from http://j-owen.deviantart.com/art/Wood-Pack-1-88580807
+ *                  http://zygat3r.deviantart.com/art/Dark-Wood-58266349
+ *  Ball image from http://www.swithenbanks.co.uk/Solar_Photovoltaic_Fixings/12669/Schletter_Secufix_Steel_Ball_For_Socket_Head_M8.html
+ *
+ */
 
 
 import ketai.sensors.*;

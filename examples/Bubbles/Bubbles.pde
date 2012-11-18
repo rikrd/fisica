@@ -35,7 +35,7 @@ void setup() {
   l.vertex(width/2-hole/2, topMargin);
   l.setStatic(true);
   l.setFill(0);
-  l.setFriction(1);
+  l.setFriction(0);
   world.add(l);
 
   FPoly r = new FPoly();
@@ -47,14 +47,14 @@ void setup() {
   r.vertex(width/2+hole/2, topMargin);
   r.setStatic(true);
   r.setFill(0);
-  r.setFriction(1);
+  r.setFriction(0);
   world.add(r);
 }
 
 void draw() {
   background(80, 120, 200);
 
-  if ((frameCount % 20) == 1) {
+  if ((frameCount % 40) == 1) {
     FBlob b = new FBlob();
     float s = random(30, 40);
     float space = (width-sideMargin*2-s);
@@ -63,6 +63,7 @@ void draw() {
     b.setStroke(0);
     b.setStrokeWeight(2);
     b.setFill(255);
+    b.setFriction(0);
     world.add(b);
   }
 
@@ -78,7 +79,6 @@ void keyPressed() {
   catch (Exception e) {
   }
 }
-
 
 
 

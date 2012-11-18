@@ -266,4 +266,15 @@ public class FRevoluteJoint extends FJoint {
 
     postDraw(applet);
   }
+  
+  public void drawDebug(PGraphics applet){
+    preDrawDebug(applet);
+    
+    applet.line(getAnchorX(), getAnchorY(), getBody1().getX(), getBody1().getY());
+    applet.line(getAnchorX(), getAnchorY(), getBody2().getX(), getBody2().getY());
+    applet.ellipse(getAnchorX(), getAnchorY(), 10, 10);
+    
+    postDrawDebug(applet);
+  }
+
 }

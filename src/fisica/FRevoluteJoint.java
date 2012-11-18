@@ -114,28 +114,6 @@ public class FRevoluteJoint extends FJoint {
 
     return md;
   }
-
-  /**
-   * Construct a revolute joint between two bodies.
-   *
-   * @param body1  first body of the joint
-   * @param body2  second body of the joint
-   */
-  public FRevoluteJoint(FBody body1, FBody body2) {
-    super();
-
-    m_body1 = body1;
-    m_body2 = body2;
-    
-    float x = (m_body1.getX() + m_body2.getX())/2;
-    float y = (m_body1.getY() + m_body2.getY())/2;
-    
-    m_anchor = Fisica.screenToWorld(x, y);
-    updateLocalAnchors();
-
-    m_referenceAngle = m_body2.getRotation() - m_body1.getRotation();
-  }
-
   
   /**
    * Construct a revolute joint between two bodies given an anchor position.
@@ -155,6 +133,16 @@ public class FRevoluteJoint extends FJoint {
     updateLocalAnchors();
 
     m_referenceAngle = m_body2.getRotation() - m_body1.getRotation();
+  }
+
+  /**
+   * Construct a revolute joint between two bodies.
+   *
+   * @param body1  first body of the joint
+   * @param body2  second body of the joint
+   */
+  public FRevoluteJoint(FBody body1, FBody body2) {
+    this(body1, body2, (body1.getX() + body2.getX())/2, (body1.getY() + body2.getY())/2);
   }
 
   /**

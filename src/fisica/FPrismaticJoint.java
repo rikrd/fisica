@@ -260,8 +260,12 @@ public class FPrismaticJoint extends FJoint {
   public void drawDebug(PGraphics applet){
     preDrawDebug(applet);
 
+    int lineHalfLength = 150;
+    
     // Light drawing of guides and anchors
     applet.pushStyle();
+    applet.noFill();
+    applet.stroke(80, 50);
     
     applet.line(getAnchorX(), getAnchorY(), getBody1().getX(), getBody1().getY());
     applet.line(getAnchorX(), getAnchorY(), getBody2().getX(), getBody2().getY());
@@ -270,7 +274,21 @@ public class FPrismaticJoint extends FJoint {
     
     applet.translate(getAnchorX(), getAnchorY());
     applet.rotate(Fisica.parent().atan2(m_axis.y, m_axis.x));
-    applet.line(-100, 0, 100, 0);
+    applet.line(-lineHalfLength, 0, lineHalfLength, 0);
+
+    // Right arrow
+    applet.beginShape();
+    applet.vertex(lineHalfLength-4, -4);
+    applet.vertex(lineHalfLength, 0);
+    applet.vertex(lineHalfLength-4, 4);
+    applet.endShape();
+
+    // Left arrow
+    applet.beginShape();
+    applet.vertex(-lineHalfLength+4, -4);
+    applet.vertex(-lineHalfLength, 0);
+    applet.vertex(-lineHalfLength+4, 4);
+    applet.endShape();
 
     applet.popStyle();
 

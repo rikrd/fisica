@@ -76,7 +76,7 @@ public abstract class FBody extends FDrawable {
   }
 
   /**
-   * WARNING: This method is internal only and may change someday.  If you are using this method please contact the developper since there should be a better way or we may add something to the library.
+   * WARNING: This method is internal only and may change someday.  If you are using this method please contact the developer since there should be a better way or we may add something to the library.
    *
    * @return the internal JBox2D body
    *

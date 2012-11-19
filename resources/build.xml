@@ -293,14 +293,14 @@
 
   <!-- parsing the examples folder -->
   <target name="processExamples">
-    <dirset id="examples.contents" dir="examples" excludes="*/*"/>
+    <dirset id="examples.contents" dir="examples" excludes="*/*,Android*"/>
     <property name="examples.list" refid="examples.contents"/>
     <foreach list="${examples.list}" target="addExamples" param="exampleDir" delimiter=";">
     </foreach>
   </target>
 
   <target name="exportAllExamples">
-    <dirset id="examples.contents" dir="examples" excludes="*/*"/>
+    <dirset id="examples.contents" dir="examples" excludes="*/*,Android*"/>
     <property name="examples.list" refid="examples.contents"/>
     <foreach list="${examples.list}" target="exportExample" param="exampleDir" delimiter=";">
     </foreach>
@@ -319,12 +319,12 @@
   <target name="addExamples">
     <replaceregexp file="${dist}/web/index.html"
 	  	   match="(##examples##)"
-	  	   replace="&lt;div class=&quot;img&quot;&gt;
-                            &lt;a target=&quot;_blank&quot; href=&quot;examples/${exampleDir}/applet/index.html&quot;&gt;
-                            &lt;img src=&quot;examples/${exampleDir}/screenshot.png&quot; alt=&quot;${exampleDir}&quot; /&gt;
-                            &lt;/a&gt;
-                            &lt;/div&gt;
-                            &lt;/li&gt; \1"
+	  	   replace="&lt;div class=&quot;img&quot;&gt; ${line.separator}
+                            &lt;a target=&quot;_blank&quot; href=&quot;examples/${exampleDir}/applet/index.html&quot;&gt; ${line.separator}
+                            &lt;img src=&quot;examples/${exampleDir}/screenshot.png&quot; alt=&quot;${exampleDir}&quot; /&gt; ${line.separator}
+                            &lt;/a&gt; ${line.separator}
+                            &lt;/div&gt; ${line.separator}
+                            \1"
 	  	   flags="g" />
   </target>
   <!--

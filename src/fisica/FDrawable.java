@@ -102,22 +102,39 @@ abstract class FDrawable {
    * This method is called when calling {@code world.draw()}.
    * This method may be overriden to allow custom drawing of the object.
    *
+   * @param graphics  the graphics onto which the object must be drawn.
+   */
+  public void draw(PGraphics graphics) {
+    // Don't draw anything, each subclass will draw itself
+  }
+
+    /**
+   * This method is called when calling {@code world.draw()}.
+   * This method may be overriden to allow custom drawing of the object.
+   *
    * @param applet  the applet onto which the object must be drawn.
    */
-  public void draw(PGraphics applet) {
-    // Don't draw anything, each subclass will draw itself
-  }
-
-  public void drawDebug(PGraphics applet) {
-    // Don't draw anything, each subclass will draw itself
-  }
-
-  
-  public void draw(PApplet applet) {
+   public void draw(PApplet applet) {
     // Don't draw anything, each subclass will draw itself
     draw(applet.g);
   }
 
+  /**
+   * This method is called when calling {@code world.drawDebug()}.
+   * This method may be overriden to allow custom debug drawing of the object.
+   *
+   * @param graphics  the graphics onto which the object must be drawn.
+   */
+  public void drawDebug(PGraphics graphics) {
+    // Don't draw anything, each subclass will draw itself
+  }
+
+  /**
+   * This method is called when calling {@code world.drawDebug()}.
+   * This method may be overriden to allow custom debug drawing of the object.
+   *
+   * @param applet  the applet onto which the object must be drawn.
+   */
   public void drawDebug(PApplet applet) {
     // Don't draw anything, each subclass will draw itself
     drawDebug(applet.g);

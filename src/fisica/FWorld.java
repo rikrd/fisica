@@ -461,31 +461,50 @@ public class FWorld extends World {
     draw(applet.g);
   }
 
+  /**
+   * Draws all the bodies in the world.  This method is often called in the draw method of the applet.
+   *
+   * @param graphics  graphics to which to draw the world.  Useful when trying to draw the world on other buffers, such as when using createGraphics
+   * @see FBody
+   */
+  public void draw( PGraphics graphics ) {
+    processActions();
+    /*
+    for (Body b = getBodyList(); b != null; b = b.m_next) {
+      FBody fb = (FBody)(b.m_userData);
+      if (fb != null && fb.isDrawable()) fb.draw(applet);
+    }
+    */
+
+    for (int i=0; i<m_fbodies.size(); i++) {
+      FBody fb = (FBody)m_fbodies.get(i);
+      if (fb != null && fb.isDrawable()) fb.draw(graphics);
+    }
+    
+    for (Joint j = getJointList(); j != null; j = j.m_next) {
+      FJoint fj = (FJoint)(j.m_userData);
+      if (fj != null && fj.isDrawable()) fj.draw(graphics);
+    }
+  }
+
+  /**
+   * Draws the debug version of all the bodies in the world.  This method is often called in the draw method of the applet.
+   *
+   * @param applet  applet to which to draw the world.  Useful when trying to draw the world on other Processing backends, such as PDF
+   * @see FBody
+   */
   public void drawDebug( PApplet applet ) {
     drawDebug(applet.g);
   }
 
-  public void draw( PGraphics applet ) {
-    processActions();
-    /*
-    for (Body b = getBodyList(); b != null; b = b.m_next) {
-      FBody fb = (FBody)(b.m_userData);
-      if (fb != null && fb.isDrawable()) fb.draw(applet);
-    }
-    */
-
-    for (int i=0; i<m_fbodies.size(); i++) {
-      FBody fb = (FBody)m_fbodies.get(i);
-      if (fb != null && fb.isDrawable()) fb.draw(applet);
-    }
-    
-    for (Joint j = getJointList(); j != null; j = j.m_next) {
-      FJoint fj = (FJoint)(j.m_userData);
-      if (fj != null && fj.isDrawable()) fj.draw(applet);
-    }
-  }
   
-  public void drawDebug( PGraphics applet ) {
+  /**
+   * Draws the debug version of all the bodies in the world.  This method is often called in the draw method of the applet.
+   *
+   * @param graphics  graphics to which to draw the world.  Useful when trying to draw the world on other buffers, such as when using createGraphics
+   * @see FBody
+   */
+  public void drawDebug( PGraphics graphics ) {
     processActions();
     /*
     for (Body b = getBodyList(); b != null; b = b.m_next) {
@@ -496,12 +515,12 @@ public class FWorld extends World {
 
     for (int i=0; i<m_fbodies.size(); i++) {
       FBody fb = (FBody)m_fbodies.get(i);
-      if (fb != null) fb.drawDebug(applet);
+      if (fb != null) fb.drawDebug(graphics);
     }
     
     for (Joint j = getJointList(); j != null; j = j.m_next) {
       FJoint fj = (FJoint)(j.m_userData);
-      if (fj != null) fj.drawDebug(applet);
+      if (fj != null) fj.drawDebug(graphics);
     }
   }
   
@@ -516,7 +535,12 @@ public class FWorld extends World {
     draw(Fisica.parent());
   }
 
-  public void drawDebug() {
+  /**
+   * Draws the debug version of all the bodies in the world on the applet canvas.  This method is often called in the draw method of the applet.
+   *
+   * @see FBody
+   */
+   public void drawDebug() {
     drawDebug(Fisica.parent());
   }
 

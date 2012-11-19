@@ -277,6 +277,7 @@ public class FPrismaticJoint extends FJoint {
     //applet.translate(-getBody1().getX(), -getBody1().getY());
     
     applet.translate(Fisica.worldToScreen(m_localAnchor1).x, Fisica.worldToScreen(m_localAnchor1).y);
+    applet.translate(-Fisica.worldToScreen(m_localAnchor2).x, -Fisica.worldToScreen(m_localAnchor2).y);
     applet.rotate(Fisica.parent().atan2(m_axis.y, m_axis.x));
     applet.line(-lineHalfLength, 0, lineHalfLength, 0);
 

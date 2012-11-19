@@ -235,6 +235,7 @@ public class FRevoluteJoint extends FJoint {
     }
 
     m_anchor = Fisica.screenToWorld(x, y);
+    updateLocalAnchors();
   }
 
   /**

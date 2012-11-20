@@ -23,6 +23,7 @@ public class FCompound extends FBody {
     ArrayList result = new ArrayList();
     for (int i=0; i<m_shapes.size(); i++) {
       ShapeDef sd = (ShapeDef)(((FBody)m_shapes.get(i)).getTransformedShapeDef());
+      sd = ((FBody)m_shapes.get(i)).processShapeDef(sd);
       result.add(sd);
     }
     return result;

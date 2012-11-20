@@ -215,6 +215,16 @@ public abstract class FBody extends FDrawable {
     return new ArrayList();
   }
 
+  protected ShapeDef processShapeDef(ShapeDef sd) {
+    if (sd != null) {
+        sd.isSensor = m_sensor;
+        sd.filter.groupIndex = m_groupIndex;
+        sd.filter.maskBits = m_filterBits;
+        sd.filter.categoryBits = m_categoryBits;
+    }
+    return sd;
+  }
+  
   protected void preDraw(PGraphics applet) {
     applet.pushStyle();
     applet.pushMatrix();

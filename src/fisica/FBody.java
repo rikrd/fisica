@@ -52,8 +52,8 @@ public abstract class FBody extends FDrawable {
 
   protected boolean m_isSleeping = false;
   protected int m_groupIndex = 0;
-  protected int m_filterBits = 0x0001;
-  protected int m_categoryBits = 0xffff;
+  protected int m_filterBits = 0xffff;
+  protected int m_categoryBits = 0x0001;
 
   protected Vec2 m_linearVelocity = new Vec2(0.0f, 0.0f);
   protected float m_angularVelocity = 0.0f;
@@ -311,6 +311,15 @@ public abstract class FBody extends FDrawable {
     this.recreateInWorld();
   }
 
+  public int getCategoryBits() {
+    return m_categoryBits;
+  }
+
+  public int getFilterBits() {
+    return m_filterBits;
+  }
+
+  
   public void setParent(FBody b) {
     m_parent = b;
   }

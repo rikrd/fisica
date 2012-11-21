@@ -112,4 +112,22 @@ public class FConstantVolumeJoint extends FJoint {
 
     postDraw(applet);
   }
+  
+  public void drawDebug(PGraphics applet){
+    preDrawDebug(applet);
+
+    if (m_bodies.size()>0) {
+      applet.beginShape();
+      for (int i=0; i<m_bodies.size(); i++) {
+        applet.vertex(((FBody)m_bodies.get(i)).getX(), ((FBody)m_bodies.get(i)).getY());
+      }
+      applet.endShape(applet.CLOSE);
+      
+      for (int i=0; i<m_bodies.size(); i++) {
+        applet.ellipse(((FBody)m_bodies.get(i)).getX(), ((FBody)m_bodies.get(i)).getY(), 5, 5);
+      }
+    }
+
+    postDrawDebug(applet);
+  }
 }

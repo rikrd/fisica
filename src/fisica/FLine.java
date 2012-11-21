@@ -120,5 +120,14 @@ public class FLine extends FBody {
 
     postDraw(applet);
   }
+  
+  public void drawDebug(PGraphics applet) {
+    preDrawDebug(applet);
 
+    Vec2 tempStart = Fisica.worldToScreen(m_start);
+    Vec2 tempEnd = Fisica.worldToScreen(m_end);
+    applet.line(tempStart.x, tempStart.y, tempEnd.x, tempEnd.y);
+
+    postDrawDebug(applet);
+  }
 }

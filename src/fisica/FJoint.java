@@ -44,6 +44,16 @@ public abstract class FJoint extends FDrawable {
 
   protected boolean m_collideConnected = true;
 
+  /**
+   * WARNING: This method is internal only and may change someday.  If you are using this method please contact the developer since there should be a better way or we may add something to the library.
+   *
+   * @return the internal JBox2D joint
+   *
+   */
+  public Joint getBox2dJoint() {
+    return m_joint;
+  }
+  
   protected void processJoint(World world, JointDef jd){
     jd.collideConnected = m_collideConnected;
     m_joint = world.createJoint(jd);

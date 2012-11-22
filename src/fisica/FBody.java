@@ -411,7 +411,7 @@ public abstract class FBody extends FDrawable {
   }
 
   /**
-   * Add a force applied on the center of the body.
+   * Aply a force on the center of the body.
    *
    * @see #addTorque(float)
    * @see #addForce(float,float,float,float)
@@ -430,12 +430,34 @@ public abstract class FBody extends FDrawable {
     m_force.x += Fisica.screenToWorld(fx);
     m_force.y += Fisica.screenToWorld(fy);
   }
+  
+  /**
+   * Apply an impulse on the center of the body.
+   *
+   * @see #addTorque(float)
+   * @see #addForce(float,float,float,float)
+   *
+   * @param fx the x coordinate of the force
+   * @param fy the y coordinate of the force
+   *
+   */
+  public void addImpulse( float fx, float fy ){
+    // TODO: check if this is what it's supposed to do
+    // TODO: w2s (world 2 screen)
+    if (m_body != null) {
+      m_body.applyImpulse(Fisica.screenToWorld(fx, fy), m_body.getWorldCenter());
+    }
+
+    m_force.x += Fisica.screenToWorld(fx);
+    m_force.y += Fisica.screenToWorld(fy);
+  }
+
 
   /**
    * Apply a force to a given point of the body.  If the force is not applied on the center of the body this force might induce a rotation change.  It would be as applying a force on the center of the body and a torque.
    *
    * @see #addTorque(float)
-   * @see #addForce(float,float,float,float)
+   * @see #addImpulse(float,float,float,float)
    *
    * @param fx the x coordinate of the force
    * @param fy the y coordinate of the force

@@ -446,7 +446,7 @@ public abstract class FBody extends FDrawable {
   public void addForce( float fx, float fy, float px, float py ){
     // TODO: w2s (world 2 screen)
     if (m_body != null) {
-      m_body.applyForce(Fisica.screenToWorld(fx, fy), m_body.getWorldCenter());
+      m_body.applyForce(Fisica.screenToWorld(fx, fy), m_body.getWorldCenter().add(Fisica.screenToWorld(px, py)));
     }
 
     // FIXME: we must calculate the force and torque this force produces

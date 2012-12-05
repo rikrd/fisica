@@ -29,6 +29,8 @@ import org.jbox2d.collision.shapes.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.joints.*;
 
+import java.text.DecimalFormat;
+
 import processing.core.*;
 
 /**
@@ -282,15 +284,136 @@ public abstract class FBody extends FDrawable {
     if (isStatic()) {
         applet.fill(0, 0, 200, 150);
     }
-    
-    applet.noStroke();
-    
-    applet.rect(0, 0, 3, 3);
-    
+        
+    // Draw the origin (the point 0, 0) of the body
+    applet.line(-3, 0, 3, 0);
+    applet.line(0, -3, 0, 3);
+        
     applet.popMatrix();
+
+    
+    // Draw the AABB
+    applet.pushStyle();
+    applet.stroke(120, 40);
+    applet.noFill();
+    applet.rectMode(applet.CORNERS);
+    
+    AABB aabb = getAABB();
+    Vec2 lower = Fisica.worldToScreen(aabb.lowerBound);
+    Vec2 upper = Fisica.worldToScreen(aabb.upperBound);
+    applet.rect(lower.x, lower.y, upper.x, upper.y);
+    applet.popStyle();
+
+    
+    applet.pushMatrix();
+
+    Vec2 cent = Fisica.worldToScreen(getBox2dBody().getWorldCenter());
+    applet.translate(cent.x, cent.y);
+    
+    // Draw the mass centroid of the body
+    applet.pushStyle();
+    applet.noStroke();
+    applet.rect(0, 0, 3, 3);
+    applet.popStyle();
+
+    applet.popMatrix();
+
+    
+    // Draw the infobox (mass, dimensions)
+    String infobox = "";
+    DecimalFormat df = new DecimalFormat();
+    df.setMaximumFractionDigits(1);
+    
+    // Dimensions
+    AABB bb = getBB();
+    Vec2 dim = new Vec2(bb.upperBound);
+    dim = dim.sub(bb.lowerBound);
+    
+    float width = dim.x;
+    float height = dim.y;
+    
+    infobox += "w: "; 
+    if ( width <= 0.001 ) {
+        infobox += df.format(width*100.0) + "cm";
+    } else {
+        infobox += df.format(width) + "m";
+    }
+    infobox += "\n";
+    
+    infobox += "h: ";
+    if ( height <= 0.001 ) {
+        infobox += df.format(height*100.0) + "cm";
+    } else {
+        infobox += df.format(height) + "m";
+    }
+    infobox += "\n";
+
+    if (!isStatic()) {
+        // Mass
+        float m = getMass();
+        if ( m <= 1000 ) {
+            infobox += "m: " + df.format(getMass()) + "g\n";
+        } else {
+            infobox += "m: " + df.format(getMass() / 1000.0) + "Kg\n";    
+        }
+    }
+    
+    applet.text(infobox, upper.x+4, lower.y-4);
+    
     applet.popStyle();
   }
 
+  
+  protected AABB getAABB() {
+    AABB result = null;
+    Body b = getBox2dBody();
+    
+    AABB temp = new AABB();
+    XForm tempXForm = b.getXForm();
+    if (b != null) {
+        Shape ss = b.getShapeList();
+        
+        while (ss != null) {        
+            ss.computeAABB(temp, tempXForm);
+            
+            if (result == null) {
+                result = new AABB(temp);
+            } else {
+                result = new AABB(Vec2.min(result.lowerBound, temp.lowerBound), Vec2.max(result.upperBound, temp.upperBound));
+            }
+            
+            ss = ss.getNext();
+        }
+    }
+    
+    return result;
+  }
+  
+  protected AABB getBB() {
+    AABB result = null;
+    Body b = getBox2dBody();
+    
+    AABB temp = new AABB();
+    XForm tempXForm = b.getXForm();
+    tempXForm.setIdentity();
+    if (b != null) {
+        Shape ss = b.getShapeList();
+        
+        while (ss != null) {        
+            ss.computeAABB(temp, tempXForm);
+            
+            if (result == null) {
+                result = new AABB(temp);
+            } else {
+                result = new AABB(Vec2.min(result.lowerBound, temp.lowerBound), Vec2.max(result.upperBound, temp.upperBound));
+            }
+            
+            ss = ss.getNext();
+        }
+    }
+    
+    return result;
+  }
   
   protected void applyMatrix(PGraphics applet){
     applet.translate(getX(), getY());

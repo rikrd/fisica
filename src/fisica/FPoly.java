@@ -145,8 +145,33 @@ public class FPoly extends FBody {
   }
   
   public void drawDebug(PGraphics applet) {
-    preDrawDebug(applet);
+    preDrawDebug(applet);        
+
+    Body b = getBox2dBody();
+    if (b != null) {
+        applet.pushStyle();
+        applet.stroke(120, 100);
+        applet.fill(120, 30);
+        Shape ss = b.getShapeList();
         
+        while (ss != null) {        
+            PolygonShape ps = (PolygonShape)ss;
+            Vec2[] vecs = ps.getVertices();
+            applet.beginShape();
+            for (int j=0; j<ps.getVertexCount(); j++) {
+            Vec2 v = Fisica.worldToScreen(vecs[j]);
+            applet.vertex(v.x, v.y);
+            }
+            applet.endShape(applet.CLOSE);
+            
+            Vec2 c = Fisica.worldToScreen(ps.getCentroid());
+            applet.ellipse(c.x, c.y, 2, 2);
+            
+            ss = ss.getNext();
+        }
+        applet.popStyle();
+    }
+    
     applet.beginShape();
     for(int i = 0; i<m_vertices.size(); i++){
       Vec2 v = Fisica.worldToScreen((Vec2)m_vertices.get(i));

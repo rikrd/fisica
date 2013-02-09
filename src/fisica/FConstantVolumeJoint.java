@@ -99,15 +99,63 @@ public class FConstantVolumeJoint extends FJoint {
     m_frequency = frequency;
   }
 
+  public PVector getCentroid() {
+    PVector centroid = new PVector(0, 0);
+    float signedArea = 0.0f;
+    float x0 = 0.0f; // Current vertex X
+    float y0 = 0.0f; // Current vertex Y
+    float x1 = 0.0f; // Next vertex X
+    float y1 = 0.0f; // Next vertex Y
+    float a = 0.0f;  // Partial signed area
+
+    // For all vertices except last
+    int i;
+    for (i=0; i<m_bodies.size()-1; ++i)
+    {
+        x0 = ((FBody)m_bodies.get(i)).getX();
+        y0 = ((FBody)m_bodies.get(i)).getY();
+        x1 = ((FBody)m_bodies.get(i+1)).getX();
+        y1 = ((FBody)m_bodies.get(i+1)).getY();
+        a = x0*y1 - x1*y0;
+        signedArea += a;
+        centroid.x += (x0 + x1)*a;
+        centroid.y += (y0 + y1)*a;
+    }
+
+    // Do last vertex
+    x0 = ((FBody)m_bodies.get(i)).getX();
+    y0 = ((FBody)m_bodies.get(i)).getY();
+    x1 = ((FBody)m_bodies.get(0)).getX();
+    y1 = ((FBody)m_bodies.get(0)).getY();
+    a = x0*y1 - x1*y0;
+    signedArea += a;
+    centroid.x += (x0 + x1)*a;
+    centroid.y += (y0 + y1)*a;
+
+    signedArea *= 0.5;
+    centroid.x /= (6.0*signedArea);
+    centroid.y /= (6.0*signedArea);
+
+    return centroid;
+  }
+  
   public void draw(PGraphics applet){
     preDraw(applet);
 
-    if (m_bodies.size()>0) {
-      applet.beginShape();
-      for (int i=0; i<m_bodies.size(); i++) {
-        applet.vertex(((FBody)m_bodies.get(i)).getX(), ((FBody)m_bodies.get(i)).getY());
+    if (m_image != null ) {
+      applet.pushMatrix();
+      PVector c = getCentroid();
+      applet.translate(c.x, c.y);
+      drawImage(applet);
+      applet.popMatrix();
+    } else {
+      if (m_bodies.size()>0) {
+        applet.beginShape();
+        for (int i=0; i<m_bodies.size(); i++) {
+          applet.vertex(((FBody)m_bodies.get(i)).getX(), ((FBody)m_bodies.get(i)).getY());
+        }
+        applet.endShape(applet.CLOSE);
       }
-      applet.endShape(applet.CLOSE);
     }
 
     postDraw(applet);

@@ -383,4 +383,20 @@ public class FBlob extends FBody {
       m_joint.updateStyle(this);
     }
   }
+  
+  public void attachImage( PImage img ) {
+    super.attachImage(img);
+
+    if (m_joint != null) {
+      m_joint.updateStyle(this);
+    }
+  }
+
+  public void dettachImage() {
+    super.dettachImage();
+
+    if (m_joint != null) {
+      m_joint.updateStyle(this);
+    }
+  }
 }

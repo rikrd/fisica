@@ -23,7 +23,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.awt.event.MouseEvent;
+import processing.event.MouseEvent;
 
 import org.jbox2d.common.*;
 import org.jbox2d.collision.*;
@@ -113,7 +113,7 @@ public class FWorld extends World {
   protected boolean m_grabbable = true;
   protected float m_grabPositionX = 0.0f;
   protected float m_grabPositionY = 0.0f;
-  protected int m_mouseButton = MouseEvent.BUTTON1;
+  protected int m_mouseButton = PConstants.LEFT;
   protected HashMap m_contacts;
   protected ArrayList m_contactResults;
 
@@ -297,7 +297,7 @@ public class FWorld extends World {
    */
   public void mouseEvent(MouseEvent event){
     // mousePressed
-    if (event.getID() == event.MOUSE_PRESSED
+    if (event.getAction() == event.PRESS
         && event.getButton() == m_mouseButton) {
       
       grabBody(event.getX(), event.getY());
@@ -305,7 +305,7 @@ public class FWorld extends World {
     }
 
     // mouseReleased
-    if (event.getID() == event.MOUSE_RELEASED
+    if (event.getAction()  == event.RELEASE
         && event.getButton() == m_mouseButton) {
         
       releaseBody();
@@ -313,7 +313,7 @@ public class FWorld extends World {
     }
 
     // mouseDragged
-    if (event.getID() == event.MOUSE_DRAGGED) {
+    if (event.getAction()  == event.DRAG) {
     
       dragBody(event.getX(), event.getY());
       // TODO: send a bodyDragged(FBody body) event
@@ -360,8 +360,10 @@ public class FWorld extends World {
     super.setPositionCorrection( true );
     super.setContinuousPhysics( true );
 
-    Fisica.parent().registerMouseEvent(this);
+    //Fisica.parent().registerMouseEvent(this);
 
+    Fisica.parent().registerMethod("mouseEvent",this);
+    
     // Get the contactStarted(), contactPersisted() and contactEnded()
     // methods from the sketch
     try {
@@ -439,9 +441,13 @@ public class FWorld extends World {
 
     m_grabbable = value;
     if (m_grabbable) {
-      Fisica.parent().registerMouseEvent(this);
+      //Fisica.parent().registerMouseEvent(this);
+      Fisica.parent().registerMethod("mouseEvent",this);
     } else {
-      Fisica.parent().unregisterMouseEvent(this);
+    	
+      //Fisica.parent().unregisterMouseEvent(this);
+
+      Fisica.parent().unregisterMethod("mouseEvent",this);
     }
   }
 

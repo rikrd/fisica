@@ -49,7 +49,7 @@ public class FMouseJoint extends FJoint {
     MouseJointDef md = new MouseJointDef();
     md.body1 = m_world.getGroundBody();
     md.body2 = body;
-    md.target.set(m_target);
+    md.target.set(m_anchor);
     md.maxForce = 10000.0f * body.m_mass;
     md.frequencyHz = m_frequency;
     md.dampingRatio = m_damping;
@@ -183,7 +183,7 @@ public class FMouseJoint extends FJoint {
    */
   public void setAnchor(float x, float y) {
     if (m_joint != null) {
-      ((DistanceJoint)m_joint).getAnchor2().set(Fisica.screenToWorld(x), Fisica.screenToWorld(y));
+      ((MouseJoint)m_joint).getAnchor2().set(Fisica.screenToWorld(x), Fisica.screenToWorld(y));
     }
 
     m_anchor = Fisica.screenToWorld(x, y);

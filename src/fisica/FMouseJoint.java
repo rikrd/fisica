@@ -143,10 +143,12 @@ public class FMouseJoint extends FJoint {
     if (m_joint != null) {
       m_joint.m_body2 = body.m_body;
       ((MouseJoint)m_joint).m_target.set(Fisica.screenToWorld(x, y));
+      ((MouseJoint)m_joint).getAnchor2().set(Fisica.screenToWorld(x), Fisica.screenToWorld(y));
     }
 
     m_fbody = body;
     m_target = Fisica.screenToWorld(x, y);
+    m_anchor = Fisica.screenToWorld(x, y);
   }
 
   /**

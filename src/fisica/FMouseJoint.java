@@ -69,6 +69,7 @@ public class FMouseJoint extends FJoint {
     super();
     m_fbody = body;
     m_target = Fisica.screenToWorld(x, y);
+    m_anchor = Fisica.screenToWorld(x, y);
   }
 
   /**

@@ -109,12 +109,24 @@ public abstract class FBody extends FDrawable {
         processBody(m_body, sd);
     }
 
+    ArrayList bodies = getBodies();
     ArrayList sds = getShapeDefs();
-    for (int i=0; i<sds.size(); i++) {
-        sd = (ShapeDef)(sds.get(i));
-        if (sd != null) {
-            processBody(m_body, sd);
+    // HACK: fix the compounds of polygon bodies for now, this should change with the new version of jBox2d
+    if (sds.size() != bodies.size()) {
+        for (int i=0; i<sds.size(); i++) {
+            sd = (ShapeDef)(sds.get(i));
+            if (sd != null) {
+                processBody(m_body, sd);
+            }
         }
+    } else {
+        for (int i=0; i<sds.size(); i++) {
+            FBody b = (FBody)(bodies.get(i));
+            sd = (ShapeDef)(sds.get(i));
+            if (sd != null) {
+                b.processBody(m_body, sd);
+            }
+        }    
     }
 
     m_body.m_userData = this;
@@ -214,6 +226,10 @@ public abstract class FBody extends FDrawable {
   }
 
   protected ArrayList getShapeDefs() {
+    return new ArrayList();
+  }
+
+  protected ArrayList getBodies() {
     return new ArrayList();
   }
 

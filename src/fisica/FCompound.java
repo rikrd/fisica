@@ -28,6 +28,10 @@ public class FCompound extends FBody {
     }
     return result;
   }
+  
+  public ArrayList getBodies() {
+    return m_shapes;
+  }
 
   public void addBody(FBody body) {
     m_shapes.add(body);

@@ -169,6 +169,17 @@ public class FWorld extends World {
       FContact contact = new FContact(point);
       m_world.m_contacts.put(contact.getId(), contact);
       
+      if (m_clientContactListener != null) {
+        try {
+          m_clientContactListener.contactStarted(contact);
+          return;
+        } catch (Exception e) {
+          System.err.println("Disabling contact listener because of an error.");
+          e.printStackTrace();
+          m_clientContactListener = null;
+        }
+      }
+
       if (m_world.m_contactStartedMethod == null) {
         return;
       }
@@ -187,6 +198,17 @@ public class FWorld extends World {
       FContact contact = new FContact(point);
       m_world.m_contacts.put(contact.getId(), contact);
 
+      if (m_clientContactListener != null) {
+        try {
+          m_clientContactListener.contactPersisted(contact);
+          return;
+        } catch (Exception e) {
+          System.err.println("Disabling contact listener because of an error.");
+          e.printStackTrace();
+          m_clientContactListener = null;
+        }
+      }
+
       if (m_world.m_contactPersistedMethod == null) {
         return;
       }
@@ -204,6 +226,17 @@ public class FWorld extends World {
     public void remove(ContactPoint point) {
       FContact contact = new FContact(point);
       m_world.m_contacts.remove(contact.getId());
+
+      if (m_clientContactListener != null) {
+        try {
+          m_clientContactListener.contactEnded(contact);
+          return;
+        } catch (Exception e) {
+          System.err.println("Disabling contact listener because of an error.");
+          e.printStackTrace();
+          m_clientContactListener = null;
+        }
+      }
 
       if (m_world.m_contactEndedMethod == null) {
         return;
@@ -225,6 +258,17 @@ public class FWorld extends World {
       FContactResult result = new FContactResult(point);
       m_contactResults.add(result);
 
+      if (m_clientContactListener != null) {
+        try {
+          m_clientContactListener.contactResult(result);
+          return;
+        } catch (Exception e) {
+          System.err.println("Disabling contact listener because of an error.");
+          e.printStackTrace();
+          m_clientContactListener = null;
+        }
+      }
+      
       if (m_world.m_contactResultMethod == null) {
         return;
       }
@@ -241,11 +285,22 @@ public class FWorld extends World {
   }
 
   private ConcreteContactListener m_contactListener;
+  
+  /**
+   * A PApplet can either provide an {@link FContactListener} for receiving contact events,
+   * or can implement the contact event methods itself without explicitly implementing
+   * {@link FContactListener}.
+   */
+  private FContactListener m_clientContactListener;
   private Method m_contactStartedMethod;
   private Method m_contactPersistedMethod;
   private Method m_contactEndedMethod;
   private Method m_contactResultMethod;
 
+  
+  public void setContactListener(final FContactListener listener) {
+    m_clientContactListener = listener;
+  }
   
   public void grabBody(float x, float y) {
     if (m_mouseJoint.getGrabbedBody() != null) {

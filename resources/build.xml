@@ -264,7 +264,6 @@
   		   match="##source:repository##"
   	  	   replace="${source:repository}"
   	  	   flags="g" />
-                   
 
     <echo>---------------------</echo>
     <antcall target="processExamples" />

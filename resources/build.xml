@@ -12,9 +12,9 @@
   <property name="tested:dependencies"  value="JBox2D" />
 
   <!-- #### (14) where can the source code be found? edit value. #### -->
-  <property name="source:host"  value="gitorious" />
-  <property name="source:url"  value="http://www.gitorious.com/fisica" />
-  <property name="source:repository"  value="git://gitorious.org/fisica/fisica.git" />
+  <property name="source:host"  value="github" />
+  <property name="source:url"  value="http://www.github.com/rikrd/fisica" />
+  <property name="source:repository"  value="https://github.com/rikrd/fisica.git" />
 
   <description>
     Fisica. ant build file.

@@ -32,7 +32,7 @@ import processing.core.*;
  * It contains most helping methods that handles stroke and fill colors and styles, as well as image attachments, etc.
  *
  */
-abstract class FDrawable {
+public abstract class FDrawable {
   protected boolean m_drawable = true;
 
   protected boolean m_fill = true;

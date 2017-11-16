@@ -73,8 +73,11 @@ public abstract class FBody extends FDrawable {
 
   protected boolean m_grabbable = true;
 
+  protected Shape m_shape = null;
+
   protected void processBody(Body bd, ShapeDef sd){
-    bd.createShape(sd);
+    m_shape = bd.createShape(sd);
+    m_shape.m_userData = this;
   }
 
   /**

@@ -21,6 +21,7 @@ package fisica;
 
 import org.jbox2d.common.*;
 import org.jbox2d.collision.*;
+import org.jbox2d.collision.shapes.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.*;
 
@@ -95,8 +96,11 @@ public class FContact {
     m_friction = contactPoint.friction;
     m_restitution = contactPoint.restitution;
 
-    m_body1 = (FBody)contactPoint.shape1.getBody().getUserData();
-    m_body2 = (FBody)contactPoint.shape2.getBody().getUserData();
+    Shape s1 = contactPoint.shape1;
+    Shape s2 = contactPoint.shape2;
+
+    m_body1 = s1.m_userData != null ? (FBody)s1.m_userData : (FBody)s1.getBody().getUserData();
+    m_body2 = s2.m_userData != null ? (FBody)s2.m_userData : (FBody)s2.getBody().getUserData();
 
     m_id = new FContactID(new ContactID(contactPoint.id), m_body1, m_body2);
   }
